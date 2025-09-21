@@ -308,4 +308,5 @@ For support and questions:
 
 ---
 
-**CoinAds MVP** - Connecting advertisers with publishers in the crypto space 🚀
+**CoinAds MVP** - Connecting advertisers with publishers in the crypto space 🚀#   C o i n A d s  
+ 
