@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinAds Tag Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .ad-container {
+            margin: 20px 0;
+            border: 1px dashed #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .ad-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .content {
+            margin: 40px 0;
+        }
+        .code-block {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>CoinAds Tag Test Page</h1>
+    
+    <div class="content">
+        <h2>How to Use CoinAds</h2>
+        <p>This page demonstrates how to integrate CoinAds into your website. The ads below are loaded using our JavaScript tag.</p>
+        
+        <h3>Method 1: Auto-initialization with data attributes</h3>
+        <div class="code-block">
+&lt;div data-coinads-placement="test-placement-1" data-coinads-width="728" data-coinads-height="90"&gt;&lt;/div&gt;
+        </div>
+        
+        <div class="ad-container">
+            <div class="ad-label">728x90 Banner (Auto-initialized)</div>
+            <div data-coinads-placement="test-placement-1" data-coinads-width="728" data-coinads-height="90"></div>
+        </div>
+        
+        <h3>Method 2: Manual initialization</h3>
+        <div class="code-block">
+&lt;div id="coinads-manual-1"&gt;&lt;/div&gt;
+&lt;script&gt;
+    CoinAds.init('manual-placement-1', 300, 250);
+&lt;/script&gt;
+        </div>
+        
+        <div class="ad-container">
+            <div class="ad-label">300x250 Rectangle (Manual)</div>
+            <div id="coinads-manual-1"></div>
+        </div>
+        
+        <h3>Method 3: Multiple placements</h3>
+        <div class="ad-container">
+            <div class="ad-label">320x50 Mobile Banner</div>
+            <div data-coinads-placement="mobile-banner" data-coinads-width="320" data-coinads-height="50"></div>
+        </div>
+        
+        <div class="ad-container">
+            <div class="ad-label">970x250 Large Banner</div>
+            <div data-coinads-placement="large-banner" data-coinads-width="970" data-coinads-height="250"></div>
+        </div>
+    </div>
+    
+    <!-- Include the CoinAds tag -->
+    <script src="/tag.js"></script>
+    
+    <!-- Manual initialization example -->
+    <script>
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manual initialization
+            CoinAds.init('manual-placement-1', 300, 250);
+            
+            // Refresh example (uncomment to test)
+            // setTimeout(function() {
+            //     CoinAds.refresh('manual-placement-1');
+            // }, 5000);
+        });
+    </script>
+    
+    <div class="content">
+        <h2>Integration Instructions</h2>
+        <ol>
+            <li>Include the CoinAds tag script: <code>&lt;script src="https://coinads.com/tag.js"&gt;&lt;/script&gt;</code></li>
+            <li>Add ad containers to your HTML with data attributes or manual initialization</li>
+            <li>Ads will automatically load when the page loads</li>
+            <li>Use <code>CoinAds.refresh(placementId)</code> to refresh ads dynamically</li>
+        </ol>
+        
+        <h3>Available Methods</h3>
+        <ul>
+            <li><code>CoinAds.init(placementId, width, height)</code> - Initialize an ad placement</li>
+            <li><code>CoinAds.refresh(placementId)</code> - Refresh an existing placement</li>
+            <li><code>CoinAds.getVersion()</code> - Get the current tag version</li>
+        </ul>
+        
+        <h3>Supported Sizes</h3>
+        <ul>
+            <li>320x50 (Mobile Banner)</li>
+            <li>728x90 (Leaderboard)</li>
+            <li>300x250 (Medium Rectangle)</li>
+            <li>1920x82 (Large Banner)</li>
+            <li>970x250 (Large Rectangle)</li>
+        </ul>
+    </div>
+</body>
+</html>
