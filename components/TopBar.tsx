@@ -9,7 +9,7 @@ import { Menu, ArrowRight } from "lucide-react";
 
 export default function TopBar() {
   return (
-    <nav className="h-16 bg-background border-b border-border">
+    <nav className="h-16 bg-background/70 backdrop-blur-none border-b border-border/20 sticky top-0 z-50">
       <div className="mx-auto max-w-6xl px-6 h-full">
         <div className="flex items-center justify-between h-full">
           {/* Logo */}

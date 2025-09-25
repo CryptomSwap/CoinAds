@@ -26,13 +26,13 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <section className="py-20">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             How It Works
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300">
+          <p className="text-lg text-muted-foreground">
             Get started in minutes with our simple 4-step process
           </p>
         </div>
@@ -43,7 +43,7 @@ export default function HowItWorks() {
             return (
               <Card 
                 key={index} 
-                className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/70 transition-colors focus-within:ring-2 focus-within:ring-teal-300 focus-within:ring-offset-2 focus-within:ring-offset-white dark:focus-within:ring-offset-slate-900"
+                className="bg-background/50 backdrop-blur-sm border-border hover:bg-background/70 transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
               >
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-4">
@@ -51,12 +51,12 @@ export default function HowItWorks() {
                       <IconComponent className="h-6 w-6 text-teal-400" strokeWidth={1.5} />
                     </div>
                   </div>
-                  <CardTitle className="text-slate-900 dark:text-white text-lg">
+                  <CardTitle className="text-foreground text-lg">
                     {step.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-slate-600 dark:text-slate-300 text-center">
+                  <CardDescription className="text-muted-foreground text-center">
                     {step.description}
                   </CardDescription>
                 </CardContent>

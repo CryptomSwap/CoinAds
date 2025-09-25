@@ -1,24 +1,81 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-export default function Hero() {
+/**
+ * Hero component with three variants and customizable CTAs
+ * @param variant - The hero variant: "results" | "network" | "speed"
+ * @param primaryCta - Optional primary CTA override
+ * @param secondaryCta - Optional secondary CTA override  
+ * @param showChevron - Whether to show the scroll chevron (default: true)
+ */
+interface HeroProps {
+  variant?: "results" | "network" | "speed";
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  showChevron?: boolean;
+}
+
+export default function Hero({ 
+  variant = "results", 
+  primaryCta, 
+  secondaryCta, 
+  showChevron = true 
+}: HeroProps) {
+  // Copy mapping for each variant
+  const copyMap = {
+    results: {
+      headline: "Grow Your Reach With Premium Crypto Ad Placements",
+      subline: "Access leading crypto publishers with transparent pricing, live dashboards, and brand-safe inventory.",
+      primaryCta: { label: "Start Advertising", href: "/auth/signup?role=advertiser" },
+      secondaryCta: { label: "Join as a publisher", href: "/publishers" }
+    },
+    network: {
+      headline: "Advertise Where Crypto Communities Already Are",
+      subline: "Tap into trusted publishers like Cointelegraph, CryptoDaily, and Coinranking — reaching engaged readers worldwide.",
+      primaryCta: { label: "Launch Your First Campaign", href: "/auth/signup?role=advertiser" },
+      secondaryCta: { label: "For Publishers", href: "/publishers" }
+    },
+    speed: {
+      headline: "Run Crypto Ad Campaigns in Minutes",
+      subline: "Set your budget, upload creatives, and go live across top publishers — all in one platform.",
+      primaryCta: { label: "Create Campaign", href: "/auth/signup?role=advertiser" },
+      secondaryCta: { label: "See How It Works", href: "/#how-it-works" }
+    }
+  };
+
+  const copy = copyMap[variant];
+  
+  // Use provided CTAs or fallback to variant defaults
+  const finalPrimaryCta = primaryCta || copy.primaryCta;
+  const finalSecondaryCta = secondaryCta || copy.secondaryCta;
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-background to-muted">
+    <section className="relative overflow-hidden">
       <div className="mx-auto max-w-6xl px-6 py-20 text-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-tight">
-          Reach Crypto Audiences on Premium Sites
+          {copy.headline}
         </h1>
-        <div className="mt-8 flex items-center justify-center gap-3">
-          <Link 
-            className="inline-flex items-center rounded-lg px-5 py-3 text-white font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
-            href="/auth/signup?role=advertiser"
-          >
-            Start Advertising
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-4">
+          {copy.subline}
+        </p>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Link href={finalPrimaryCta.href}>
+            <Button size="lg">
+              {finalPrimaryCta.label}
+            </Button>
+          </Link>
+          <Link href={finalSecondaryCta.href}>
+            <Button variant="outline" size="lg" className="dark:text-white dark:border-white/20 dark:hover:bg-white/10">
+              {finalSecondaryCta.label}
+            </Button>
           </Link>
         </div>
       </div>
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-muted-foreground animate-bounce" aria-hidden="true">
-        ↓
-      </div>
+      {showChevron && (
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-muted-foreground animate-bounce" aria-hidden="true">
+          ↓
+        </div>
+      )}
     </section>
   );
 }
