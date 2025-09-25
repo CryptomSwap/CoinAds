@@ -1,41 +1,32 @@
+import TopBar from "@/components/TopBar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Logo } from "@/components/ui/logo";
 import { ArrowRight } from "lucide-react";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="h-16 bg-background border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 h-full">
-          <div className="flex items-center justify-between h-full">
-            <Logo className="text-foreground" />
-            <div className="flex items-center space-x-8">
-              <Link href="/auth/signin">
-                <Button>
-                  Sign In
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
+      <TopBar />
+      
+      {/* Header */}
+      <div className="bg-gradient-to-br from-background to-muted">
+        <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-tight">
+            Privacy Policy
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
+            Last updated: January 15, 2024
+          </p>
         </div>
-      </nav>
+      </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          <Card className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-white text-3xl">Privacy Policy</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-300">
-                Last updated: January 15, 2024
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="prose prose-invert max-w-none">
-              <div className="text-slate-600 dark:text-slate-300 space-y-6">
+          <Card className="bg-card border-border shadow-sm">
+            <CardContent className="p-8">
+              <div className="prose prose-slate dark:prose-invert max-w-none space-y-8">
                 <section>
                   <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">1. Information We Collect</h2>
                   <p>

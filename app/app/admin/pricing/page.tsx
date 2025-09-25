@@ -202,7 +202,7 @@ export default function AdminPricingPage() {
                       <div className="flex items-center space-x-2">
                         <span className="font-medium">${item.cpm.toFixed(2)}</span>
                         {item.isLocked && (
-                          <Lock className="h-3 w-3 text-slate-400" title="Admin-set" />
+                          <Lock className="h-3 w-3 text-slate-400" />
                         )}
                       </div>
                     )}

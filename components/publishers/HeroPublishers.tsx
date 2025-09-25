@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function HeroPublishers() {
   return (
@@ -21,18 +22,16 @@ export default function HeroPublishers() {
           Plug in one tag, get matched with premium advertisers, and receive weekly USDT/USDC or bank payouts with live reporting and fraud protection.
         </motion.p>
         <div className="mt-8 flex items-center justify-center gap-3">
-          <Link
-            href="/auth/signup?role=publisher"
-            className="inline-flex items-center rounded-lg px-5 py-3 text-white font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
-          >
-            Start Monetizing
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center rounded-lg px-5 py-3 text-white font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
-          >
-            Talk to Publisher Team
-          </Link>
+          <Button asChild size="lg">
+            <Link href="/auth/signup?role=publisher">
+              Start Monetizing
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link href="/contact">
+              Contact our publisher team
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

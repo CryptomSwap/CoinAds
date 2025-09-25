@@ -1,43 +1,31 @@
+import TopBar from "@/components/TopBar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Logo } from "@/components/ui/logo";
 import { ArrowRight } from "lucide-react";
 
 export default function AdvertiserTermsPage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="h-16 bg-background border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 h-full">
-          <div className="flex items-center justify-between h-full">
-            <Logo className="text-foreground" />
-            <div className="flex items-center space-x-8">
-              <Link href="/auth/signin">
-                <Button>
-                  Sign In
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
+      <TopBar />
+      
+      {/* Header */}
+      <div className="bg-gradient-to-br from-background to-muted">
+        <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-tight">
+            Advertiser Terms of Service
+          </h1>
         </div>
-      </nav>
+      </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          <Card className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-white text-3xl">Advertiser Terms of Service</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-300">
-                Last updated: January 15, 2024
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="prose prose-invert max-w-none">
-              <div className="text-slate-600 dark:text-slate-300 space-y-6">
+          <Card className="bg-card border-border shadow-sm">
+            <CardContent className="p-8">
+              <div className="prose prose-slate dark:prose-invert max-w-none space-y-8">
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-900 dark:text-white mb-3">1. Acceptance of Terms</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">1. Acceptance of Terms</h2>
                   <p>
                     By accessing and using CoinAds as an advertiser, you agree to be bound by these Terms of Service. 
                     If you do not agree to these terms, you may not use our services.
@@ -45,7 +33,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">2. Account Registration</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">2. Account Registration</h2>
                   <p>To use our advertising services, you must:</p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Provide accurate and complete registration information</li>
@@ -57,7 +45,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">3. Advertising Guidelines</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">3. Advertising Guidelines</h2>
                   <p>All advertisements must comply with our content policies:</p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>No misleading or deceptive content</li>
@@ -70,7 +58,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">4. Payment Terms</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">4. Payment Terms</h2>
                   <p>
                     Advertisers are required to maintain sufficient funds in their wallet to cover campaign costs. 
                     Payment terms include:
@@ -85,7 +73,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">5. Campaign Performance</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">5. Campaign Performance</h2>
                   <p>
                     While we strive to deliver campaigns as specified, we cannot guarantee:
                   </p>
@@ -98,7 +86,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">6. Intellectual Property</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">6. Intellectual Property</h2>
                   <p>
                     You retain ownership of your creative materials. By uploading content, you grant us a 
                     non-exclusive license to display your ads on our platform. You warrant that you have 
@@ -107,7 +95,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">7. Prohibited Activities</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">7. Prohibited Activities</h2>
                   <p>The following activities are strictly prohibited:</p>
                   <ul className="list-disc list-inside ml-4 space-y-1">
                     <li>Click fraud or impression manipulation</li>
@@ -120,7 +108,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">8. Suspension and Termination</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">8. Suspension and Termination</h2>
                   <p>
                     We reserve the right to suspend or terminate your account for violations of these terms, 
                     suspicious activity, or non-payment. You may terminate your account at any time by 
@@ -129,7 +117,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">9. Limitation of Liability</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">9. Limitation of Liability</h2>
                   <p>
                     CoinAds shall not be liable for any indirect, incidental, special, or consequential damages 
                     arising from your use of our services. Our total liability shall not exceed the amount 
@@ -138,7 +126,7 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">10. Changes to Terms</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">10. Changes to Terms</h2>
                   <p>
                     We may modify these terms at any time. Material changes will be communicated via email 
                     or platform notification. Continued use of our services constitutes acceptance of the 
@@ -147,14 +135,14 @@ export default function AdvertiserTermsPage() {
                 </section>
 
                 <section>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">11. Contact Information</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">11. Contact Information</h2>
                   <p>
                     For questions about these terms or our services, please contact us:
                   </p>
-                  <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg mt-3">
+                  <div className="bg-muted p-4 rounded-lg mt-3">
                     <p><strong>Email:</strong> legal@coinads.com</p>
                     <p><strong>Support:</strong> support@coinads.com</p>
-                    <p><strong>Address:</strong> 123 Market Street, Suite 100, San Francisco, CA 94105</p>
+                    <p><strong>Address:</strong> Saadya Gaon 24, Tel Aviv, Israel</p>
                   </div>
                 </section>
               </div>
@@ -166,13 +154,13 @@ export default function AdvertiserTermsPage() {
       {/* Footer */}
       <footer className="border-t border-border bg-muted/50">
         <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="text-center text-slate-500 dark:text-slate-400">
+          <div className="text-center text-muted-foreground">
             <p>&copy; 2024 CoinAds. All rights reserved.</p>
             <div className="mt-4 space-x-6">
-              <Link href="/legal/privacy" className="hover:text-slate-900 dark:hover:text-white">Privacy Policy</Link>
-              <Link href="/legal/advertiser-terms" className="hover:text-slate-900 dark:hover:text-white">Advertiser Terms</Link>
-              <Link href="/legal/publisher-terms" className="hover:text-slate-900 dark:hover:text-white">Publisher Terms</Link>
-              <Link href="/legal/cookies" className="hover:text-slate-900 dark:hover:text-white">Cookie Policy</Link>
+              <Link href="/legal/privacy" className="hover:text-foreground">Privacy Policy</Link>
+              <Link href="/legal/advertiser-terms" className="hover:text-foreground">Advertiser Terms</Link>
+              <Link href="/legal/publisher-terms" className="hover:text-foreground">Publisher Terms</Link>
+              <Link href="/legal/cookies" className="hover:text-foreground">Cookie Policy</Link>
             </div>
           </div>
         </div>

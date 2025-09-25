@@ -1,12 +1,14 @@
 "use client";
 
+import TopBar from "@/components/TopBar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code, FileText, Settings, Zap } from "lucide-react";
 
 export default function PublisherIntegrationPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
+      <TopBar />
       {/* Header */}
       <div className="bg-gradient-to-br from-background to-muted">
         <div className="mx-auto max-w-6xl px-6 py-20 text-center">

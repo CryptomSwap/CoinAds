@@ -2,140 +2,115 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import TopBar from "@/components/TopBar";
+import { Footer } from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-gradient-to-br from-background to-muted">
-        <div className="mx-auto max-w-6xl px-6 py-20 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-tight">
-            About CoinAds
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Connecting crypto advertisers with premium publishers through transparent, 
-            fraud-protected advertising technology.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
+      <TopBar />
 
       {/* Main Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16">
-        <div className="prose prose-slate dark:prose-invert max-w-none">
-          <h2 className="text-3xl font-bold text-foreground mb-6">Our Mission</h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            CoinAds was born from the need for better advertising infrastructure in the crypto space. 
-            We saw too many advertisers struggling with fraud, poor targeting, and lack of transparency, 
-            while publishers weren't getting fair value for their premium crypto traffic.
-          </p>
-
-          <h2 className="text-3xl font-bold text-foreground mb-6">What We Do</h2>
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">For Advertisers</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• Premium crypto site inventory</li>
-                <li>• Advanced fraud protection</li>
-                <li>• Real-time reporting & analytics</li>
-                <li>• Flexible billing options</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">For Publishers</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• Higher revenue per visitor</li>
-                <li>• Weekly USDT/USDC payouts</li>
-                <li>• Brand-safe advertisers only</li>
-                <li>• Easy integration & management</li>
-              </ul>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-foreground mb-6">Our Values</h2>
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Transparency</h3>
-              <p className="text-muted-foreground">
-                Clear pricing, open reporting, and honest communication with all partners.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Quality</h3>
-              <p className="text-muted-foreground">
-                Premium inventory, brand-safe ads, and rigorous quality controls.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Innovation</h3>
-              <p className="text-muted-foreground">
-                Cutting-edge technology to solve real problems in crypto advertising.
-              </p>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-foreground mb-6">Get Started</h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Ready to join the future of crypto advertising? Whether you're an advertiser 
-            looking to reach crypto audiences or a publisher wanting to monetize your traffic, 
-            we're here to help.
-          </p>
+      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-10 py-16 md:py-20 lg:py-24">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-10 md:gap-y-14">
           
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/auth/signup?role=advertiser">
-              <Button>
-                Start Advertising
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/auth/signup?role=publisher">
-              <Button variant="outline">
-                Start Publishing
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+          {/* Section A - About CoinAds (top-left) */}
+          <section className="col-span-12 lg:col-span-7 lg:col-start-1">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
+              About CoinAds
+            </h1>
+            <p className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+              CoinAds bridges the gap between advertisers and publishers with transparent, fraud-protected advertising technology — built specifically for the crypto space and backed by MediaFuse, a global leader in industry-specific PR and distribution.
+            </p>
+          </section>
+
+          {/* Section B - Our Mission (below A, aligned right) */}
+          <section className="col-span-12 lg:col-span-5 lg:col-start-8 mt-24 lg:mt-32">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
+              Our Mission
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+              CoinAds was born from the need for better advertising infrastructure in crypto. Advertisers deserve transparency and results; publishers deserve fair value for premium audiences. We're building a platform where both sides win.
+            </p>
+          </section>
+
+          {/* Section C - What We Do (centered lower) */}
+          <section className="col-span-12 lg:col-span-10 lg:col-start-2 mt-8 lg:mt-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 text-center">
+              What We Do
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              {/* For Advertisers Card */}
+              <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow p-6 md:p-7">
+                <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4 flex items-center">
+                  For Advertisers
+                </h3>
+                <ul className="space-y-3" aria-label="Benefits for advertisers">
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Access to premium crypto site inventory
+                  </li>
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Advanced fraud protection
+                  </li>
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Real-time reporting & analytics
+                  </li>
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Flexible billing (CPM, CPA, CPI, flat rates)
+                  </li>
+                </ul>
+              </div>
+
+              {/* For Publishers Card */}
+              <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow p-6 md:p-7">
+                <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4 flex items-center">
+                  For Publishers
+                </h3>
+                <ul className="space-y-3" aria-label="Benefits for publishers">
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Higher revenue per visitor with fair pricing
+                  </li>
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Weekly payouts in USDT/USDC
+                  </li>
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Brand-safe advertisers only
+                  </li>
+                  <li className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                    • Easy integration & tag management
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+              <Link href="/auth/signup?role=advertiser">
+                <Button 
+                  className="h-11 px-6 bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white font-medium focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
+                >
+                  Start Advertising
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/publishers">
+                <Button 
+                  variant="outline"
+                  className="h-11 px-6 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
+                >
+                  Start Publishing
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </section>
+
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="bg-muted">
-        <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Platform</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/advertisers">For Advertisers</Link></li>
-                <li><Link href="/publishers">For Publishers</Link></li>
-                <li><Link href="/ad-formats">Ad Formats</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Company</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/legal/privacy">Privacy</Link></li>
-                <li><Link href="/legal/advertiser-terms">Advertiser Terms</Link></li>
-                <li><Link href="/legal/publisher-terms">Publisher Terms</Link></li>
-                <li><Link href="/legal/cookies">Cookie Policy</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/contact">Contact Support</Link></li>
-                <li><Link href="/auth/signin">Sign In</Link></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }

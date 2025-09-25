@@ -1,11 +1,145 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Monitor, Activity, AlertTriangle, CheckCircle, Clock, TrendingUp } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Monitor, Activity, AlertTriangle, CheckCircle, Clock, TrendingUp, RefreshCw, Download, Filter } from "lucide-react";
 
 export default function DeliveryPage() {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [timeRange, setTimeRange] = useState("1h");
+  const [selectedRegion, setSelectedRegion] = useState("all");
+
+  // Mock real-time data
+  const [deliveryData, setDeliveryData] = useState({
+    systemStatus: "operational",
+    activeCampaigns: 1247,
+    impressionsPerMinute: 45678,
+    errorRate: 0.12,
+    totalImpressions: 2456789,
+    totalClicks: 45678,
+    totalConversions: 1234,
+    revenue: 15678.90,
+    alerts: [
+      {
+        id: "1",
+        type: "high_traffic",
+        title: "High Traffic Alert",
+        message: "Traffic spike detected - 150% above normal",
+        timestamp: "2 minutes ago",
+        severity: "medium"
+      },
+      {
+        id: "2",
+        type: "low_balance",
+        title: "Campaign Budget Warning",
+        message: "Crypto Trading Platform campaign budget approaching limit",
+        timestamp: "5 minutes ago",
+        severity: "low"
+      },
+      {
+        id: "3",
+        type: "delivery_error",
+        title: "Delivery Error",
+        message: "2 delivery errors detected in the last hour",
+        timestamp: "10 minutes ago",
+        severity: "high"
+      }
+    ],
+    topCampaigns: [
+      {
+        id: "1",
+        name: "Crypto Trading Platform",
+        advertiser: "John Smith",
+        impressions: 45000,
+        clicks: 1200,
+        conversions: 45,
+        spend: 2500,
+        deliveryRate: 98.5
+      },
+      {
+        id: "2",
+        name: "DeFi Yield Farming",
+        advertiser: "Sarah Johnson",
+        impressions: 32000,
+        clicks: 890,
+        conversions: 32,
+        spend: 1800,
+        deliveryRate: 96.2
+      },
+      {
+        id: "3",
+        name: "NFT Marketplace",
+        advertiser: "Mike Chen",
+        impressions: 28000,
+        clicks: 750,
+        conversions: 28,
+        spend: 1600,
+        deliveryRate: 94.8
+      }
+    ],
+    geographicData: [
+      { region: "North America", impressions: 45, clicks: 1200, revenue: 7500 },
+      { region: "Europe", impressions: 30, clicks: 890, revenue: 4500 },
+      { region: "Asia", impressions: 20, clicks: 750, revenue: 3000 },
+      { region: "Other", impressions: 5, clicks: 200, revenue: 678 }
+    ]
+  });
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setLastUpdated(new Date());
+    setIsRefreshing(false);
+  };
+
+  const handleExport = () => {
+    alert("Export functionality would be implemented here");
+  };
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case "high":
+        return "text-red-600 bg-red-50 border-red-200";
+      case "medium":
+        return "text-yellow-600 bg-yellow-50 border-yellow-200";
+      case "low":
+        return "text-blue-600 bg-blue-50 border-blue-200";
+      default:
+        return "text-gray-600 bg-gray-50 border-gray-200";
+    }
+  };
+
+  const getSeverityIcon = (severity: string) => {
+    switch (severity) {
+      case "high":
+        return <AlertTriangle className="h-4 w-4 text-red-600" />;
+      case "medium":
+        return <AlertTriangle className="h-4 w-4 text-yellow-600" />;
+      case "low":
+        return <CheckCircle className="h-4 w-4 text-blue-600" />;
+      default:
+        return <Activity className="h-4 w-4 text-gray-600" />;
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(amount);
+  };
+
+  const formatNumber = (num: number) => {
+    return new Intl.NumberFormat('en-US').format(num);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -14,18 +148,36 @@ export default function DeliveryPage() {
           <p className="text-muted-foreground">
             Monitor ad delivery performance and system health
           </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Last updated: {lastUpdated.toLocaleTimeString()}
+          </p>
         </div>
         <div className="flex space-x-2">
-          <Button variant="outline">
-            <Activity className="h-4 w-4 mr-2" />
-            Refresh Data
+          <Select value={timeRange} onValueChange={setTimeRange}>
+            <SelectTrigger className="w-32">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1h">Last Hour</SelectItem>
+              <SelectItem value="24h">Last 24h</SelectItem>
+              <SelectItem value="7d">Last 7 days</SelectItem>
+              <SelectItem value="30d">Last 30 days</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button 
+            variant="outline" 
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            Refresh
           </Button>
-          <Button>
-            Export Report
+          <Button onClick={handleExport}>
+            <Download className="h-4 w-4 mr-2" />
+            Export
           </Button>
         </div>
       </div>
-
       {/* System Status */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
@@ -36,7 +188,9 @@ export default function DeliveryPage() {
           <CardContent>
             <div className="flex items-center space-x-2">
               <CheckCircle className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium text-green-600">Operational</span>
+              <span className="text-sm font-medium text-green-600 capitalize">
+                {deliveryData.systemStatus}
+              </span>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               All systems running normally
@@ -49,7 +203,7 @@ export default function DeliveryPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,247</div>
+            <div className="text-2xl font-bold">{formatNumber(deliveryData.activeCampaigns)}</div>
             <p className="text-xs text-muted-foreground">
               +23 from last hour
             </p>
@@ -61,7 +215,7 @@ export default function DeliveryPage() {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">45,678</div>
+            <div className="text-2xl font-bold">{formatNumber(deliveryData.impressionsPerMinute)}</div>
             <p className="text-xs text-muted-foreground">
               +5.2% from last hour
             </p>
@@ -73,7 +227,7 @@ export default function DeliveryPage() {
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0.12%</div>
+            <div className="text-2xl font-bold">{deliveryData.errorRate}%</div>
             <p className="text-xs text-muted-foreground">
               -0.03% from last hour
             </p>
@@ -81,129 +235,150 @@ export default function DeliveryPage() {
         </Card>
       </div>
 
-      {/* Real-time Metrics */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Real-time Delivery Metrics</CardTitle>
-          <CardDescription>
-            Live performance data for ad delivery
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[300px] bg-gray-100 rounded-md flex items-center justify-center">
-            <span className="text-gray-500">Chart placeholder - Real-time delivery metrics</span>
+      {/* Enhanced Delivery Monitoring */}
+      <Tabs defaultValue="overview" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+          <TabsTrigger value="alerts">Alerts</TabsTrigger>
+          <TabsTrigger value="geographic">Geographic</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Real-time Delivery Metrics</CardTitle>
+                <CardDescription>
+                  Live performance data for ad delivery
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[300px] bg-gray-100 rounded-md flex items-center justify-center">
+                  <span className="text-gray-500">Chart placeholder - Real-time delivery metrics</span>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Performance Summary</CardTitle>
+                <CardDescription>
+                  Key performance indicators
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Total Impressions</span>
+                    <span className="font-medium">{formatNumber(deliveryData.totalImpressions)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Total Clicks</span>
+                    <span className="font-medium">{formatNumber(deliveryData.totalClicks)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Total Conversions</span>
+                    <span className="font-medium">{formatNumber(deliveryData.totalConversions)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Revenue</span>
+                    <span className="font-medium">{formatCurrency(deliveryData.revenue)}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Campaign Performance */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Top Performing Campaigns</CardTitle>
-          <CardDescription>
-            Campaigns with highest delivery rates
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div>
-                <h3 className="font-medium">Crypto Trading Platform</h3>
-                <p className="text-sm text-muted-foreground">Advertiser: John Smith</p>
+        </TabsContent>
+        
+        <TabsContent value="campaigns" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Performing Campaigns</CardTitle>
+              <CardDescription>
+                Campaigns with highest delivery rates
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {deliveryData.topCampaigns.map((campaign) => (
+                  <div key={campaign.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h3 className="font-medium">{campaign.name}</h3>
+                      <p className="text-sm text-muted-foreground">Advertiser: {campaign.advertiser}</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium">{campaign.deliveryRate}% delivery rate</div>
+                      <div className="text-sm text-muted-foreground">{formatNumber(campaign.impressions)} impressions</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium">{formatCurrency(campaign.spend)}</div>
+                      <div className="text-sm text-muted-foreground">Total spend</div>
+                    </div>
+                    <Badge variant="secondary">
+                      {campaign.deliveryRate >= 98 ? "Excellent" : 
+                       campaign.deliveryRate >= 95 ? "Good" : "Fair"}
+                    </Badge>
+                  </div>
+                ))}
               </div>
-              <div className="text-right">
-                <div className="font-medium">98.5% delivery rate</div>
-                <div className="text-sm text-muted-foreground">45,678 impressions/hour</div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="alerts" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>System Alerts</CardTitle>
+              <CardDescription>
+                Recent system notifications and alerts
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {deliveryData.alerts.map((alert) => (
+                  <div key={alert.id} className={`flex items-center space-x-3 p-3 border rounded-lg ${getSeverityColor(alert.severity)}`}>
+                    {getSeverityIcon(alert.severity)}
+                    <div className="flex-1">
+                      <p className="font-medium">{alert.title}</p>
+                      <p className="text-sm text-muted-foreground">{alert.message}</p>
+                      <p className="text-xs text-muted-foreground">{alert.timestamp}</p>
+                    </div>
+                    <Badge variant="outline">{alert.severity}</Badge>
+                  </div>
+                ))}
               </div>
-              <Badge variant="secondary">Excellent</Badge>
-            </div>
-            
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div>
-                <h3 className="font-medium">DeFi Yield Farming</h3>
-                <p className="text-sm text-muted-foreground">Advertiser: Sarah Johnson</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="geographic" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Geographic Distribution</CardTitle>
+              <CardDescription>
+                Ad delivery by geographic region
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {deliveryData.geographicData.map((region, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div>
+                      <h3 className="font-medium">{region.region}</h3>
+                      <p className="text-sm text-muted-foreground">{region.impressions}% of impressions</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium">{formatNumber(region.clicks)} clicks</div>
+                      <div className="text-sm text-muted-foreground">{formatCurrency(region.revenue)} revenue</div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="text-right">
-                <div className="font-medium">96.2% delivery rate</div>
-                <div className="text-sm text-muted-foreground">32,456 impressions/hour</div>
-              </div>
-              <Badge variant="secondary">Good</Badge>
-            </div>
-            
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div>
-                <h3 className="font-medium">NFT Marketplace</h3>
-                <p className="text-sm text-muted-foreground">Advertiser: Mike Chen</p>
-              </div>
-              <div className="text-right">
-                <div className="font-medium">94.8% delivery rate</div>
-                <div className="text-sm text-muted-foreground">28,901 impressions/hour</div>
-              </div>
-              <Badge variant="secondary">Good</Badge>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* System Alerts */}
-      <Card>
-        <CardHeader>
-          <CardTitle>System Alerts</CardTitle>
-          <CardDescription>
-            Recent system notifications and alerts
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3 p-3 border rounded-lg">
-              <CheckCircle className="h-4 w-4 text-green-600" />
-              <div>
-                <p className="font-medium">High delivery volume detected</p>
-                <p className="text-sm text-muted-foreground">Peak traffic hour - 2 minutes ago</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3 p-3 border rounded-lg">
-              <AlertTriangle className="h-4 w-4 text-yellow-600" />
-              <div>
-                <p className="font-medium">Campaign budget approaching limit</p>
-                <p className="text-sm text-muted-foreground">Crypto Trading Platform - 5 minutes ago</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3 p-3 border rounded-lg">
-              <CheckCircle className="h-4 w-4 text-green-600" />
-              <div>
-                <p className="font-medium">New campaign approved and live</p>
-                <p className="text-sm text-muted-foreground">NFT Marketplace Campaign - 12 minutes ago</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3 p-3 border rounded-lg">
-              <Clock className="h-4 w-4 text-blue-600" />
-              <div>
-                <p className="font-medium">Scheduled maintenance completed</p>
-                <p className="text-sm text-muted-foreground">Database optimization - 1 hour ago</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Geographic Distribution */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Geographic Distribution</CardTitle>
-          <CardDescription>
-            Ad delivery by geographic region
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[300px] bg-gray-100 rounded-md flex items-center justify-center">
-            <span className="text-gray-500">Chart placeholder - Geographic distribution</span>
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

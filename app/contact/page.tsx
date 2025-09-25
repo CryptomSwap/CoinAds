@@ -142,7 +142,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
       {/* Navigation */}
       <nav className="h-16 bg-background border-b border-border">
         <div className="mx-auto max-w-6xl px-6 h-full">

@@ -4,20 +4,97 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DollarSign, TrendingUp, Download, Filter, Search } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { DollarSign, TrendingUp, Download, Filter, Search, Eye, Calendar, CreditCard, Banknote } from "lucide-react";
 
 export default function TransactionsPage() {
   const [isExporting, setIsExporting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterDateRange, setFilterDateRange] = useState("30d");
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+
+  // Enhanced mock data
+  const [transactions, setTransactions] = useState([
+    {
+      id: "TXN-2024-001234",
+      type: "advertiser_payment",
+      amount: 5000.00,
+      status: "completed",
+      user: "John Smith",
+      userEmail: "john@cryptoexchange.com",
+      description: "Campaign funding for Crypto Trading Platform",
+      paymentMethod: "credit_card",
+      timestamp: "2 hours ago",
+      campaignId: "CAMP-001",
+      campaignName: "Crypto Trading Platform"
+    },
+    {
+      id: "TXN-2024-001235",
+      type: "publisher_payout",
+      amount: -1234.56,
+      status: "completed",
+      user: "Alex Rodriguez",
+      userEmail: "alex@cryptonews.com",
+      description: "Earnings payout for CryptoNewsDaily.com",
+      paymentMethod: "usdt",
+      timestamp: "4 hours ago",
+      siteId: "SITE-001",
+      siteName: "CryptoNewsDaily.com"
+    },
+    {
+      id: "TXN-2024-001236",
+      type: "advertiser_payment",
+      amount: 3500.00,
+      status: "completed",
+      user: "Sarah Johnson",
+      userEmail: "sarah@defi.com",
+      description: "Campaign funding for DeFi Yield Farming",
+      paymentMethod: "wire_transfer",
+      timestamp: "6 hours ago",
+      campaignId: "CAMP-002",
+      campaignName: "DeFi Yield Farming"
+    },
+    {
+      id: "TXN-2024-001237",
+      type: "refund",
+      amount: -500.00,
+      status: "completed",
+      user: "Mike Chen",
+      userEmail: "mike@nftmarketplace.com",
+      description: "Refund for NFT Marketplace campaign",
+      paymentMethod: "credit_card",
+      timestamp: "1 day ago",
+      campaignId: "CAMP-003",
+      campaignName: "NFT Marketplace"
+    },
+    {
+      id: "TXN-2024-001238",
+      type: "publisher_payout",
+      amount: -856.78,
+      status: "pending",
+      user: "Maria Garcia",
+      userEmail: "maria@blockchaininsights.com",
+      description: "Earnings payout for BlockchainInsights.net",
+      paymentMethod: "sepa",
+      timestamp: "2 days ago",
+      siteId: "SITE-002",
+      siteName: "BlockchainInsights.net"
+    }
+  ]);
 
   const handleExport = async () => {
     setIsExporting(true);
     try {
-      // In a real app, this would make an API call to export data
       console.log("Exporting transaction data...");
-      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      alert("Transaction export functionality would be implemented here");
+      alert("Transaction data exported successfully!");
     } catch (error) {
       console.error("Export failed:", error);
       alert("Export failed. Please try again.");
@@ -26,9 +103,91 @@ export default function TransactionsPage() {
     }
   };
 
-  const handleFilter = () => {
-    alert("Filter functionality would be implemented here");
+  const handleViewTransaction = (transaction: any) => {
+    setSelectedTransaction(transaction);
+    setShowTransactionModal(true);
   };
+
+  const getFilteredTransactions = () => {
+    return transactions.filter(transaction => {
+      const matchesSearch = transaction.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           transaction.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           transaction.userEmail.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesType = filterType === "all" || transaction.type === filterType;
+      const matchesStatus = filterStatus === "all" || transaction.status === filterStatus;
+      
+      return matchesSearch && matchesType && matchesStatus;
+    });
+  };
+
+  const getTransactionIcon = (type: string) => {
+    switch (type) {
+      case "advertiser_payment":
+        return <CreditCard className="h-4 w-4 text-green-600" />;
+      case "publisher_payout":
+        return <Banknote className="h-4 w-4 text-blue-600" />;
+      case "refund":
+        return <DollarSign className="h-4 w-4 text-red-600" />;
+      default:
+        return <DollarSign className="h-4 w-4 text-gray-600" />;
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "completed":
+        return "text-green-600 bg-green-50 border-green-200";
+      case "pending":
+        return "text-yellow-600 bg-yellow-50 border-yellow-200";
+      case "failed":
+        return "text-red-600 bg-red-50 border-red-200";
+      default:
+        return "text-gray-600 bg-gray-50 border-gray-200";
+    }
+  };
+
+  const getPaymentMethodIcon = (method: string) => {
+    switch (method) {
+      case "credit_card":
+        return <CreditCard className="h-4 w-4" />;
+      case "wire_transfer":
+        return <Banknote className="h-4 w-4" />;
+      case "usdt":
+        return <DollarSign className="h-4 w-4" />;
+      case "sepa":
+        return <Banknote className="h-4 w-4" />;
+      default:
+        return <DollarSign className="h-4 w-4" />;
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(amount);
+  };
+
+  const formatNumber = (num: number) => {
+    return new Intl.NumberFormat('en-US').format(num);
+  };
+
+  // Calculate summary statistics
+  const totalRevenue = transactions
+    .filter(t => t.type === "advertiser_payment")
+    .reduce((sum, t) => sum + t.amount, 0);
+  
+  const totalPayouts = Math.abs(transactions
+    .filter(t => t.type === "publisher_payout")
+    .reduce((sum, t) => sum + t.amount, 0));
+  
+  const totalRefunds = Math.abs(transactions
+    .filter(t => t.type === "refund")
+    .reduce((sum, t) => sum + t.amount, 0));
+  
+  const platformFee = totalRevenue * 0.1; // 10% platform fee
 
   return (
     <div className="space-y-6">
@@ -40,16 +199,81 @@ export default function TransactionsPage() {
           </p>
         </div>
         <div className="flex space-x-2">
-          <Button variant="outline" onClick={handleFilter}>
-            <Filter className="h-4 w-4 mr-2" />
-            Filter
-          </Button>
           <Button onClick={handleExport} disabled={isExporting}>
             <Download className="h-4 w-4 mr-2" />
             {isExporting ? "Exporting..." : "Export"}
           </Button>
         </div>
       </div>
+
+      {/* Filters */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            Filters & Search
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-4">
+            <div className="space-y-2">
+              <Label htmlFor="search">Search</Label>
+              <div className="relative">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="search"
+                  placeholder="Search by ID, user, or email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Transaction Type</Label>
+              <Select value={filterType} onValueChange={setFilterType}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="advertiser_payment">Advertiser Payments</SelectItem>
+                  <SelectItem value="publisher_payout">Publisher Payouts</SelectItem>
+                  <SelectItem value="refund">Refunds</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Status</Label>
+              <Select value={filterStatus} onValueChange={setFilterStatus}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="failed">Failed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Date Range</Label>
+              <Select value={filterDateRange} onValueChange={setFilterDateRange}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="7d">Last 7 days</SelectItem>
+                  <SelectItem value="30d">Last 30 days</SelectItem>
+                  <SelectItem value="90d">Last 90 days</SelectItem>
+                  <SelectItem value="custom">Custom range</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Transaction Summary */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -59,7 +283,7 @@ export default function TransactionsPage() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$124,567</div>
+            <div className="text-2xl font-bold">{formatCurrency(totalRevenue)}</div>
             <p className="text-xs text-muted-foreground">
               +12.5% from last month
             </p>
@@ -71,7 +295,7 @@ export default function TransactionsPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$89,234</div>
+            <div className="text-2xl font-bold">{formatCurrency(totalRevenue)}</div>
             <p className="text-xs text-muted-foreground">
               +8.2% from last month
             </p>
@@ -83,7 +307,7 @@ export default function TransactionsPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$35,333</div>
+            <div className="text-2xl font-bold">{formatCurrency(totalPayouts)}</div>
             <p className="text-xs text-muted-foreground">
               +15.3% from last month
             </p>
@@ -95,7 +319,7 @@ export default function TransactionsPage() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$12,456</div>
+            <div className="text-2xl font-bold">{formatCurrency(platformFee)}</div>
             <p className="text-xs text-muted-foreground">
               +10.1% from last month
             </p>

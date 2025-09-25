@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function CtaBand(){
   return (
@@ -6,12 +7,16 @@ export default function CtaBand(){
       <div className="mx-auto max-w-6xl px-6 py-12 text-center">
         <h3 className="text-2xl md:text-3xl font-semibold text-foreground">Ready to start earning?</h3>
         <div className="mt-6 flex items-center justify-center gap-3">
-          <Link href="/auth/signup?role=publisher" className="inline-flex items-center rounded-lg px-5 py-3 text-white font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors">
-            Start Monetizing
-          </Link>
-          <Link href="/docs/publisher-integration" className="inline-flex items-center rounded-lg px-5 py-3 text-white font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors">
-            View Integration Guide
-          </Link>
+          <Button asChild size="lg">
+            <Link href="/auth/signup?role=publisher">
+              Start Monetizing
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link href="/docs/publisher-integration">
+              View Integration Guide
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

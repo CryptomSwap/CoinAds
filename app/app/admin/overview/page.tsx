@@ -1,8 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Users, 
   Globe, 
@@ -11,17 +13,26 @@ import {
   AlertTriangle,
   CheckCircle,
   TrendingUp,
-  Activity
+  Activity,
+  RefreshCw,
+  Eye,
+  Clock,
+  BarChart3,
+  PieChart
 } from "lucide-react";
 import Link from "next/link";
 
-// Mock data for MVP
+// Enhanced mock data for MVP
 const mockData = {
   kpis: {
     advertisers: 45,
     publishers: 23,
     activeCampaigns: 12,
-    totalSpend: 12500.50
+    totalSpend: 12500.50,
+    impressions: 2456789,
+    clicks: 45678,
+    conversions: 1234,
+    revenue: 15678.90
   },
   alerts: [
     {
@@ -30,7 +41,8 @@ const mockData = {
       title: "Pending Approvals",
       description: "3 campaigns, 2 sites, 5 creatives awaiting review",
       count: 10,
-      href: "/app/admin/approvals"
+      href: "/app/admin/approvals",
+      priority: "high"
     },
     {
       id: "2",
@@ -38,7 +50,8 @@ const mockData = {
       title: "Recent Errors",
       description: "2 delivery errors in the last hour",
       count: 2,
-      href: "/app/admin/delivery"
+      href: "/app/admin/delivery",
+      priority: "medium"
     },
     {
       id: "3",
@@ -46,7 +59,17 @@ const mockData = {
       title: "Low Balances",
       description: "5 advertisers with low account balances",
       count: 5,
-      href: "/app/admin/users"
+      href: "/app/admin/users",
+      priority: "low"
+    },
+    {
+      id: "4",
+      type: "high_traffic",
+      title: "High Traffic Alert",
+      description: "Traffic spike detected - 150% above normal",
+      count: 1,
+      href: "/app/admin/delivery",
+      priority: "medium"
     }
   ],
   recentActivity: [
@@ -56,7 +79,8 @@ const mockData = {
       user: "john@cryptoexchange.com",
       action: "created campaign",
       target: "Crypto Exchange Launch",
-      timestamp: "2 minutes ago"
+      timestamp: "2 minutes ago",
+      status: "success"
     },
     {
       id: "2",
@@ -64,7 +88,8 @@ const mockData = {
       user: "admin@coinads.com",
       action: "approved site",
       target: "blockchainnews.io",
-      timestamp: "15 minutes ago"
+      timestamp: "15 minutes ago",
+      status: "success"
     },
     {
       id: "3",
@@ -72,7 +97,8 @@ const mockData = {
       user: "admin@coinads.com",
       action: "rejected creative",
       target: "DeFi Banner Ad",
-      timestamp: "1 hour ago"
+      timestamp: "1 hour ago",
+      status: "warning"
     },
     {
       id: "4",
@@ -80,12 +106,60 @@ const mockData = {
       user: "publisher@mycryptosite.com",
       action: "requested payout",
       target: "$125.50",
-      timestamp: "2 hours ago"
+      timestamp: "2 hours ago",
+      status: "info"
+    },
+    {
+      id: "5",
+      type: "campaign_paused",
+      user: "sarah@defi.com",
+      action: "paused campaign",
+      target: "DeFi Yield Farming",
+      timestamp: "3 hours ago",
+      status: "warning"
+    }
+  ],
+  performanceMetrics: {
+    impressions: [12000, 15000, 18000, 22000, 25000, 28000, 30000],
+    clicks: [200, 250, 300, 350, 400, 450, 500],
+    conversions: [10, 12, 15, 18, 20, 22, 25],
+    revenue: [500, 600, 750, 900, 1000, 1100, 1250]
+  },
+  topCampaigns: [
+    {
+      id: "1",
+      name: "Crypto Trading Platform",
+      advertiser: "John Smith",
+      impressions: 45000,
+      clicks: 1200,
+      conversions: 45,
+      spend: 2500
+    },
+    {
+      id: "2", 
+      name: "DeFi Yield Farming",
+      advertiser: "Sarah Johnson",
+      impressions: 32000,
+      clicks: 890,
+      conversions: 32,
+      spend: 1800
+    },
+    {
+      id: "3",
+      name: "NFT Marketplace",
+      advertiser: "Mike Chen",
+      impressions: 28000,
+      clicks: 750,
+      conversions: 28,
+      spend: 1600
     }
   ]
 };
 
 export default function AdminOverview() {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -98,6 +172,14 @@ export default function AdminOverview() {
     return new Intl.NumberFormat('en-US').format(num);
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setLastUpdated(new Date());
+    setIsRefreshing(false);
+  };
+
   const getAlertIcon = (type: string) => {
     switch (type) {
       case "pending_approval":
@@ -106,19 +188,21 @@ export default function AdminOverview() {
         return <AlertTriangle className="h-5 w-5 text-red-600" />;
       case "low_balance":
         return <DollarSign className="h-5 w-5 text-yellow-600" />;
+      case "high_traffic":
+        return <TrendingUp className="h-5 w-5 text-orange-600" />;
       default:
         return <Activity className="h-5 w-5 text-gray-600" />;
     }
   };
 
-  const getAlertColor = (type: string) => {
-    switch (type) {
-      case "pending_approval":
-        return "border-blue-200 bg-blue-50";
-      case "delivery_error":
+  const getAlertColor = (priority: string) => {
+    switch (priority) {
+      case "high":
         return "border-red-200 bg-red-50";
-      case "low_balance":
+      case "medium":
         return "border-yellow-200 bg-yellow-50";
+      case "low":
+        return "border-blue-200 bg-blue-50";
       default:
         return "border-gray-200 bg-gray-50";
     }
@@ -134,8 +218,23 @@ export default function AdminOverview() {
         return <AlertTriangle className="h-4 w-4 text-red-600" />;
       case "payout_requested":
         return <DollarSign className="h-4 w-4 text-teal-600" />;
+      case "campaign_paused":
+        return <Clock className="h-4 w-4 text-orange-600" />;
       default:
         return <Activity className="h-4 w-4 text-gray-600" />;
+    }
+  };
+
+  const getActivityStatusColor = (status: string) => {
+    switch (status) {
+      case "success":
+        return "text-green-600";
+      case "warning":
+        return "text-yellow-600";
+      case "info":
+        return "text-blue-600";
+      default:
+        return "text-gray-600";
     }
   };
 
@@ -148,6 +247,20 @@ export default function AdminOverview() {
           <p className="text-muted-foreground">
             Monitor platform activity and manage operations
           </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Last updated: {lastUpdated.toLocaleTimeString()}
+          </p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
         </div>
       </div>
 
@@ -198,6 +311,53 @@ export default function AdminOverview() {
         </Card>
       </div>
 
+      {/* Additional Metrics */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Impressions</CardTitle>
+            <Eye className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.impressions)}</div>
+            <p className="text-xs text-muted-foreground">Total served</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Clicks</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.clicks)}</div>
+            <p className="text-xs text-muted-foreground">Total clicks</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Conversions</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.conversions)}</div>
+            <p className="text-xs text-muted-foreground">Total conversions</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(mockData.kpis.revenue)}</div>
+            <p className="text-xs text-muted-foreground">Platform revenue</p>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Alerts */}
       <Card>
         <CardHeader>
@@ -209,7 +369,7 @@ export default function AdminOverview() {
         <CardContent>
           <div className="space-y-4">
             {mockData.alerts.map((alert) => (
-              <div key={alert.id} className={`p-4 border rounded-lg ${getAlertColor(alert.type)}`}>
+              <div key={alert.id} className={`p-4 border rounded-lg ${getAlertColor(alert.priority)}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     {getAlertIcon(alert.type)}
@@ -252,13 +412,110 @@ export default function AdminOverview() {
                     {activity.action}{" "}
                     <span className="font-medium">{activity.target}</span>
                   </p>
-                  <p className="text-xs text-gray-500">{activity.timestamp}</p>
+                  <p className={`text-xs ${getActivityStatusColor(activity.status)}`}>
+                    {activity.timestamp}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
+
+      {/* Performance Metrics */}
+      <Tabs defaultValue="overview" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="campaigns">Top Campaigns</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Performance Overview
+                </CardTitle>
+                <CardDescription>
+                  Key performance indicators over time
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[200px] bg-gray-100 rounded-md flex items-center justify-center">
+                  <span className="text-gray-500">Chart placeholder - Performance metrics</span>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <PieChart className="h-5 w-5" />
+                  Revenue Distribution
+                </CardTitle>
+                <CardDescription>
+                  Revenue breakdown by category
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[200px] bg-gray-100 rounded-md flex items-center justify-center">
+                  <span className="text-gray-500">Chart placeholder - Revenue distribution</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="campaigns" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Performing Campaigns</CardTitle>
+              <CardDescription>
+                Campaigns with highest performance metrics
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {mockData.topCampaigns.map((campaign) => (
+                  <div key={campaign.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h3 className="font-medium">{campaign.name}</h3>
+                      <p className="text-sm text-muted-foreground">Advertiser: {campaign.advertiser}</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-medium">{formatNumber(campaign.impressions)} impressions</div>
+                      <div className="text-sm text-muted-foreground">{formatNumber(campaign.clicks)} clicks</div>
+                      <div className="text-sm text-muted-foreground">{formatNumber(campaign.conversions)} conversions</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium">{formatCurrency(campaign.spend)}</div>
+                      <div className="text-sm text-muted-foreground">Total spend</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="analytics" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Analytics Dashboard</CardTitle>
+              <CardDescription>
+                Detailed analytics and insights
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[400px] bg-gray-100 rounded-md flex items-center justify-center">
+                <span className="text-gray-500">Chart placeholder - Analytics dashboard</span>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
 
       {/* Quick Actions */}
       <Card>
