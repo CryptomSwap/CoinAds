@@ -167,11 +167,11 @@ function checkRateLimit(
 // Cleanup expired entries periodically
 function cleanupExpiredEntries() {
   const now = Date.now();
-  for (const [ip, entry] of rateLimitStore.entries()) {
+  rateLimitStore.forEach((entry, ip) => {
     if (now > entry.resetTime) {
       rateLimitStore.delete(ip);
     }
-  }
+  });
 }
 
 // Run cleanup every 5 minutes
