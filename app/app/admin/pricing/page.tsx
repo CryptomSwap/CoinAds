@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -50,12 +52,36 @@ const mockPricingData = [
   },
 ];
 
-export const metadata = {
-  title: "Pricing Gate - CoinAds Admin",
-  description: "Manage CPM pricing for publisher placements",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function AdminPricingPage() {
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    
+    if (!session) {
+      redirect("/auth/signin");
+      return;
+    }
+
+    if (session.user.role !== "ADMIN") {
+      redirect("/auth/signin");
+      return;
+    }
+  }, [session, status]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (!session || session.user.role !== "ADMIN") {
+    return null;
+  }
   const [pricingData, setPricingData] = useState(mockPricingData);
   const [editingRow, setEditingRow] = useState<number | null>(null);
   const [editValue, setEditValue] = useState("");

@@ -22,16 +22,23 @@ export async function GET(request: NextRequest) {
 
     // Track click
     try {
-      await prisma.click.create({
+      // First create an impression if it doesn't exist
+      const impression = await prisma.impression.create({
         data: {
-          campaignId: campaignId,
-          creativeId: creativeId,
-          placementId: placementId || null,
-          siteId: siteId || null,
-          clickId: clickId,
+          campaignId: parseInt(campaignId),
+          creativeId: parseInt(creativeId),
+          placementId: placementId ? parseInt(placementId) : undefined,
+          siteId: siteId ? parseInt(siteId) : undefined,
           country: "US", // In production, get from IP geolocation
           device: "desktop", // In production, detect from user agent
-          size: "728x90" // In production, get from request
+          costMicros: 5000000 // $5.00 CPM in micro-cents
+        }
+      });
+
+      // Then create the click
+      await prisma.click.create({
+        data: {
+          impressionId: impression.id,
         }
       });
     } catch (error) {

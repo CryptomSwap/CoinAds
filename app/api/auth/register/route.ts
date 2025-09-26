@@ -37,18 +37,7 @@ export async function POST(request: NextRequest) {
         data: {
           name,
           email,
-          password: hashedPassword,
           role: role as any,
-          emailVerified: new Date(), // Skip email verification for MVP
-        },
-      });
-
-      // Create wallet for the user
-      await tx.wallet.create({
-        data: {
-          userId: user.id,
-          balanceCents: 0,
-          currency: "USD",
         },
       });
 

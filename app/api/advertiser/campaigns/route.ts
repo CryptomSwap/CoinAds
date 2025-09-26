@@ -5,11 +5,12 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 // Demo mode - bypass database for development
-const DEMO_MODE = process.env.NODE_ENV === "development";
+import { isDevelopment } from "@/lib/env";
+
+const DEMO_MODE = isDevelopment;
 
 const createCampaignSchema = z.object({
   name: z.string().min(1, "Campaign name is required"),
-  description: z.string().optional(),
   budgetCents: z.number().min(100, "Minimum budget is $1.00"),
   dailyBudgetCents: z.number().min(100).optional(),
   startAt: z.string().datetime().optional(),
@@ -126,13 +127,7 @@ export async function GET(request: NextRequest) {
     }
 
     const where: any = {
-      organization: {
-        memberships: {
-          some: {
-            userId: session.user.id,
-          },
-        },
-      },
+      advertiserId: parseInt(session.user.id),
     };
 
     if (status) {
@@ -142,21 +137,8 @@ export async function GET(request: NextRequest) {
     const campaigns = await prisma.campaign.findMany({
       where,
       include: {
-        lineItems: {
-          include: {
-            creatives: true,
-            _count: {
-              select: {
-                impressions: true,
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            lineItems: true,
-          },
-        },
+        creatives: true,
+        reports: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -201,14 +183,13 @@ export async function POST(request: NextRequest) {
       const mockCampaign = {
         id: `demo-campaign-${Date.now()}`,
         name: data.name,
-        description: data.description || "",
         totalBudgetCents: data.budgetCents,
         dailyBudgetCents: data.dailyBudgetCents || data.budgetCents / 30,
         spentCents: 0,
         startAt: data.startAt ? new Date(data.startAt) : null,
         endAt: data.endAt ? new Date(data.endAt) : null,
         objective: data.objective || "Brand Awareness",
-        status: "DRAFT",
+        status: "PENDING",
         createdAt: new Date(),
         updatedAt: new Date(),
         organizationId: "demo-org",
@@ -218,42 +199,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ campaign: mockCampaign }, { status: 201 });
     }
 
-    // Get user's organization
-    const membership = await prisma.membership.findFirst({
-      where: { userId: session.user.id },
-      include: { organization: true },
-    });
-
-    if (!membership) {
-      return NextResponse.json(
-        { error: "User not associated with any organization" },
-        { status: 400 }
-      );
-    }
-
-    // Check if user has sufficient balance
-    const wallet = await prisma.wallet.findUnique({
-      where: { organizationId: membership.organizationId },
-    });
-
-    if (!wallet || wallet.balanceCents < data.budgetCents) {
-      return NextResponse.json(
-        { error: "Insufficient balance to create campaign" },
-        { status: 400 }
-      );
-    }
+    // For MVP, skip balance checking
+    // In production, you'd check the user's transaction balance
 
     const campaign = await prisma.campaign.create({
       data: {
-        ...data,
-        totalBudgetCents: data.budgetCents,
-        startAt: data.startAt ? new Date(data.startAt) : null,
-        endAt: data.endAt ? new Date(data.endAt) : null,
-        organizationId: membership.organizationId,
-        status: "DRAFT",
+        name: data.name,
+        budget: data.budgetCents / 100, // Convert cents to dollars
+        advertiserId: parseInt(session.user.id),
+        startDate: data.startAt ? new Date(data.startAt) : null,
+        endDate: data.endAt ? new Date(data.endAt) : null,
+        status: "PENDING",
       },
       include: {
-        lineItems: true,
+        creatives: true,
+        reports: true,
       },
     });
 

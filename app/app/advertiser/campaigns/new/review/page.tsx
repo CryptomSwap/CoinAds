@@ -37,10 +37,7 @@ const steps = [
   { id: "review", title: "Review & Submit", completed: false },
 ];
 
-export const metadata = {
-  title: "Review Campaign - CoinAds",
-  description: "Review and submit your campaign for approval",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function CampaignReviewPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);

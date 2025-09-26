@@ -1,322 +1,488 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { PageHeader } from "@/components/ui/page-header";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FileText, Search, Filter, User, Calendar, Activity } from "lucide-react";
+import { 
+  Search, 
+  Filter, 
+  RefreshCw, 
+  CheckCircle, 
+  XCircle, 
+  User, 
+  Globe, 
+  Eye, 
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  AlertCircle
+} from "lucide-react";
 
-// Mock data
-const mockLogs = [
-  {
-    id: 1,
-    timestamp: "2024-01-15 14:30:25",
-    user: "john.doe@example.com",
-    action: "campaign_created",
-    entity: "Campaign #123",
-    notes: "Created new Bitcoin exchange campaign",
-  },
-  {
-    id: 2,
-    timestamp: "2024-01-15 14:25:10",
-    user: "admin@coinads.com",
-    action: "pricing_updated",
-    entity: "Placement #456",
-    notes: "Updated CPM from $2.50 to $3.20",
-  },
-  {
-    id: 3,
-    timestamp: "2024-01-15 14:20:45",
-    user: "jane.smith@example.com",
-    action: "site_verified",
-    entity: "cryptonews.com",
-    notes: "Domain verification completed",
-  },
-  {
-    id: 4,
-    timestamp: "2024-01-15 14:15:30",
-    user: "bob.wilson@example.com",
-    action: "payout_requested",
-    entity: "Payout #789",
-    notes: "Requested payout of $1,250.50",
-  },
-  {
-    id: 5,
-    timestamp: "2024-01-15 14:10:15",
-    user: "admin@coinads.com",
-    action: "user_approved",
-    entity: "Publisher Account",
-    notes: "Approved new publisher registration",
-  },
-];
-
-const actionTypes = [
-  "all",
-  "campaign_created",
-  "campaign_updated",
-  "pricing_updated",
-  "site_verified",
-  "payout_requested",
-  "user_approved",
-  "user_suspended",
-];
-
-const getActionBadge = (action: string) => {
-  const actionConfig: Record<string, { color: string; label: string }> = {
-    campaign_created: { color: "bg-green-100 text-green-800", label: "Campaign Created" },
-    campaign_updated: { color: "bg-blue-100 text-blue-800", label: "Campaign Updated" },
-    pricing_updated: { color: "bg-purple-100 text-purple-800", label: "Pricing Updated" },
-    site_verified: { color: "bg-green-100 text-green-800", label: "Site Verified" },
-    payout_requested: { color: "bg-yellow-100 text-yellow-800", label: "Payout Requested" },
-    user_approved: { color: "bg-green-100 text-green-800", label: "User Approved" },
-    user_suspended: { color: "bg-red-100 text-red-800", label: "User Suspended" },
+interface AdminLog {
+  id: number;
+  action: string;
+  entityType: string;
+  entityId: number | null;
+  adminUser: {
+    id: number;
+    name: string | null;
+    email: string;
   };
-  
-  const config = actionConfig[action] || { color: "bg-gray-100 text-gray-800", label: action };
-  return <Badge className={config.color}>{config.label}</Badge>;
-};
+  createdAt: string;
+}
 
-export const metadata = {
-  title: "Audit Logs - CoinAds Admin",
-  description: "View system audit logs and user activities",
-};
+interface LogsResponse {
+  logs: AdminLog[];
+  pagination: {
+    total: number;
+    limit: number;
+    offset: number;
+    hasMore: boolean;
+  };
+}
 
 export default function AdminLogsPage() {
-  const [logs, setLogs] = useState(mockLogs);
-  const [filteredLogs, setFilteredLogs] = useState(mockLogs);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedActionType, setSelectedActionType] = useState("all");
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    let filtered = logs;
-
-    // Filter by search query
-    if (searchQuery) {
-      filtered = filtered.filter(log => 
-        log.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        log.entity.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        log.notes.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Filter by action type
-    if (selectedActionType !== "all") {
-      filtered = filtered.filter(log => log.action === selectedActionType);
-    }
-
-    setFilteredLogs(filtered);
-  }, [logs, searchQuery, selectedActionType]);
-
-  const handleSearch = async () => {
-    setIsLoading(true);
+    if (status === "loading") return;
     
+    if (!session) {
+      redirect("/auth/signin");
+      return;
+    }
+
+    if (session.user.role !== "ADMIN") {
+      redirect("/auth/signin");
+      return;
+    }
+  }, [session, status]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (!session || session.user.role !== "ADMIN") {
+    return null;
+  }
+  const [logs, setLogs] = useState<AdminLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterAction, setFilterAction] = useState("all");
+  const [filterEntityType, setFilterEntityType] = useState("all");
+  const [pagination, setPagination] = useState({
+    total: 0,
+    limit: 50,
+    offset: 0,
+    hasMore: false,
+  });
+
+  // Fetch logs on component mount and when filters change
+  useEffect(() => {
+    fetchLogs();
+  }, [searchTerm, filterAction, filterEntityType, pagination.offset]);
+
+  const fetchLogs = async () => {
     try {
-      // TODO: Implement GET /api/admin/logs?query=&actionType=&limit=...
+      setLoading(true);
       const params = new URLSearchParams({
-        query: searchQuery,
-        actionType: selectedActionType,
-        limit: "100",
+        limit: pagination.limit.toString(),
+        offset: pagination.offset.toString(),
       });
-      
-      const response = await fetch(`/api/admin/logs?${params}`);
-      if (response.ok) {
-        const data = await response.json();
-        setLogs(data.logs);
+
+      if (searchTerm) {
+        params.append("search", searchTerm);
       }
+
+      const response = await fetch(`/api/admin/logs?${params}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch logs');
+      }
+      const data: LogsResponse = await response.json();
+      setLogs(data.logs);
+      setPagination(data.pagination);
     } catch (error) {
-      console.error("Failed to fetch logs:", error);
+      console.error('Error fetching logs:', error);
+      setError('Failed to load admin logs');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const handleRefresh = () => {
-    handleSearch();
+  const handleSearch = () => {
+    setPagination(prev => ({ ...prev, offset: 0 }));
+    fetchLogs();
   };
+
+  const handleFilterChange = () => {
+    setPagination(prev => ({ ...prev, offset: 0 }));
+    fetchLogs();
+  };
+
+  const handlePageChange = (newOffset: number) => {
+    setPagination(prev => ({ ...prev, offset: newOffset }));
+  };
+
+  const getActionIcon = (action: string) => {
+    switch (action) {
+      case "approve":
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case "reject":
+        return <XCircle className="h-4 w-4 text-red-600" />;
+      case "create":
+        return <User className="h-4 w-4 text-blue-600" />;
+      case "update":
+        return <RefreshCw className="h-4 w-4 text-yellow-600" />;
+      case "delete":
+        return <XCircle className="h-4 w-4 text-red-600" />;
+      default:
+        return <Clock className="h-4 w-4 text-gray-600" />;
+    }
+  };
+
+  const getActionColor = (action: string) => {
+    switch (action) {
+      case "approve":
+        return "bg-green-50 text-green-700 border-green-200";
+      case "reject":
+        return "bg-red-50 text-red-700 border-red-200";
+      case "create":
+        return "bg-blue-50 text-blue-700 border-blue-200";
+      case "update":
+        return "bg-yellow-50 text-yellow-700 border-yellow-200";
+      case "delete":
+        return "bg-red-50 text-red-700 border-red-200";
+      default:
+        return "bg-gray-50 text-gray-700 border-gray-200";
+    }
+  };
+
+  const getEntityTypeIcon = (entityType: string) => {
+    switch (entityType) {
+      case "campaign":
+        return <User className="h-4 w-4" />;
+      case "site":
+        return <Globe className="h-4 w-4" />;
+      case "creative":
+        return <Eye className="h-4 w-4" />;
+      case "placement":
+        return <Globe className="h-4 w-4" />;
+      default:
+        return <Clock className="h-4 w-4" />;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
+
+  const filteredLogs = logs.filter(log => {
+    const matchesAction = filterAction === "all" || log.action === filterAction;
+    const matchesEntityType = filterEntityType === "all" || log.entityType === filterEntityType;
+    return matchesAction && matchesEntityType;
+  });
+
+  if (loading && logs.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Admin Logs</h1>
+            <p className="text-muted-foreground">
+              View recent admin actions and system activity
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="text-muted-foreground mt-2">Loading logs...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Admin Logs</h1>
+            <p className="text-muted-foreground">
+              View recent admin actions and system activity
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-8">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <p className="text-red-600">{error}</p>
+          <Button 
+            variant="outline" 
+            onClick={fetchLogs}
+            className="mt-4"
+          >
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <PageHeader 
-        title="Audit Logs" 
-        description="Monitor system activities and user actions"
-      />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Admin Logs</h1>
+          <p className="text-muted-foreground">
+            View recent admin actions and system activity
+          </p>
+        </div>
+        <Button 
+          variant="outline" 
+          onClick={fetchLogs}
+          disabled={loading}
+        >
+          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
+        </Button>
+      </div>
 
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center">
-            <Filter className="mr-2 h-5 w-5" />
-            Filters
+          <CardTitle className="flex items-center gap-2">
+            <Filter className="h-5 w-5" />
+            Filters & Search
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
+          <div className="grid gap-4 md:grid-cols-4">
+            <div className="space-y-2">
+              <Label htmlFor="search">Search</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by user, entity, or notes..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  id="search"
+                  placeholder="Search by action, entity, or admin..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   className="pl-10"
-                  data-testid="input_search_logs"
                 />
               </div>
             </div>
-            
-            <Select value={selectedActionType} onValueChange={setSelectedActionType}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder="Action Type" />
-              </SelectTrigger>
-              <SelectContent>
-                {actionTypes.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type === "all" ? "All Actions" : type.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
-            <Button onClick={handleSearch} disabled={isLoading}>
-              {isLoading ? "Searching..." : "Search"}
-            </Button>
-            
-            <Button variant="outline" onClick={handleRefresh}>
-              Refresh
-            </Button>
+            <div className="space-y-2">
+              <Label>Action</Label>
+              <Select value={filterAction} onValueChange={(value) => {
+                setFilterAction(value);
+                handleFilterChange();
+              }}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Actions</SelectItem>
+                  <SelectItem value="approve">Approve</SelectItem>
+                  <SelectItem value="reject">Reject</SelectItem>
+                  <SelectItem value="create">Create</SelectItem>
+                  <SelectItem value="update">Update</SelectItem>
+                  <SelectItem value="delete">Delete</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Entity Type</Label>
+              <Select value={filterEntityType} onValueChange={(value) => {
+                setFilterEntityType(value);
+                handleFilterChange();
+              }}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="campaign">Campaigns</SelectItem>
+                  <SelectItem value="site">Sites</SelectItem>
+                  <SelectItem value="creative">Creatives</SelectItem>
+                  <SelectItem value="placement">Placements</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Actions</Label>
+              <div className="flex space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    setSearchTerm("");
+                    setFilterAction("all");
+                    setFilterEntityType("all");
+                    setPagination(prev => ({ ...prev, offset: 0 }));
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Logs Table */}
+      {/* Stats */}
+      <div className="grid gap-4 md:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Logs</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{pagination.total}</div>
+            <p className="text-xs text-muted-foreground">
+              All admin actions
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Approvals</CardTitle>
+            <CheckCircle className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {logs.filter(log => log.action === "approve").length}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Approved items
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Rejections</CardTitle>
+            <XCircle className="h-4 w-4 text-red-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {logs.filter(log => log.action === "reject").length}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Rejected items
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Other Actions</CardTitle>
+            <User className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {logs.filter(log => !["approve", "reject"].includes(log.action)).length}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Create/Update/Delete
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Logs List */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center">
-              <FileText className="mr-2 h-5 w-5" />
-              Activity Logs
-            </div>
-            <Badge variant="secondary">
-              {filteredLogs.length} entries
-            </Badge>
-          </CardTitle>
+          <CardTitle>Recent Admin Actions</CardTitle>
           <CardDescription>
-            Recent system activities and user actions (reverse chronological order)
+            Showing {filteredLogs.length} of {pagination.total} logs
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table data-testid="tbl_admin_logs">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Timestamp</TableHead>
-                <TableHead>User</TableHead>
-                <TableHead>Action</TableHead>
-                <TableHead>Entity</TableHead>
-                <TableHead>Notes</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredLogs.map((log) => (
-                <TableRow key={log.id}>
-                  <TableCell>
+          <div className="space-y-4">
+            {filteredLogs.map((log) => (
+              <div key={log.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    {getActionIcon(log.action)}
+                    {getEntityTypeIcon(log.entityType)}
+                  </div>
+                  <div>
                     <div className="flex items-center space-x-2">
-                      <Calendar className="h-4 w-4 text-slate-400" />
-                      <span className="font-mono text-sm">{log.timestamp}</span>
+                      <Badge className={getActionColor(log.action)}>
+                        {log.action}
+                      </Badge>
+                      <Badge variant="outline">
+                        {log.entityType}
+                      </Badge>
+                      {log.entityId && (
+                        <Badge variant="secondary">
+                          ID: {log.entityId}
+                        </Badge>
+                      )}
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <User className="h-4 w-4 text-slate-400" />
-                      <span className="font-medium">{log.user}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getActionBadge(log.action)}
-                  </TableCell>
-                  <TableCell>
-                    <span className="font-medium">{log.entity}</span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm text-slate-600">{log.notes}</span>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          
-          {filteredLogs.length === 0 && (
-            <div className="text-center py-8">
-              <Activity className="mx-auto h-12 w-12 text-slate-400" />
-              <h3 className="mt-2 text-sm font-medium text-slate-900">No logs found</h3>
-              <p className="mt-1 text-sm text-slate-500">
-                Try adjusting your search criteria or refresh the data.
-              </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Admin: {log.adminUser.name || log.adminUser.email}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatDate(log.createdAt)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {filteredLogs.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                No logs found matching your criteria.
+              </div>
+            )}
+          </div>
+
+          {/* Pagination */}
+          {pagination.total > pagination.limit && (
+            <div className="flex items-center justify-between mt-6">
+              <div className="text-sm text-muted-foreground">
+                Showing {pagination.offset + 1} to {Math.min(pagination.offset + pagination.limit, pagination.total)} of {pagination.total} logs
+              </div>
+              <div className="flex space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(Math.max(0, pagination.offset - pagination.limit))}
+                  disabled={pagination.offset === 0}
+                >
+                  <ChevronLeft className="h-4 w-4 mr-1" />
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(pagination.offset + pagination.limit)}
+                  disabled={!pagination.hasMore}
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>
       </Card>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <FileText className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm text-slate-600">Total Logs</p>
-                <p className="text-lg font-semibold">{logs.length}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <User className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm text-slate-600">Unique Users</p>
-                <p className="text-lg font-semibold">
-                  {new Set(logs.map(log => log.user)).size}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Activity className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm text-slate-600">Action Types</p>
-                <p className="text-lg font-semibold">
-                  {new Set(logs.map(log => log.action)).size}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm text-slate-600">Today's Activity</p>
-                <p className="text-lg font-semibold">
-                  {logs.filter(log => log.timestamp.startsWith("2024-01-15")).length}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }

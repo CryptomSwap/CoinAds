@@ -1,367 +1,183 @@
-// CoinAds MVP Database Schema
-// Aligned with MVP specification requirements
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// Core User model - simplified for MVP
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  image         String?
-  emailVerified DateTime?
-  password      String?   // For credentials auth
-  role          String    @default("ADVERTISER")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  // Direct relationships (no organizations for MVP)
-  wallet        Wallet?
-  sites         Site[]
-  campaigns     Campaign[]
-  creatives     Creative[]
-  transactions  Transaction[]
-  payouts       Payout[]
-  accounts      Account[]
-  sessions      Session[]
-  memberships   Membership[]
-
-  @@map("users")
-}
-
-// Organization model for multi-user support
-model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  type      String   @default("ADVERTISER") // ADVERTISER, PUBLISHER
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  role      Role
+  name      String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  memberships Membership[]
   campaigns   Campaign[]
   sites       Site[]
-  wallet      Wallet?
-
-  @@map("organizations")
-}
-
-// User-Organization membership
-model Membership {
-  id             String   @id @default(cuid())
-  userId         String
-  organizationId String
-  role           String   @default("MEMBER") // OWNER, ADMIN, MEMBER
-  createdAt      DateTime @default(now())
-
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, organizationId])
-  @@map("memberships")
-}
-
-// Wallet for user balance and transactions
-model Wallet {
-  id                    String @id @default(cuid())
-  userId                String? @unique
-  organizationId        String? @unique
-  balanceCents          Int    @default(0)
-  currency              String @default("USD")
-  lowBalanceThresholdCents Int @default(5000) // $50
-
-  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   transactions Transaction[]
-
-  @@map("wallets")
+  approvals   Approval[]
+  adminLogs   AdminLog[]
 }
 
-// Transaction tracking
-model Transaction {
-  id          String            @id @default(cuid())
-  userId      String
-  walletId    String
-  type        String
-  method      String
-  amountCents Int
-  currency    String            @default("USD")
-  status      String            @default("PENDING")
-  reference   String?           // External reference
-  meta        String?           // JSON string for additional data
-  createdAt   DateTime          @default(now())
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
-
-  @@map("transactions")
-}
-
-// Publisher sites
-model Site {
-  id              String     @id @default(cuid())
-  userId          String?
-  organizationId  String?
-  domain          String
-  name            String?
-  description     String?
-  status          String      @default("PENDING")
-  verificationToken String?   @unique
-  verifiedAt      DateTime?
-  rejectedAt      DateTime?
-  rejectionReason String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-
-  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  placements   Placement[]
-
-  @@unique([userId, domain])
-  @@unique([organizationId, domain])
-  @@map("sites")
-}
-
-// Ad placements on sites
-model Placement {
-  id               String          @id @default(cuid())
-  siteId           String
-  name             String
-  size             String           // e.g., "728x90", "320x50"
-  mobileSize       String?         // e.g., "320x50" for mobile
-  pathPattern      String?          // e.g., "/news/*"
-  position         String             @default("ABOVE")
-  cpmCents         Int?             // null = TBD pricing
-  availableFrom    String?          // ISO date string
-  monthlyCapacity  String?          // e.g., "1000000"
-  ctr              String?          // e.g., "0.02"
-  type             String?           // e.g., "BANNER"
-  status           String           @default("PENDING")
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-
-  site         Site          @relation(fields: [siteId], references: [id], onDelete: Cascade)
-  impressions  Impression[]
-  clicks       Click[]
-
-  @@map("placements")
-}
-
-// Advertiser campaigns
 model Campaign {
-  id            String         @id @default(cuid())
-  userId        String?
-  organizationId String?
-  name          String
-  status        String         @default("DRAFT")
-  totalBudgetCents Int
-  budgetCents   Int?           // Legacy field for compatibility
-  reservedCents Int            @default(0)
-  spentCents    Int            @default(0)
-  startAt       DateTime?
-  endAt         DateTime?
-  targeting     String?        // JSON string: {countries: [], devices: []}
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-
-  user         User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization Organization?   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  lineItems    LineItem[]
-  creatives    Creative[]
-  impressions  Impression[]
-  clicks       Click[]
-
-  @@map("campaigns")
-}
-
-// Line items for campaigns
-model LineItem {
-  id            String         @id @default(cuid())
-  campaignId    String
-  name          String
-  status        String         @default("DRAFT")
-  budgetCents   Int
-  spentCents    Int            @default(0)
-  cpmCents      Int?           // null = TBD pricing
-  targeting     String?        // JSON string
-  placementTarget String?      // JSON string for placement targeting
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-
-  campaign   Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  creatives  Creative[]
+  id          Int       @id @default(autoincrement())
+  advertiser  User      @relation(fields: [advertiserId], references: [id])
+  advertiserId Int
+  name        String
+  budget      Float
+  status      CampaignStatus @default(PENDING)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  creatives   Creative[]
+  placements  Placement[]
+  reports     Report[]
   impressions Impression[]
-
-  @@map("line_items")
-}
-
-// Creative assets
-model Creative {
-  id              String          @id @default(cuid())
-  campaignId      String
-  lineItemId      String?
-  userId          String?
-  type            String          @default("DISPLAY")
-  size            String          // e.g., "728x90"
-  width           Int?            // Width in pixels
-  height          Int?            // Height in pixels
-  fileUrl         String
-  clickUrl        String
-  status          String          @default("PENDING")
-  rejectionReason String?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-
-  campaign   Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  lineItem   LineItem?  @relation(fields: [lineItemId], references: [id], onDelete: SetNull)
-  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  impressions Impression[]
-  clicks     Click[]
-
-  @@map("creatives")
-}
-
-// Impression tracking
-model Impression {
-  id            String   @id @default(cuid())
-  campaignId    String
-  lineItemId    String?
-  creativeId    String
-  placementId   String?
-  siteId        String?
-  ts            DateTime @default(now())
-  country       String?
-  device        String?
-  size          String?
-  ip            String?
-  ua            String?
-  ivtFlag       Boolean  @default(false)
-  costMicros    Int      @default(0) // Cost in micro-cents
-  viewabilityMs Int?     // Viewability in milliseconds
-
-  campaign  Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  lineItem  LineItem? @relation(fields: [lineItemId], references: [id], onDelete: SetNull)
-  creative  Creative  @relation(fields: [creativeId], references: [id], onDelete: Cascade)
-  placement Placement? @relation(fields: [placementId], references: [id], onDelete: SetNull)
-  clicks    Click[]
-
-  @@map("impressions")
-}
-
-// Click tracking
-model Click {
-  id          String   @id @default(cuid())
-  campaignId  String
-  creativeId  String
-  placementId String?
-  siteId      String?
-  impressionId String?
-  clickId     String   @unique // UUID for tracking
-  ts          DateTime @default(now())
-  country     String?
-  device      String?
-  size        String?
-  ip          String?
-  ua          String?
-
-  campaign  Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  creative  Creative  @relation(fields: [creativeId], references: [id], onDelete: Cascade)
-  placement Placement? @relation(fields: [placementId], references: [id], onDelete: SetNull)
-  impression Impression? @relation(fields: [impressionId], references: [id], onDelete: SetNull)
   conversions Conversion[]
-
-  @@map("clicks")
 }
 
-// Conversion tracking
+model Creative {
+  id         Int      @id @default(autoincrement())
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
+  fileUrl    String
+  clickUrl   String
+  altText    String?
+  createdAt  DateTime @default(now())
+  impressions Impression[]
+}
+
+model Site {
+  id          Int       @id @default(autoincrement())
+  publisher   User      @relation(fields: [publisherId], references: [id])
+  publisherId Int
+  domain      String
+  verified    Boolean   @default(false)
+  approved    Boolean   @default(false)
+  placements  Placement[]
+  impressions Impression[]
+}
+
+model Placement {
+  id         Int      @id @default(autoincrement())
+  site       Site     @relation(fields: [siteId], references: [id])
+  siteId     Int
+  size       String
+  pricing    PricingType
+  price      Float
+  approved   Boolean   @default(false)
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+  campaignId Int?
+  impressions Impression[]
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  amount     Float
+  type       TransactionType
+  status     String   @default("PENDING")
+  createdAt  DateTime @default(now())
+}
+
+model Approval {
+  id          Int      @id @default(autoincrement())
+  entityType  String   // 'campaign', 'site', 'creative', 'placement'
+  entityId    Int
+  status      ApprovalStatus
+  reason      String?  // Required for rejections
+  adminUser   User     @relation(fields: [adminUserId], references: [id])
+  adminUserId Int
+  createdAt   DateTime @default(now())
+}
+
+model AdminLog {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  action     String   // 'approve', 'reject', 'create', 'update', 'delete'
+  entityType String   // 'campaign', 'site', 'creative', 'placement', 'user'
+  entityId   Int?
+  createdAt  DateTime @default(now())
+}
+
+model Impression {
+  id         Int      @id @default(autoincrement())
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
+  creative   Creative @relation(fields: [creativeId], references: [id])
+  creativeId Int
+  placement  Placement? @relation(fields: [placementId], references: [id])
+  placementId Int?
+  site       Site? @relation(fields: [siteId], references: [id])
+  siteId     Int?
+  device     String?
+  country    String?
+  browser    String?
+  os         String?
+  costMicros Int      @default(0)
+  createdAt  DateTime @default(now())
+  clicks     Click[]
+}
+
+model Click {
+  id           Int         @id @default(autoincrement())
+  impression   Impression  @relation(fields: [impressionId], references: [id])
+  impressionId Int
+  createdAt    DateTime    @default(now())
+  conversions  Conversion[]
+}
+
 model Conversion {
-  id        String   @id @default(cuid())
-  clickId   String?
-  campaignId String?
-  value     Float    @default(0)
-  currency  String   @default("USD")
-  meta      String?  // JSON string for additional data
-  createdAt DateTime @default(now())
-
-  click Click? @relation(fields: [clickId], references: [id], onDelete: SetNull)
-
-  @@map("conversions")
+  id         Int      @id @default(autoincrement())
+  click      Click?   @relation(fields: [clickId], references: [id])
+  clickId    Int?
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
+  value      Float    @default(0)
+  currency   String   @default("USD")
+  createdAt  DateTime @default(now())
 }
 
-// Publisher payouts
-model Payout {
-  id        String       @id @default(cuid())
-  userId    String
-  amountCents Int
-  currency  String       @default("USD")
-  status    String       @default("REQUESTED")
-  method    String?
-  reference String?
-  meta      String?      // JSON string for additional data
-  createdAt DateTime     @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("payouts")
+model Report {
+  id         Int      @id @default(autoincrement())
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
+  date       DateTime
+  impressions Int
+  clicks     Int
+  spend      Float
 }
 
-// Notifications
-model Notification {
-  id        String   @id @default(cuid())
-  userId    String
-  organizationId String?
-  type      String   // e.g., "PAYMENT", "CAMPAIGN", "SITE"
-  title     String
-  message   String
-  read      Boolean  @default(false)
-  meta      String?  // JSON string for additional data
-  createdAt DateTime @default(now())
-
-  @@map("notifications")
+enum Role {
+  ADVERTISER
+  PUBLISHER
+  ADMIN
 }
 
-// NextAuth models
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
+enum CampaignStatus {
+  PENDING
+  ACTIVE
+  PAUSED
+  COMPLETED
+  REJECTED
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
+enum PricingType {
+  CPM
+  CPA
+  CPI
+  FIXED
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+enum TransactionType {
+  DEPOSIT
+  PAYOUT
+}
 
-  @@unique([identifier, token])
-  @@map("verification_tokens")
+enum ApprovalStatus {
+  APPROVED
+  REJECTED
 }

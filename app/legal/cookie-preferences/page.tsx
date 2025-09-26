@@ -22,10 +22,7 @@ const defaultPreferences: CookiePreferences = {
   marketing: false,
 };
 
-export const metadata = {
-  title: "Cookie Preferences - CoinAds",
-  description: "Manage your cookie preferences and privacy settings",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function CookiePreferencesPage() {
   const [preferences, setPreferences] = useState<CookiePreferences>(defaultPreferences);
@@ -273,7 +270,7 @@ export default function CookiePreferencesPage() {
 }
 
 // Reusable Modal Component
-export function CookiePreferencesModal({ 
+function CookiePreferencesModal({ 
   isOpen, 
   onOpenChange 
 }: { 

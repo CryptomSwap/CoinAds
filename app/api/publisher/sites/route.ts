@@ -6,13 +6,12 @@ import { z } from "zod";
 import { randomBytes } from "crypto";
 
 // Demo mode - bypass database for development
-const DEMO_MODE = process.env.NODE_ENV === "development";
+import { isDevelopment } from "@/lib/env";
+
+const DEMO_MODE = isDevelopment;
 
 const createSiteSchema = z.object({
   domain: z.string().min(1, "Domain is required"),
-  name: z.string().min(1, "Site name is required"),
-  description: z.string().optional(),
-  category: z.string().optional(),
 });
 
 const updateSiteSchema = createSiteSchema.partial();
@@ -120,15 +119,7 @@ export async function GET(request: NextRequest) {
     const sites = await prisma.site.findMany({
       where,
       include: {
-        placements: {
-          include: {
-            _count: {
-              select: {
-                impressions: true,
-              },
-            },
-          },
-        },
+        placements: true,
         _count: {
           select: {
             placements: true,
@@ -136,7 +127,7 @@ export async function GET(request: NextRequest) {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        id: "desc",
       },
       skip: (page - 1) * limit,
       take: limit,
@@ -178,39 +169,19 @@ export async function POST(request: NextRequest) {
       const mockSite = {
         id: `demo-site-${Date.now()}`,
         domain: data.domain,
-        name: data.name,
-        description: data.description || "",
-        category: data.category || "General",
-        status: "PENDING",
-        verificationToken: `demo-token-${Date.now()}`,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        organizationId: "demo-org",
-        rejectedAt: null,
-        rejectionReason: null,
+        verified: false,
+        approved: false,
+        publisherId: parseInt(session.user.id),
         placements: [],
       };
 
       return NextResponse.json({ site: mockSite }, { status: 201 });
     }
 
-    // Get user's organization
-    const membership = await prisma.membership.findFirst({
-      where: { userId: session.user.id },
-      include: { organization: true },
-    });
-
-    if (!membership) {
-      return NextResponse.json(
-        { error: "User not associated with any organization" },
-        { status: 400 }
-      );
-    }
-
-    // Check if site already exists for this organization
+    // Check if site already exists for this publisher
     const existingSite = await prisma.site.findFirst({
       where: {
-        organizationId: membership.organizationId,
+        publisherId: parseInt(session.user.id),
         domain: data.domain,
       },
     });
@@ -222,15 +193,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate verification token
-    const verificationToken = randomBytes(32).toString("hex");
-
     const site = await prisma.site.create({
       data: {
         ...data,
-        organizationId: membership.organizationId,
-        status: "PENDING",
-        verificationToken,
+        publisherId: parseInt(session.user.id),
       },
       include: {
         placements: true,

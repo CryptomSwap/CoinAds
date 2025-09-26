@@ -1,10 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors";
 
 export const dynamic = 'force-dynamic';
 
+// Body size limit for App Router
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
+}
+
+// Helper function to add security headers
+function addSecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  return response;
+}
+
 // Mock delivery logic for MVP
 export async function GET(request: NextRequest) {
+  // Handle CORS
+  const corsResponse = handleCORS(request);
+  if (corsResponse) {
+    return corsResponse;
+  }
   try {
     const { searchParams } = new URL(request.url);
     const placementId = searchParams.get("placementId");
@@ -15,10 +37,7 @@ export async function GET(request: NextRequest) {
     const url = searchParams.get("url") || "";
 
     if (!placementId || !width || !height) {
-      return NextResponse.json(
-        { error: "Missing required parameters" },
-        { status: 400 }
-      );
+      return createCORSErrorResponse("Missing required parameters");
     }
 
     // In production, this would:
@@ -28,8 +47,9 @@ export async function GET(request: NextRequest) {
     // 4. Return the winning creative
 
     // For MVP, return a simple mock ad
-    const mockCampaignId = "mock-campaign-1";
-    const mockCreativeId = "mock-creative-1";
+    const mockCampaignId = 1; // Use integer ID for database
+    const mockCreativeId = 1; // Use integer ID for database
+    const mockSiteId = 1; // Use integer ID for database
     const clickId = `click_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     const adHtml = `
@@ -43,39 +63,64 @@ export async function GET(request: NextRequest) {
       </div>
     `;
 
+    // Generate a mock impression ID for tracking
+    const impressionId = `imp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
     // Track impression (in production, this would be async)
     try {
-      await prisma.impression.create({
-        data: {
+      // Update daily report aggregate
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize to start of day
+
+      // Find existing report for today
+      const existingReport = await prisma.report.findFirst({
+        where: {
           campaignId: mockCampaignId,
-          creativeId: mockCreativeId,
-          placementId: placementId,
-          siteId: "mock-site-1",
-          country: country,
-          device: device,
-          size: `${width}x${height}`,
-          ivtFlag: false,
-          costMicros: 5000000 // $5.00 CPM in micro-cents
-        }
+          date: {
+            gte: today,
+            lt: new Date(today.getTime() + 24 * 60 * 60 * 1000), // Next day
+          },
+        },
       });
+
+      if (existingReport) {
+        // Update existing report
+        await prisma.report.update({
+          where: { id: existingReport.id },
+          data: {
+            impressions: { increment: 1 },
+            spend: { increment: 0.005 }, // Increment spend by $0.005
+          },
+        });
+      } else {
+        // Create new report
+        await prisma.report.create({
+          data: {
+            campaignId: mockCampaignId,
+            date: today,
+            impressions: 1,
+            clicks: 0,
+            spend: 0.005,
+          },
+        });
+      }
     } catch (error) {
       console.error("Failed to track impression:", error);
       // Don't fail the request if tracking fails
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       html: adHtml,
       campaignId: mockCampaignId,
       creativeId: mockCreativeId,
       trackImpUrl: `/api/track/imp?campaignId=${mockCampaignId}&creativeId=${mockCreativeId}&placementId=${placementId}`,
-      clickUrl: `/c?cid=${mockCampaignId}&cr=${mockCreativeId}&pl=${placementId}&sid=&clid=${clickId}&u=${encodeURIComponent(url)}`
+      clickUrl: `/c?cid=${mockCampaignId}&cr=${mockCreativeId}&pl=${placementId}&sid=&clid=${clickId}&u=${encodeURIComponent(url)}`,
+      impressionId: impressionId
     });
+    return addSecurityHeaders(addCORSHeaders(response, request));
 
   } catch (error) {
     console.error("Delivery API error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return createCORSErrorResponse("Internal server error");
   }
 }

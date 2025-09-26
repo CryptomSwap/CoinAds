@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,98 +11,109 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { CheckCircle, XCircle, Clock, Eye, User, Globe, Filter, Search, CheckSquare, Square } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { CheckCircle, XCircle, Clock, Eye, User, Globe, Filter, Search, CheckSquare, Square, AlertCircle } from "lucide-react";
 
 export default function ApprovalsPage() {
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    
+    if (!session) {
+      redirect("/auth/signin");
+      return;
+    }
+
+    if (session.user.role !== "ADMIN") {
+      redirect("/auth/signin");
+      return;
+    }
+  }, [session, status]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (!session || session.user.role !== "ADMIN") {
+    return null;
+  }
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [pendingApprovals, setPendingApprovals] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [pendingApprovals, setPendingApprovals] = useState([
-    {
-      id: "1",
-      type: "campaign",
-      name: "Crypto Trading Platform Campaign",
-      advertiser: "John Smith",
-      advertiserEmail: "john@cryptoexchange.com",
-      category: "Finance",
-      budget: 5000,
-      submittedAt: "2 hours ago",
-      status: "pending",
-      priority: "high",
-      description: "Campaign for promoting a new crypto trading platform with advanced features"
-    },
-    {
-      id: "2", 
-      type: "site",
-      name: "CryptoNewsDaily.com",
-      publisher: "Alex Rodriguez",
-      publisherEmail: "alex@cryptonews.com",
-      category: "News",
-      monthlyVisitors: 50000,
-      submittedAt: "1 hour ago",
-      status: "pending",
-      priority: "medium",
-      description: "Daily cryptocurrency news and analysis website"
-    },
-    {
-      id: "3",
-      type: "creative",
-      name: "DeFi Banner Ad",
-      campaign: "DeFi Yield Farming",
-      advertiser: "Sarah Johnson",
-      advertiserEmail: "sarah@defi.com",
-      format: "728x90",
-      submittedAt: "30 minutes ago",
-      status: "pending",
-      priority: "low",
-      description: "Banner advertisement for DeFi yield farming platform"
-    },
-    {
-      id: "4",
-      type: "campaign",
-      name: "NFT Marketplace Launch",
-      advertiser: "Mike Chen",
-      advertiserEmail: "mike@nftmarketplace.com",
-      category: "Technology",
-      budget: 7500,
-      submittedAt: "4 hours ago",
-      status: "pending",
-      priority: "medium",
-      description: "Campaign for launching a new NFT marketplace platform"
-    },
-    {
-      id: "5",
-      type: "site",
-      name: "BlockchainInsights.net",
-      publisher: "Maria Garcia",
-      publisherEmail: "maria@blockchaininsights.com",
-      category: "Analysis",
-      monthlyVisitors: 25000,
-      submittedAt: "3 hours ago",
-      status: "pending",
-      priority: "low",
-      description: "In-depth blockchain and cryptocurrency analysis"
-    }
-  ]);
+  // Fetch pending approvals on component mount
+  useEffect(() => {
+    fetchPendingApprovals();
+  }, []);
 
-  const handleApproval = async (id: string, action: "approve" | "reject") => {
+  const fetchPendingApprovals = async () => {
     try {
-      // In a real app, this would make an API call
-      console.log(`${action} approval for item ${id}`);
-      
-      // Update local state for MVP
+      setLoading(true);
+      const response = await fetch('/api/admin/approvals');
+      if (!response.ok) {
+        throw new Error('Failed to fetch approvals');
+      }
+      const data = await response.json();
+      setPendingApprovals(data.approvals);
+    } catch (error) {
+      console.error('Error fetching approvals:', error);
+      setError('Failed to load pending approvals');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApproval = async (id: string, action: "approve" | "reject", reason?: string) => {
+    try {
+      const item = pendingApprovals.find(item => item.id === id);
+      if (!item) {
+        throw new Error('Item not found');
+      }
+
+      const response = await fetch('/api/admin/approvals', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          entityType: item.type,
+          entityId: item.entityId,
+          action,
+          reason,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to process approval');
+      }
+
+      // Remove item from local state
       setPendingApprovals(prev => 
         prev.filter(item => item.id !== id)
       );
       
-      alert(`Item ${action}d successfully`);
+      // Show success message
+      const message = action === 'approve' 
+        ? `Item approved successfully` 
+        : `Item rejected successfully${reason ? ' with reason: ' + reason : ''}`;
+      alert(message);
     } catch (error) {
       console.error(`Failed to ${action} item:`, error);
-      alert(`Failed to ${action} item`);
+      alert(`Failed to ${action} item: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -110,14 +123,19 @@ export default function ApprovalsPage() {
       return;
     }
 
+    if (action === "reject") {
+      alert("Bulk rejection requires individual reasons. Please reject items one by one.");
+      return;
+    }
+
     try {
-      // In a real app, this would make an API call
-      console.log(`Bulk ${action} for items:`, selectedItems);
-      
-      // Update local state for MVP
-      setPendingApprovals(prev => 
-        prev.filter(item => !selectedItems.includes(item.id))
-      );
+      // Process each selected item
+      for (const itemId of selectedItems) {
+        const item = pendingApprovals.find(item => item.id === itemId);
+        if (item) {
+          await handleApproval(itemId, action);
+        }
+      }
       
       setSelectedItems([]);
       alert(`${selectedItems.length} items ${action}d successfully`);
@@ -147,6 +165,26 @@ export default function ApprovalsPage() {
   const handleReviewItem = (item: any) => {
     setSelectedItem(item);
     setShowReviewModal(true);
+  };
+
+  const handleRejectClick = (item: any) => {
+    setSelectedItem(item);
+    setRejectReason("");
+    setShowRejectModal(true);
+  };
+
+  const handleRejectSubmit = () => {
+    if (!rejectReason.trim()) {
+      alert("Please provide a reason for rejection");
+      return;
+    }
+    
+    if (selectedItem) {
+      handleApproval(selectedItem.id, "reject", rejectReason);
+      setShowRejectModal(false);
+      setRejectReason("");
+      setSelectedItem(null);
+    }
   };
 
   const getFilteredItems = () => {
@@ -187,6 +225,51 @@ export default function ApprovalsPage() {
         return <Clock className="h-4 w-4" />;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Approvals</h1>
+            <p className="text-muted-foreground">
+              Review and approve campaigns, sites, and creatives
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="text-muted-foreground mt-2">Loading approvals...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Approvals</h1>
+            <p className="text-muted-foreground">
+              Review and approve campaigns, sites, and creatives
+            </p>
+          </div>
+        </div>
+        <div className="text-center py-8">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <p className="text-red-600">{error}</p>
+          <Button 
+            variant="outline" 
+            onClick={fetchPendingApprovals}
+            className="mt-4"
+          >
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -418,7 +501,7 @@ export default function ApprovalsPage() {
                     variant="outline" 
                     size="sm" 
                     className="border-red-500 text-red-500 hover:bg-red-50"
-                    onClick={() => handleApproval(item.id, "reject")}
+                    onClick={() => handleRejectClick(item)}
                   >
                     <XCircle className="h-4 w-4 mr-1" />
                     Reject
@@ -767,8 +850,8 @@ export default function ApprovalsPage() {
                 <Button 
                   className="border-red-500 text-red-500 hover:bg-red-50"
                   onClick={() => {
-                    handleApproval(selectedItem.id, "reject");
                     setShowReviewModal(false);
+                    handleRejectClick(selectedItem);
                   }}
                 >
                   <XCircle className="h-4 w-4 mr-2" />
@@ -777,6 +860,54 @@ export default function ApprovalsPage() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Reject Modal */}
+      <Dialog open={showRejectModal} onOpenChange={setShowRejectModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-red-500" />
+              Reject Item
+            </DialogTitle>
+            <DialogDescription>
+              Please provide a reason for rejecting {selectedItem?.name}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="reject-reason">Reason for rejection *</Label>
+              <Textarea
+                id="reject-reason"
+                placeholder="Please explain why this item is being rejected..."
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                rows={4}
+                className="mt-1"
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setShowRejectModal(false);
+                  setRejectReason("");
+                  setSelectedItem(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button 
+                variant="destructive"
+                onClick={handleRejectSubmit}
+                disabled={!rejectReason.trim()}
+              >
+                <XCircle className="h-4 w-4 mr-2" />
+                Reject
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

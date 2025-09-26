@@ -1,10 +1,11 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { 
   Users, 
   Globe, 
@@ -14,151 +15,240 @@ import {
   CheckCircle,
   TrendingUp,
   Activity,
-  RefreshCw,
   Eye,
   Clock,
   BarChart3,
-  PieChart
+  PieChart,
+  AlertCircle
 } from "lucide-react";
 import Link from "next/link";
 
-// Enhanced mock data for MVP
-const mockData = {
-  kpis: {
-    advertisers: 45,
-    publishers: 23,
-    activeCampaigns: 12,
-    totalSpend: 12500.50,
-    impressions: 2456789,
-    clicks: 45678,
-    conversions: 1234,
-    revenue: 15678.90
-  },
-  alerts: [
-    {
-      id: "1",
-      type: "pending_approval",
-      title: "Pending Approvals",
-      description: "3 campaigns, 2 sites, 5 creatives awaiting review",
-      count: 10,
-      href: "/app/admin/approvals",
-      priority: "high"
-    },
-    {
-      id: "2",
-      type: "delivery_error",
-      title: "Recent Errors",
-      description: "2 delivery errors in the last hour",
-      count: 2,
-      href: "/app/admin/delivery",
-      priority: "medium"
-    },
-    {
-      id: "3",
-      type: "low_balance",
-      title: "Low Balances",
-      description: "5 advertisers with low account balances",
-      count: 5,
-      href: "/app/admin/users",
-      priority: "low"
-    },
-    {
-      id: "4",
-      type: "high_traffic",
-      title: "High Traffic Alert",
-      description: "Traffic spike detected - 150% above normal",
-      count: 1,
-      href: "/app/admin/delivery",
-      priority: "medium"
-    }
-  ],
-  recentActivity: [
-    {
-      id: "1",
-      type: "campaign_created",
-      user: "john@cryptoexchange.com",
-      action: "created campaign",
-      target: "Crypto Exchange Launch",
-      timestamp: "2 minutes ago",
-      status: "success"
-    },
-    {
-      id: "2",
-      type: "site_approved",
-      user: "admin@coinads.com",
-      action: "approved site",
-      target: "blockchainnews.io",
-      timestamp: "15 minutes ago",
-      status: "success"
-    },
-    {
-      id: "3",
-      type: "creative_rejected",
-      user: "admin@coinads.com",
-      action: "rejected creative",
-      target: "DeFi Banner Ad",
-      timestamp: "1 hour ago",
-      status: "warning"
-    },
-    {
-      id: "4",
-      type: "payout_requested",
-      user: "publisher@mycryptosite.com",
-      action: "requested payout",
-      target: "$125.50",
-      timestamp: "2 hours ago",
-      status: "info"
-    },
-    {
-      id: "5",
-      type: "campaign_paused",
-      user: "sarah@defi.com",
-      action: "paused campaign",
-      target: "DeFi Yield Farming",
-      timestamp: "3 hours ago",
-      status: "warning"
-    }
-  ],
-  performanceMetrics: {
-    impressions: [12000, 15000, 18000, 22000, 25000, 28000, 30000],
-    clicks: [200, 250, 300, 350, 400, 450, 500],
-    conversions: [10, 12, 15, 18, 20, 22, 25],
-    revenue: [500, 600, 750, 900, 1000, 1100, 1250]
-  },
-  topCampaigns: [
-    {
-      id: "1",
-      name: "Crypto Trading Platform",
-      advertiser: "John Smith",
-      impressions: 45000,
-      clicks: 1200,
-      conversions: 45,
-      spend: 2500
-    },
-    {
-      id: "2", 
-      name: "DeFi Yield Farming",
-      advertiser: "Sarah Johnson",
-      impressions: 32000,
-      clicks: 890,
-      conversions: 32,
-      spend: 1800
-    },
-    {
-      id: "3",
-      name: "NFT Marketplace",
-      advertiser: "Mike Chen",
-      impressions: 28000,
-      clicks: 750,
-      conversions: 28,
-      spend: 1600
-    }
-  ]
-};
+// Types for our data
+interface UserCounts {
+  advertisers: number;
+  publishers: number;
+  admins: number;
+  total: number;
+}
 
-export default function AdminOverview() {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState(new Date());
+interface AdminKPIs {
+  userCounts: UserCounts;
+  totalCampaigns: number;
+  pendingCreatives: number;
+  pendingPayouts: number;
+  last24hImpressions: number;
+  last24hClicks: number;
+}
+
+interface PendingApproval {
+  id: string;
+  type: 'campaign' | 'creative' | 'site' | 'placement';
+  title: string;
+  description: string;
+  createdAt: string;
+  href: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+interface AdminDashboardData {
+  kpis: AdminKPIs;
+  pendingApprovals: PendingApproval[];
+}
+
+// Server component to fetch admin dashboard data
+async function getAdminDashboardData(): Promise<AdminDashboardData> {
+  const twentyFourHoursAgo = new Date();
+  twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+
+  // Get user counts by role
+  const userCounts = await prisma.user.groupBy({
+    by: ['role'],
+    _count: { id: true },
+  });
+
+  // Get total campaigns
+  const totalCampaigns = await prisma.campaign.count();
+
+  // Get pending creatives (assuming creatives need approval)
+  const pendingCreatives = await prisma.creative.count({
+    where: {
+      // Assuming there's a status field or we need to add one
+      // For now, we'll count all creatives as pending approval
+    },
+  });
+
+  // Get pending payouts
+  const pendingPayouts = await prisma.transaction.count({
+    where: {
+      type: 'PAYOUT',
+      status: 'PENDING',
+    },
+  });
+
+  // Get last 24h impressions
+  const last24hImpressions = await prisma.impression.count({
+    where: {
+      createdAt: {
+        gte: twentyFourHoursAgo,
+      },
+    },
+  });
+
+  // Get last 24h clicks
+  const last24hClicks = await prisma.click.count({
+    where: {
+      createdAt: {
+        gte: twentyFourHoursAgo,
+      },
+    },
+  });
+
+  // Get pending approvals
+  const pendingCampaigns = await prisma.campaign.findMany({
+    where: { status: 'PENDING' },
+    take: 2,
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const pendingSites = await prisma.site.findMany({
+    where: { approved: false },
+    take: 2,
+    orderBy: { id: 'desc' },
+  });
+
+  const pendingPlacements = await prisma.placement.findMany({
+    where: { approved: false },
+    take: 1,
+    orderBy: { id: 'desc' },
+  });
+
+  // Process user counts
+  const processedUserCounts: UserCounts = {
+    advertisers: 0,
+    publishers: 0,
+    admins: 0,
+    total: 0,
+  };
+
+  userCounts.forEach(count => {
+    processedUserCounts.total += count._count.id;
+    switch (count.role) {
+      case 'ADVERTISER':
+        processedUserCounts.advertisers = count._count.id;
+        break;
+      case 'PUBLISHER':
+        processedUserCounts.publishers = count._count.id;
+        break;
+      case 'ADMIN':
+        processedUserCounts.admins = count._count.id;
+        break;
+    }
+  });
+
+  // Process pending approvals
+  const pendingApprovals: PendingApproval[] = [];
+
+  // Add pending campaigns
+  pendingCampaigns.forEach(campaign => {
+    pendingApprovals.push({
+      id: `campaign-${campaign.id}`,
+      type: 'campaign',
+      title: `Campaign: ${campaign.name}`,
+      description: `Budget: $${campaign.budget} - Created ${campaign.createdAt.toLocaleDateString()}`,
+      createdAt: campaign.createdAt.toISOString(),
+      href: `/app/admin/approvals?type=campaign&id=${campaign.id}`,
+      priority: 'high',
+    });
+  });
+
+  // Add pending sites
+  pendingSites.forEach(site => {
+    pendingApprovals.push({
+      id: `site-${site.id}`,
+      type: 'site',
+      title: `Site: ${site.domain}`,
+      description: `Publisher site awaiting verification`,
+      createdAt: site.id.toString(), // Using ID as timestamp placeholder
+      href: `/app/admin/approvals?type=site&id=${site.id}`,
+      priority: 'medium',
+    });
+  });
+
+  // Add pending placements
+  pendingPlacements.forEach(placement => {
+    pendingApprovals.push({
+      id: `placement-${placement.id}`,
+      type: 'placement',
+      title: `Placement: ${placement.size}`,
+      description: `Price: $${placement.price} - ${placement.pricing}`,
+      createdAt: placement.id.toString(), // Using ID as timestamp placeholder
+      href: `/app/admin/approvals?type=placement&id=${placement.id}`,
+      priority: 'low',
+    });
+  });
+
+  // Sort by priority and limit to top 5
+  const sortedApprovals = pendingApprovals
+    .sort((a, b) => {
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    })
+    .slice(0, 5);
+
+  return {
+    kpis: {
+      userCounts: processedUserCounts,
+      totalCampaigns,
+      pendingCreatives,
+      pendingPayouts,
+      last24hImpressions,
+      last24hClicks,
+    },
+    pendingApprovals: sortedApprovals,
+  };
+}
+
+export default async function AdminOverview() {
+  // Check authentication and role
+  const session = await getServerSession(authOptions);
+  
+  if (!session?.user) {
+    redirect("/auth/signin");
+  }
+
+  if (session.user.role !== "ADMIN") {
+    redirect("/auth/signin");
+  }
+
+  let dashboardData: AdminDashboardData;
+  let error: string | null = null;
+
+  try {
+    dashboardData = await getAdminDashboardData();
+  } catch (err) {
+    console.error("Failed to fetch admin dashboard data:", err);
+    error = "Failed to load dashboard data. Please try again later.";
+    // Return error state
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Admin Overview</h1>
+            <p className="text-muted-foreground">
+              Monitor platform activity and manage operations
+            </p>
+          </div>
+        </div>
+
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            {error}
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -172,71 +262,34 @@ export default function AdminOverview() {
     return new Intl.NumberFormat('en-US').format(num);
   };
 
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setLastUpdated(new Date());
-    setIsRefreshing(false);
-  };
-
   const getAlertIcon = (type: string) => {
     switch (type) {
-      case "pending_approval":
-        return <CheckCircle className="h-5 w-5 text-blue-600" />;
-      case "delivery_error":
-        return <AlertTriangle className="h-5 w-5 text-red-600" />;
-      case "low_balance":
-        return <DollarSign className="h-5 w-5 text-yellow-600" />;
-      case "high_traffic":
-        return <TrendingUp className="h-5 w-5 text-orange-600" />;
+      case "campaign":
+        return <Megaphone className="h-5 w-5 text-blue-600" />;
+      case "creative":
+        return <CheckCircle className="h-5 w-5 text-purple-600" />;
+      case "site":
+        return <Globe className="h-5 w-5 text-green-600" />;
+      case "placement":
+        return <Activity className="h-5 w-5 text-orange-600" />;
       default:
-        return <Activity className="h-5 w-5 text-gray-600" />;
+        return <AlertTriangle className="h-5 w-5 text-gray-600" />;
     }
   };
 
   const getAlertColor = (priority: string) => {
     switch (priority) {
       case "high":
-        return "border-red-200 bg-red-50";
+        return "border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20";
       case "medium":
-        return "border-yellow-200 bg-yellow-50";
+        return "border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20";
       case "low":
-        return "border-blue-200 bg-blue-50";
+        return "border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20";
       default:
-        return "border-gray-200 bg-gray-50";
+        return "border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950/20";
     }
   };
 
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case "campaign_created":
-        return <Megaphone className="h-4 w-4 text-blue-600" />;
-      case "site_approved":
-        return <Globe className="h-4 w-4 text-green-600" />;
-      case "creative_rejected":
-        return <AlertTriangle className="h-4 w-4 text-red-600" />;
-      case "payout_requested":
-        return <DollarSign className="h-4 w-4 text-teal-600" />;
-      case "campaign_paused":
-        return <Clock className="h-4 w-4 text-orange-600" />;
-      default:
-        return <Activity className="h-4 w-4 text-gray-600" />;
-    }
-  };
-
-  const getActivityStatusColor = (status: string) => {
-    switch (status) {
-      case "success":
-        return "text-green-600";
-      case "warning":
-        return "text-yellow-600";
-      case "info":
-        return "text-blue-600";
-      default:
-        return "text-gray-600";
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -247,20 +300,6 @@ export default function AdminOverview() {
           <p className="text-muted-foreground">
             Monitor platform activity and manage operations
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Last updated: {lastUpdated.toLocaleTimeString()}
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
         </div>
       </div>
 
@@ -272,7 +311,7 @@ export default function AdminOverview() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.advertisers)}</div>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.userCounts.advertisers)}</div>
             <p className="text-xs text-muted-foreground">Total registered</p>
           </CardContent>
         </Card>
@@ -283,30 +322,30 @@ export default function AdminOverview() {
             <Globe className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.publishers)}</div>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.userCounts.publishers)}</div>
             <p className="text-xs text-muted-foreground">Total registered</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Campaigns</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Campaigns</CardTitle>
             <Megaphone className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.activeCampaigns)}</div>
-            <p className="text-xs text-muted-foreground">Currently running</p>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.totalCampaigns)}</div>
+            <p className="text-xs text-muted-foreground">All campaigns</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Spend</CardTitle>
+            <CardTitle className="text-sm font-medium">Pending Payouts</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(mockData.kpis.totalSpend)}</div>
-            <p className="text-xs text-muted-foreground">Platform revenue</p>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.pendingPayouts)}</div>
+            <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </CardContent>
         </Card>
       </div>
@@ -315,207 +354,124 @@ export default function AdminOverview() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Impressions</CardTitle>
+            <CardTitle className="text-sm font-medium">24h Impressions</CardTitle>
             <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.impressions)}</div>
-            <p className="text-xs text-muted-foreground">Total served</p>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.last24hImpressions)}</div>
+            <p className="text-xs text-muted-foreground">Last 24 hours</p>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Clicks</CardTitle>
+            <CardTitle className="text-sm font-medium">24h Clicks</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.clicks)}</div>
-            <p className="text-xs text-muted-foreground">Total clicks</p>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.last24hClicks)}</div>
+            <p className="text-xs text-muted-foreground">Last 24 hours</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversions</CardTitle>
+            <CardTitle className="text-sm font-medium">Pending Creatives</CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatNumber(mockData.kpis.conversions)}</div>
-            <p className="text-xs text-muted-foreground">Total conversions</p>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.pendingCreatives)}</div>
+            <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(mockData.kpis.revenue)}</div>
-            <p className="text-xs text-muted-foreground">Platform revenue</p>
+            <div className="text-2xl font-bold">{formatNumber(dashboardData.kpis.userCounts.total)}</div>
+            <p className="text-xs text-muted-foreground">All users</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Alerts */}
+      {/* Pending Approvals Alerts */}
       <Card>
         <CardHeader>
-          <CardTitle>System Alerts</CardTitle>
+          <CardTitle>Pending Approvals</CardTitle>
           <CardDescription>
-            Important notifications requiring attention
+            Top 5 items requiring admin approval
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {mockData.alerts.map((alert) => (
-              <div key={alert.id} className={`p-4 border rounded-lg ${getAlertColor(alert.priority)}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    {getAlertIcon(alert.type)}
-                    <div>
-                      <h3 className="text-sm font-medium">{alert.title}</h3>
-                      <p className="text-sm text-gray-600">{alert.description}</p>
+            {dashboardData.pendingApprovals.length === 0 ? (
+              <div className="text-center py-8">
+                <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
+                <h3 className="mt-2 text-sm font-medium text-foreground">All caught up!</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  No pending approvals at this time.
+                </p>
+              </div>
+            ) : (
+              dashboardData.pendingApprovals.map((approval) => (
+                <div key={approval.id} className={`p-4 border rounded-lg ${getAlertColor(approval.priority)}`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      {getAlertIcon(approval.type)}
+                      <div>
+                        <h3 className="text-sm font-medium">{approval.title}</h3>
+                        <p className="text-sm text-muted-foreground">{approval.description}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="outline" className={approval.priority === 'high' ? 'border-red-500 text-red-700' : approval.priority === 'medium' ? 'border-yellow-500 text-yellow-700' : 'border-blue-500 text-blue-700'}>
+                        {approval.priority}
+                      </Badge>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href={approval.href}>
+                          Review
+                        </Link>
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="outline">{alert.count}</Badge>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link href={alert.href}>
-                        View
-                      </Link>
-                    </Button>
-                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
+          
+          {dashboardData.pendingApprovals.length > 0 && (
+            <div className="mt-4 text-center">
+              <Button variant="outline" asChild>
+                <Link href="/app/admin/approvals">
+                  View All Approvals
+                </Link>
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* Recent Activity */}
+
+      {/* Performance Overview */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5" />
+            Performance Overview
+          </CardTitle>
           <CardDescription>
-            Latest platform activity and user actions
+            Key performance indicators for the last 24 hours
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {mockData.recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-center space-x-4 p-3 border rounded-lg">
-                {getActivityIcon(activity.type)}
-                <div className="flex-1">
-                  <p className="text-sm">
-                    <span className="font-medium">{activity.user}</span>{" "}
-                    {activity.action}{" "}
-                    <span className="font-medium">{activity.target}</span>
-                  </p>
-                  <p className={`text-xs ${getActivityStatusColor(activity.status)}`}>
-                    {activity.timestamp}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="h-[200px] bg-muted rounded-md flex items-center justify-center">
+            <span className="text-muted-foreground">Chart placeholder - Performance metrics</span>
           </div>
         </CardContent>
       </Card>
-
-      {/* Performance Metrics */}
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="campaigns">Top Campaigns</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="overview" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5" />
-                  Performance Overview
-                </CardTitle>
-                <CardDescription>
-                  Key performance indicators over time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[200px] bg-gray-100 rounded-md flex items-center justify-center">
-                  <span className="text-gray-500">Chart placeholder - Performance metrics</span>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <PieChart className="h-5 w-5" />
-                  Revenue Distribution
-                </CardTitle>
-                <CardDescription>
-                  Revenue breakdown by category
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[200px] bg-gray-100 rounded-md flex items-center justify-center">
-                  <span className="text-gray-500">Chart placeholder - Revenue distribution</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="campaigns" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Performing Campaigns</CardTitle>
-              <CardDescription>
-                Campaigns with highest performance metrics
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {mockData.topCampaigns.map((campaign) => (
-                  <div key={campaign.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h3 className="font-medium">{campaign.name}</h3>
-                      <p className="text-sm text-muted-foreground">Advertiser: {campaign.advertiser}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium">{formatNumber(campaign.impressions)} impressions</div>
-                      <div className="text-sm text-muted-foreground">{formatNumber(campaign.clicks)} clicks</div>
-                      <div className="text-sm text-muted-foreground">{formatNumber(campaign.conversions)} conversions</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium">{formatCurrency(campaign.spend)}</div>
-                      <div className="text-sm text-muted-foreground">Total spend</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="analytics" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Analytics Dashboard</CardTitle>
-              <CardDescription>
-                Detailed analytics and insights
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[400px] bg-gray-100 rounded-md flex items-center justify-center">
-                <span className="text-gray-500">Chart placeholder - Analytics dashboard</span>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
 
       {/* Quick Actions */}
       <Card>

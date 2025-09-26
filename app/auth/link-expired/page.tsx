@@ -7,10 +7,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { AlertTriangle, ArrowLeft, Loader2 } from "lucide-react";
 
-export const metadata = {
-  title: "Link Expired - CoinAds",
-  description: "This verification link has expired",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function LinkExpiredPage() {
   const [isResending, setIsResending] = useState(false);

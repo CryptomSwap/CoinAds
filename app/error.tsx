@@ -5,11 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, RefreshCw, ArrowLeft, AlertTriangle } from "lucide-react";
-
-export const metadata = {
-  title: "Something went wrong - CoinAds",
-  description: "An error occurred while processing your request",
-};
+import { isDevelopment } from "@/lib/env";
 
 export default function Error({
   error,
@@ -70,7 +66,7 @@ export default function Error({
             </p>
           </div>
 
-          {process.env.NODE_ENV === "development" && (
+          {isDevelopment && (
             <div className="mt-4 p-3 bg-slate-100 rounded-lg">
               <p className="text-xs font-mono text-slate-600">
                 Error: {error.message}

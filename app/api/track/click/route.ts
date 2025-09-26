@@ -1,9 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors";
 
 export const dynamic = 'force-dynamic';
 
+// Body size limit for App Router
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
+}
+
+// Helper function to add security headers
+function addSecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  return response;
+}
+
 export async function GET(request: NextRequest) {
+  // Handle CORS
+  const corsResponse = handleCORS(request);
+  if (corsResponse) {
+    return corsResponse;
+  }
   try {
     const { searchParams } = new URL(request.url);
     const impressionId = searchParams.get("impressionId");
@@ -13,56 +35,44 @@ export async function GET(request: NextRequest) {
                "127.0.0.1";
 
     if (!impressionId) {
-      return NextResponse.json({ error: "Missing impressionId" }, { status: 400 });
+      return createCORSErrorResponse("Missing impressionId");
     }
 
     // Get impression details
     const impression = await prisma.impression.findUnique({
-      where: { id: impressionId },
+      where: { id: parseInt(impressionId) },
       include: {
-        lineItem: {
-          include: {
-            creatives: true,
-            campaign: true,
-          },
-        },
         creative: true,
         campaign: true,
+        placement: true,
+        site: true,
       },
     });
 
     if (!impression) {
-      return NextResponse.json({ error: "Impression not found" }, { status: 404 });
+      return createCORSErrorResponse("Impression not found");
     }
 
     // Check if click already exists (prevent duplicate clicks)
     const existingClick = await prisma.click.findFirst({
-      where: { impressionId },
+      where: { impressionId: parseInt(impressionId) },
     });
 
     if (existingClick) {
       // Redirect to the original landing page
       const creative = impression.creative;
       if (creative) {
-        return NextResponse.redirect(creative.clickUrl);
+        const response = NextResponse.redirect(creative.clickUrl);
+        return addSecurityHeaders(addCORSHeaders(response, request));
       }
-      return NextResponse.redirect("https://example.com");
+      const response = NextResponse.redirect("https://example.com");
+      return addSecurityHeaders(addCORSHeaders(response, request));
     }
 
     // Create click record
     const click = await prisma.click.create({
       data: {
         impressionId: impression.id,
-        campaignId: impression.campaignId,
-        creativeId: impression.creativeId,
-        placementId: impression.placementId,
-        siteId: impression.siteId,
-        clickId: `click_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        ip: ip.split(",")[0],
-        ua: userAgent,
-        country: "US", // In production, use GeoIP service
-        device: userAgent.includes("Mobile") ? "mobile" : "desktop",
-        size: impression.size,
       },
     });
 
@@ -74,16 +84,17 @@ export async function GET(request: NextRequest) {
     console.log("Click tracked:", {
       clickId: click.id,
       impressionId: impression.id,
-      lineItemId: impression.lineItemId,
       campaignId: impression.campaignId,
       timestamp: new Date().toISOString(),
     });
 
     // Redirect to the landing page
-    return NextResponse.redirect(landingUrl);
+    const response = NextResponse.redirect(landingUrl);
+    return addSecurityHeaders(addCORSHeaders(response, request));
 
   } catch (error) {
     console.error("Click tracking error:", error);
-    return NextResponse.redirect("https://example.com");
+    const response = NextResponse.redirect("https://example.com");
+    return addSecurityHeaders(addCORSHeaders(response, request));
   }
 }

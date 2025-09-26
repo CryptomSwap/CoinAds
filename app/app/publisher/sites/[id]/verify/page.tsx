@@ -19,10 +19,7 @@ const mockSiteData = {
   verificationFile: "coinads-verification.txt",
 };
 
-export const metadata = {
-  title: "Verify Domain - CoinAds",
-  description: "Verify your domain ownership for CoinAds",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function SiteVerificationPage() {
   const params = useParams();

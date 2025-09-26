@@ -88,10 +88,7 @@ const getNotificationBadge = (type: string) => {
   }
 };
 
-export const metadata = {
-  title: "Notifications - CoinAds",
-  description: "View and manage your notifications",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState(mockNotifications);

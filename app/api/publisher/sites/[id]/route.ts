@@ -5,9 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 const updateSiteSchema = z.object({
-  name: z.string().min(1).optional(),
-  description: z.string().optional(),
-  category: z.string().optional(),
+  domain: z.string().min(1).optional(),
+  verified: z.boolean().optional(),
+  approved: z.boolean().optional(),
 });
 
 // GET /api/publisher/sites/[id] - Get site details
@@ -23,29 +23,11 @@ export async function GET(
 
     const site = await prisma.site.findFirst({
       where: {
-        id: params.id,
-        organization: {
-          memberships: {
-            some: {
-              userId: session.user.id,
-            },
-          },
-        },
+        id: parseInt(params.id),
+        publisherId: parseInt(session.user.id),
       },
       include: {
-        placements: {
-          include: {
-            impressions: {
-              include: {
-                clicks: {
-                  include: {
-                    conversions: true,
-                  },
-                },
-              },
-            },
-          },
-        },
+        placements: true,
       },
     });
 
@@ -56,28 +38,11 @@ export async function GET(
       );
     }
 
-    // Calculate site statistics
-    const totalImpressions = site.placements.reduce(
-      (sum, placement) => sum + placement.impressions.length,
-      0
-    );
-    const totalClicks = site.placements.reduce(
-      (sum, placement) => sum + placement.impressions.reduce(
-        (s, imp) => s + imp.clicks.length,
-        0
-      ),
-      0
-    );
-    const totalConversions = site.placements.reduce(
-      (sum, placement) => sum + placement.impressions.reduce(
-        (s, imp) => s + imp.clicks.reduce(
-          (c, click) => c + click.conversions.length,
-          0
-        ),
-        0
-      ),
-      0
-    );
+    // Calculate site statistics from reports
+    // For MVP, we'll use mock data since we don't have direct impression tracking
+    const totalImpressions = site.placements.length * 100; // Mock: 100 impressions per placement
+    const totalClicks = Math.floor(totalImpressions * 0.02); // Mock: 2% CTR
+    const totalConversions = Math.floor(totalClicks * 0.05); // Mock: 5% conversion rate
 
     const ctr = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
 
@@ -118,14 +83,8 @@ export async function PUT(
     // Check if site exists and user has access
     const existingSite = await prisma.site.findFirst({
       where: {
-        id: params.id,
-        organization: {
-          memberships: {
-            some: {
-              userId: session.user.id,
-            },
-          },
-        },
+        id: parseInt(params.id),
+        publisherId: parseInt(session.user.id),
       },
     });
 
@@ -137,7 +96,7 @@ export async function PUT(
     }
 
     const site = await prisma.site.update({
-      where: { id: params.id },
+      where: { id: parseInt(params.id) },
       data,
       include: {
         placements: true,
@@ -176,14 +135,8 @@ export async function DELETE(
     // Check if site exists and user has access
     const existingSite = await prisma.site.findFirst({
       where: {
-        id: params.id,
-        organization: {
-          memberships: {
-            some: {
-              userId: session.user.id,
-            },
-          },
-        },
+        id: parseInt(params.id),
+        publisherId: parseInt(session.user.id),
       },
     });
 
@@ -194,16 +147,16 @@ export async function DELETE(
       );
     }
 
-    // Only allow deletion of pending sites
-    if (existingSite.status !== "PENDING") {
+    // Only allow deletion of unapproved sites
+    if (existingSite.approved) {
       return NextResponse.json(
-        { error: "Only pending sites can be deleted" },
+        { error: "Only unapproved sites can be deleted" },
         { status: 400 }
       );
     }
 
     await prisma.site.delete({
-      where: { id: params.id },
+      where: { id: parseInt(params.id) },
     });
 
     return NextResponse.json({ message: "Site deleted successfully" });
@@ -230,14 +183,8 @@ export async function POST(
     // Check if site exists and user has access
     const existingSite = await prisma.site.findFirst({
       where: {
-        id: params.id,
-        organization: {
-          memberships: {
-            some: {
-              userId: session.user.id,
-            },
-          },
-        },
+        id: parseInt(params.id),
+        publisherId: parseInt(session.user.id),
       },
     });
 
@@ -248,9 +195,9 @@ export async function POST(
       );
     }
 
-    if (existingSite.status !== "PENDING") {
+    if (existingSite.approved) {
       return NextResponse.json(
-        { error: "Site is not pending verification" },
+        { error: "Site is already approved" },
         { status: 400 }
       );
     }
@@ -260,11 +207,10 @@ export async function POST(
     const isVerified = Math.random() > 0.3; // 70% success rate for demo
 
     const site = await prisma.site.update({
-      where: { id: params.id },
+      where: { id: parseInt(params.id) },
       data: {
-        status: isVerified ? "APPROVED" : "PENDING",
-        verifiedAt: isVerified ? new Date() : null,
-        rejectionReason: !isVerified ? "Verification token not found on site" : null,
+        verified: isVerified,
+        approved: isVerified,
       },
     });
 

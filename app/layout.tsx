@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { env } from "@/lib/env"; // Validate environment variables at startup
 
 const inter = Inter({ subsets: ["latin"] });
 

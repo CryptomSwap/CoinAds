@@ -123,10 +123,7 @@ function VerifyEmailForm() {
   );
 }
 
-export const metadata = {
-  title: "Verify Email - CoinAds",
-  description: "Verify your email address to complete your CoinAds account setup",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function VerifyEmailPage() {
   return (

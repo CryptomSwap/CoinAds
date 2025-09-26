@@ -5,7 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 // Demo mode - bypass database for development
-const DEMO_MODE = process.env.NODE_ENV === "development";
+import { isDevelopment } from "@/lib/env";
+
+const DEMO_MODE = isDevelopment;
 
 const addFundsSchema = z.object({
   amountCents: z.number().min(100, "Minimum amount is $1.00"),
@@ -70,35 +72,27 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Get user's organization and wallet
-    const membership = await prisma.membership.findFirst({
-      where: { userId: session.user.id },
-      include: {
-        organization: {
-          include: {
-            wallet: {
-              include: {
-                transactions: {
-                  orderBy: { createdAt: "desc" },
-                  take: 10,
-                },
-              },
-            },
-          },
-        },
-      },
+    // For MVP, get user's transactions directly
+    const transactions = await prisma.transaction.findMany({
+      where: { userId: parseInt(session.user.id) },
+      orderBy: { createdAt: "desc" },
+      take: 10,
     });
 
-    if (!membership) {
-      return NextResponse.json(
-        { error: "User not associated with any organization" },
-        { status: 400 }
-      );
-    }
+    // Calculate balance from transactions
+    const balance = transactions.reduce((sum, transaction) => {
+      return sum + (transaction.type === 'DEPOSIT' ? transaction.amount : -transaction.amount);
+    }, 0);
+
+    const wallet = {
+      id: `wallet-${session.user.id}`,
+      balanceCents: Math.round(balance * 100),
+      currency: "USD",
+      transactions: transactions,
+    };
 
     return NextResponse.json({
-      wallet: membership.organization.wallet,
-      organization: membership.organization,
+      wallet: wallet,
     });
   } catch (error) {
     console.error("Get wallet error:", error);
@@ -170,59 +164,23 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Get user's organization and wallet
-    const membership = await prisma.membership.findFirst({
-      where: { userId: session.user.id },
-      include: {
-        organization: {
-          include: { wallet: true },
-        },
-      },
-    });
-
-    if (!membership) {
-      return NextResponse.json(
-        { error: "User not associated with any organization" },
-        { status: 400 }
-      );
-    }
-
-    // Create transaction record
+    // Create transaction record directly for user
     const transaction = await prisma.transaction.create({
       data: {
-        userId: session.user.id,
-        walletId: membership.organization.wallet!.id,
-        type: "TOP_UP",
-        method: method as any,
-        amountCents,
+        userId: parseInt(session.user.id),
+        type: "DEPOSIT",
+        amount: amountCents / 100, // Convert cents to dollars
         status: "PENDING",
-        meta: JSON.stringify({
-          userId: session.user.id,
-          timestamp: new Date().toISOString(),
-        }),
       },
     });
 
     // For MVP, we'll simulate successful payment
     // In production, integrate with Stripe/Coinbase/etc.
     if (method === "STRIPE") {
-      // Simulate Stripe payment
-      await prisma.$transaction(async (tx) => {
-        // Update transaction status
-        await tx.transaction.update({
-          where: { id: transaction.id },
-          data: { status: "SUCCEEDED" },
-        });
-
-        // Update wallet balance
-        await tx.wallet.update({
-          where: { id: membership.organization.wallet!.id },
-          data: {
-            balanceCents: {
-              increment: amountCents,
-            },
-          },
-        });
+      // Simulate Stripe payment - just update transaction status
+      await prisma.transaction.update({
+        where: { id: transaction.id },
+        data: { status: "SUCCEEDED" },
       });
 
       return NextResponse.json({

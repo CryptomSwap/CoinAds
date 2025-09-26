@@ -6,10 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Link from "next/link";
 import { CheckCircle, ArrowRight } from "lucide-react";
 
-export const metadata = {
-  title: "Email Verified - CoinAds",
-  description: "Your email has been successfully verified",
-};
+// Metadata removed - client component cannot export metadata
 
 export default function EmailVerifiedPage() {
   const router = useRouter();

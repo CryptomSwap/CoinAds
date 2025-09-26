@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors";
 
 export const dynamic = 'force-dynamic';
 
+// Note: Body size limits are handled by middleware
+
 export async function GET(request: NextRequest) {
+  // Handle CORS
+  const corsResponse = handleCORS(request);
+  if (corsResponse) {
+    return corsResponse;
+  }
   try {
     const { searchParams } = new URL(request.url);
     const clickId = searchParams.get("clickId");
@@ -12,7 +20,7 @@ export async function GET(request: NextRequest) {
     const currency = searchParams.get("currency") || "USD";
 
     if (!clickId && !campaignId) {
-      return NextResponse.json({ error: "Missing clickId or campaignId" }, { status: 400 });
+      return createCORSErrorResponse("Missing clickId or campaignId");
     }
 
     let conversion;
@@ -20,7 +28,7 @@ export async function GET(request: NextRequest) {
     if (clickId) {
       // Track conversion for specific click
       const click = await prisma.click.findUnique({
-        where: { id: clickId },
+        where: { id: parseInt(clickId) },
         include: {
           impression: {
             include: {
@@ -31,42 +39,33 @@ export async function GET(request: NextRequest) {
       });
 
       if (!click) {
-        return NextResponse.json({ error: "Click not found" }, { status: 404 });
+        return createCORSErrorResponse("Click not found");
       }
 
       conversion = await prisma.conversion.create({
         data: {
           clickId: click.id,
-          campaignId: click.campaignId,
+          campaignId: click.impression.campaignId,
           value,
           currency,
-          meta: JSON.stringify({
-            timestamp: new Date().toISOString(),
-            source: "pixel",
-          }),
         },
       });
     } else if (campaignId) {
       // Track conversion for campaign (without specific click)
       const campaign = await prisma.campaign.findUnique({
-        where: { id: campaignId },
+        where: { id: parseInt(campaignId) },
       });
 
       if (!campaign) {
-        return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
+        return createCORSErrorResponse("Campaign not found");
       }
 
       // Create a conversion without click association
       conversion = await prisma.conversion.create({
         data: {
-          campaignId,
+          campaignId: parseInt(campaignId),
           value,
           currency,
-          meta: JSON.stringify({
-            campaignId,
-            timestamp: new Date().toISOString(),
-            source: "pixel",
-          }),
         },
       });
     }
@@ -86,7 +85,7 @@ export async function GET(request: NextRequest) {
       "base64"
     );
 
-    return new NextResponse(pixel, {
+    const response = new NextResponse(pixel, {
       headers: {
         "Content-Type": "image/png",
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -94,6 +93,7 @@ export async function GET(request: NextRequest) {
         "Expires": "0",
       },
     });
+    return addCORSHeaders(response, request);
 
   } catch (error) {
     console.error("Conversion tracking error:", error);
@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
       "base64"
     );
 
-    return new NextResponse(pixel, {
+    const response = new NextResponse(pixel, {
       headers: {
         "Content-Type": "image/png",
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -112,5 +112,6 @@ export async function GET(request: NextRequest) {
         "Expires": "0",
       },
     });
+    return addCORSHeaders(response, request);
   }
 }
