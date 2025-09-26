@@ -1,6 +1,31 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, PricingType, Role } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
+// Utility to safely map string values to PricingType enum
+const toPricingType = (v: string): PricingType => {
+  const map: Record<string, PricingType> = {
+    CPM: PricingType.CPM,
+    CPA: PricingType.CPA,
+    CPI: PricingType.CPI,
+    FIXED: PricingType.FIXED,
+  };
+  const normalized = v.toUpperCase();
+  if (!map[normalized]) throw new Error(`Unknown PricingType: ${v}`);
+  return map[normalized];
+};
+
+// Utility to safely map string values to Role enum
+const toRole = (v: string): Role => {
+  const map: Record<string, Role> = {
+    ADVERTISER: Role.ADVERTISER,
+    PUBLISHER: Role.PUBLISHER,
+    ADMIN: Role.ADMIN,
+  };
+  const normalized = v.toUpperCase();
+  if (!map[normalized]) throw new Error(`Unknown Role: ${v}`);
+  return map[normalized];
+};
 
 async function seedPartnerInventory() {
   console.log('🌱 Seeding partner inventory...');
@@ -13,7 +38,7 @@ async function seedPartnerInventory() {
       create: {
         email: 'demo@advertiser.com',
         name: 'Demo Advertiser',
-        role: 'ADVERTISER',
+        role: toRole('ADVERTISER'),
       }
     });
 
@@ -23,7 +48,7 @@ async function seedPartnerInventory() {
       create: {
         email: 'demo@publisher.com',
         name: 'Demo Publisher',
-        role: 'PUBLISHER',
+        role: toRole('PUBLISHER'),
       }
     });
 
@@ -33,7 +58,7 @@ async function seedPartnerInventory() {
       create: {
         email: 'admin@coinads.com',
         name: 'Admin User',
-        role: 'ADMIN',
+        role: toRole('ADMIN'),
       }
     });
 
@@ -44,7 +69,7 @@ async function seedPartnerInventory() {
       create: {
         email: 'partner@coinranking.com',
         name: 'Coinranking Partner',
-        role: 'PUBLISHER',
+        role: toRole('PUBLISHER'),
       }
     });
 
@@ -54,7 +79,7 @@ async function seedPartnerInventory() {
       create: {
         email: 'partner@cryptodaily.co.uk',
         name: 'CryptoDaily Partner',
-        role: 'PUBLISHER',
+        role: toRole('PUBLISHER'),
       }
     });
 
@@ -120,7 +145,7 @@ async function seedPartnerInventory() {
         data: {
           siteId: coinrankingSite.id,
           size: placement.size,
-          pricing: placement.pricing,
+          pricing: toPricingType(placement.pricing),
           price: placement.price,
           approved: placement.approved
         }
@@ -162,7 +187,7 @@ async function seedPartnerInventory() {
         data: {
           siteId: cryptodailySite.id,
           size: placement.size,
-          pricing: placement.pricing,
+          pricing: toPricingType(placement.pricing),
           price: placement.price,
           approved: placement.approved
         }
