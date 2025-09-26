@@ -1,3 +1,5 @@
 {
-  "buildCommand": "npx prisma generate && npx prisma db push && next build"
+  // --accept-data-loss is intentional for MVP schema evolution
+  // Remove this flag once proper migrations are in place
+  "buildCommand": "npx prisma generate && npx prisma db push --accept-data-loss && next build"
 }
