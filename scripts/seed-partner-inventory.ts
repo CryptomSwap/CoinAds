@@ -4,27 +4,18 @@ const prisma = new PrismaClient();
 
 // Utility to safely map string values to PricingType enum
 const toPricingType = (v: string): PricingType => {
-  const map: Record<string, PricingType> = {
-    CPM: PricingType.CPM,
-    CPA: PricingType.CPA,
-    CPI: PricingType.CPI,
-    FIXED: PricingType.FIXED,
-  };
-  const normalized = v.toUpperCase();
-  if (!map[normalized]) throw new Error(`Unknown PricingType: ${v}`);
-  return map[normalized];
+  const normalized = v.trim().toUpperCase();
+  const allowed = Object.values(PricingType) as string[];
+  if (allowed.includes(normalized)) return normalized as PricingType;
+  throw new Error(`Unknown PricingType: ${v}. Allowed: ${allowed.join(", ")}`);
 };
 
 // Utility to safely map string values to Role enum
 const toRole = (v: string): Role => {
-  const map: Record<string, Role> = {
-    ADVERTISER: Role.ADVERTISER,
-    PUBLISHER: Role.PUBLISHER,
-    ADMIN: Role.ADMIN,
-  };
-  const normalized = v.toUpperCase();
-  if (!map[normalized]) throw new Error(`Unknown Role: ${v}`);
-  return map[normalized];
+  const normalized = v.trim().toUpperCase();
+  const allowed = Object.values(Role) as string[];
+  if (allowed.includes(normalized)) return normalized as Role;
+  throw new Error(`Unknown Role: ${v}. Allowed: ${allowed.join(", ")}`);
 };
 
 async function seedPartnerInventory() {
