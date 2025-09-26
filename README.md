@@ -259,7 +259,22 @@ npm run test:coverage
 
 # Run type checking
 npm run type-check
+
+# Audit metadata exports in client components
+npm run audit:metadata
 ```
+
+## 📋 Code Quality Rules
+
+### Metadata Export Rule
+
+This project enforces that `metadata` exports are not allowed in client components (files with `"use client"` directive). This ensures proper separation of server and client code in Next.js.
+
+**ESLint Rule**: The project includes a custom ESLint rule that prevents `export const metadata` in client components.
+
+**Audit Script**: Run `npm run audit:metadata` to scan the codebase for violations.
+
+**Fix**: Move metadata exports to server-only `layout.tsx` files or remove the `"use client"` directive.
 
 ## 📈 Performance Considerations
 
@@ -308,5 +323,6 @@ For support and questions:
 
 ---
 
-**CoinAds MVP** - Connecting advertisers with publishers in the crypto space 🚀#   C o i n A d s  
+**CoinAds MVP** - Connecting advertisers with publishers in the crypto space 🚀#   C o i n A d s 
+ 
  
