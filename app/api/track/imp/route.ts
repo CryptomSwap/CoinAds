@@ -2,14 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors";
 
-// Body size limit for App Router
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
-}
 
 // Helper function to add security headers
 function addSecurityHeaders(response: NextResponse): NextResponse {

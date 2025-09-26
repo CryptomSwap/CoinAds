@@ -4,14 +4,6 @@ import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors"
 
 export const dynamic = 'force-dynamic';
 
-// Body size limit for App Router
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
-}
 
 // Helper function to add security headers
 function addSecurityHeaders(response: NextResponse): NextResponse {
