@@ -1,0 +1,18 @@
+[33mcommit 5df078183d97badbdb55089501cebff48be18798[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mPEEPZ[m[33m, [m[1;31morigin/PEEPZ[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: CryptomSwap <tiram1324@gmail.com>
+Date:   Sat Sep 27 00:30:59 2025 +0300
+
+    build: ignore ESLint during builds for MVP
+
+[1mdiff --git a/next.config.js b/next.config.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..01a8fdb[m
+[1m--- /dev/null[m
+[1m+++ b/next.config.js[m
+[36m@@ -0,0 +1,6 @@[m
+[32m+[m[32m/** @type {import('next').NextConfig} */[m
+[32m+[m[32mconst nextConfig = {[m
+[32m+[m[32m  eslint: { ignoreDuringBuilds: true },[m
+[32m+[m[32m  // typescript: { ignoreBuildErrors: true }, // leave commented for now[m
+[32m+[m[32m};[m
+[32m+[m[32mmodule.exports = nextConfig;[m

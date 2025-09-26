@@ -61,6 +61,10 @@ A comprehensive advertising platform built with Next.js, TypeScript, and Prisma 
 - PostgreSQL database
 - npm or yarn package manager
 
+## 🔧 Build Config
+
+Note that for MVP we ignore ESLint during Vercel builds via `eslint.ignoreDuringBuilds: true` in `next.config.js` (CommonJS format since package.json has no "type" field).
+
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
