@@ -107,12 +107,17 @@ STRIPE_WEBHOOK_SECRET="whsec_..."
 # Generate Prisma client
 npx prisma generate
 
-# Run database migrations
-npx prisma migrate dev
+# For early MVP: Use db push (no migrations yet)
+npx prisma db push
+
+# For production: Use migrations (when available)
+# npx prisma migrate dev
 
 # Seed the database (optional)
 npm run db:seed
 ```
+
+**Note**: This MVP uses `prisma db push` for database schema deployment since no migrations exist yet. This is suitable for early development and MVP stages. Once the schema stabilizes, consider switching to `prisma migrate dev` for proper migration management.
 
 ### 5. Start Development Server
 ```bash

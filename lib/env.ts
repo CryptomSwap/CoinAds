@@ -3,9 +3,21 @@ import { z } from "zod";
 // Server-side environment variables schema
 const serverSchema = z.object({
   // Required server environment variables
-  DATABASE_URL: z.string().min(1, "DATABASE_URL is required and must be non-empty"),
-  NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required and must be non-empty"),
-  NEXTAUTH_URL: z.string().url("NEXTAUTH_URL must be a valid URL"),
+  DATABASE_URL: z
+    .string()
+    .min(1, "DATABASE_URL is required and must be non-empty")
+    .refine(
+      (url) => url.startsWith("postgresql://") || url.startsWith("postgres://"),
+      "DATABASE_URL must start with 'postgresql://' or 'postgres://'"
+    ),
+  NEXTAUTH_SECRET: z
+    .string()
+    .min(1, "NEXTAUTH_SECRET is required and must be non-empty")
+    .optional(),
+  NEXTAUTH_URL: z
+    .string()
+    .url("NEXTAUTH_URL must be a valid URL")
+    .optional(),
 
   // Optional email configuration
   EMAIL_SERVER_HOST: z.string().optional(),
@@ -25,6 +37,9 @@ const serverSchema = z.object({
 
   // Optional application configuration
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
+  
+  // Development/Admin secrets
+  SEED_SECRET: z.string().optional(),
 
   // Node environment
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
@@ -38,7 +53,19 @@ const clientSchema = z.object({
 // Parse and validate server environment variables
 function validateServerEnv() {
   try {
-    return serverSchema.parse(process.env);
+    const parsed = serverSchema.parse(process.env);
+    
+    // Additional production validation
+    if (parsed.NODE_ENV === "production") {
+      if (!parsed.NEXTAUTH_SECRET) {
+        throw new Error("NEXTAUTH_SECRET is required in production");
+      }
+      if (!parsed.NEXTAUTH_URL) {
+        throw new Error("NEXTAUTH_URL is required in production");
+      }
+    }
+    
+    return parsed;
   } catch (error) {
     if (error instanceof z.ZodError) {
       const missingVars = error.errors
@@ -109,9 +136,10 @@ export const env = {
   STRIPE_WEBHOOK_SECRET: serverEnv.STRIPE_WEBHOOK_SECRET,
   GOOGLE_CLIENT_ID: serverEnv.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: serverEnv.GOOGLE_CLIENT_SECRET,
+  SEED_SECRET: serverEnv.SEED_SECRET,
 
   // Client environment variables
-  NEXT_PUBLIC_APP_URL: clientEnv.NEXT_PUBLIC_APP_URL || serverEnv.NEXT_PUBLIC_APP_URL,
+  NEXT_PUBLIC_APP_URL: clientEnv.NEXT_PUBLIC_APP_URL || serverEnv.NEXT_PUBLIC_APP_URL || serverEnv.NEXTAUTH_URL,
 } as const;
 
 // Type exports for TypeScript
