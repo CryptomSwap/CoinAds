@@ -7,7 +7,7 @@ export const metadata = {
 
 async function getHealthStatus() {
   try {
-    const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/health`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/health`, {
       cache: 'no-store'
     });
     const data = await response.json();

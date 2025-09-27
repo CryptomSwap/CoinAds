@@ -7,7 +7,7 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
   // Feature flag: allow disabling client auth to isolate issues
   if (process.env.NEXT_PUBLIC_DISABLE_CLIENT_AUTH === '1') return <>{children}</>;
 
-  const { status } = useSession({ required: true });
+  const { status } = useSession();
   const router = useRouter();
   const pathname = usePathname() || '/';
   const redirected = useRef(false);

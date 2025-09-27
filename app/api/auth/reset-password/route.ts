@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { randomBytes } from "crypto";
 import { z } from "zod";
 import { sendMail, emailTemplates, isEmailServiceAvailable } from "@/lib/email";
-import { env } from "@/lib/env";
+import { serverEnv } from "@/lib/env/server";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     // Send email with reset link
     if (isEmailServiceAvailable()) {
       try {
-        const resetUrl = `${env.NEXTAUTH_URL}/auth/reset-password?token=${resetToken}`;
+        const resetUrl = `${serverEnv.NEXTAUTH_URL}/auth/reset-password?token=${resetToken}`;
         const emailTemplate = emailTemplates.passwordReset(resetUrl, user.name || undefined);
         
         await sendMail({
@@ -55,13 +55,13 @@ export async function POST(request: NextRequest) {
         console.error("Failed to send password reset email:", emailError);
         // Continue execution - don't fail the request if email fails
         // In development, log the token for testing
-        if (env.NODE_ENV === "development") {
+        if (serverEnv.NODE_ENV === "development") {
           console.log(`Password reset token for ${email}: ${resetToken}`);
         }
       }
     } else {
       // Email service not configured - log token in development
-      if (env.NODE_ENV === "development") {
+      if (serverEnv.NODE_ENV === "development") {
         console.log(`Password reset token for ${email}: ${resetToken}`);
         console.warn("Email service not configured - password reset token logged above");
       }

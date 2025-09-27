@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { env } from "@/lib/env";
+import { serverEnv } from "@/lib/env/server";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
   try {
     // Check if SEED_SECRET is configured
-    if (!env.SEED_SECRET) {
+    if (!serverEnv.SEED_SECRET) {
       return NextResponse.json(
         { error: "SEED_SECRET not configured" },
         { status: 500 }
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const secret = searchParams.get("secret");
 
     // Validate secret
-    if (!secret || secret !== env.SEED_SECRET) {
+    if (!secret || secret !== serverEnv.SEED_SECRET) {
       return NextResponse.json(
         { error: "Invalid or missing secret" },
         { status: 403 }

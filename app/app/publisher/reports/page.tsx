@@ -44,142 +44,37 @@ interface PublisherReportData {
   }>;
 }
 
-// Server component to fetch publisher reports data
-async function getPublisherReportsData(userId: string, dateRange: string = '7d'): Promise<PublisherReportData> {
-  const days = dateRange === '30d' ? 30 : 7;
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
-
-  // Get KPIs from impressions and clicks
-  const impressionData = await prisma.impression.aggregate({
-    where: {
-      site: {
-        publisherId: parseInt(userId),
-      },
-      createdAt: {
-        gte: startDate,
-      },
-    },
-    _sum: {
-      costMicros: true,
-    },
-    _count: {
-      id: true,
-    },
-  });
-
-  const clickData = await prisma.click.count({
-    where: {
-      impression: {
-        site: {
-          publisherId: parseInt(userId),
-        },
-      },
-      createdAt: {
-        gte: startDate,
-      },
-    },
-  });
-
-  // Get site data with performance
-  const sites = await prisma.site.findMany({
-    where: {
-      publisherId: parseInt(userId),
-    },
-    include: {
-      impressions: {
-        where: {
-          createdAt: {
-            gte: startDate,
-          },
-        },
-      },
-    },
-  });
-
-  // Get placement data with performance
-  const placements = await prisma.placement.findMany({
-    where: {
-      site: {
-        publisherId: parseInt(userId),
-      },
-    },
-    include: {
-      impressions: {
-        where: {
-          createdAt: {
-            gte: startDate,
-          },
-        },
-        include: {
-          clicks: {
-            where: {
-              createdAt: {
-                gte: startDate,
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-
-  // Process KPIs
-  const impressions = impressionData._count.id || 0;
-  const clicks = clickData;
-  const totalCostMicros = impressionData._sum.costMicros || 0;
-  const totalCost = totalCostMicros / 1000000; // Convert from micro-cents to dollars
-  const earnings = totalCost * 0.7; // 70% publisher share
-  const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
-
-  // Process site data
-  const siteData = sites.map(site => {
-    const siteImpressions = site.impressions.length;
-    const siteClicks = 0; // We'll need to calculate this differently since we don't have direct clicks relation
-    const siteCostMicros = site.impressions.reduce((sum, impression) => sum + impression.costMicros, 0);
-    const siteCost = siteCostMicros / 1000000;
-    const siteEarnings = siteCost * 0.7;
-    const siteCtr = siteImpressions > 0 ? (siteClicks / siteImpressions) * 100 : 0;
-
-    return {
-      id: site.id,
-      domain: site.domain,
-      impressions: siteImpressions,
-      clicks: siteClicks,
-      earnings: siteEarnings,
-      ctr: Math.round(siteCtr * 100) / 100,
-    };
-  });
-
-  // Process placement data
-  const placementData = placements.map(placement => {
-    const placementImpressions = placement.impressions.length;
-    const placementClicks = placement.impressions.reduce((sum, impression) => sum + impression.clicks.length, 0);
-    const placementCostMicros = placement.impressions.reduce((sum, impression) => sum + impression.costMicros, 0);
-    const placementCost = placementCostMicros / 1000000;
-    const placementEarnings = placementCost * 0.7;
-    const placementCtr = placementImpressions > 0 ? (placementClicks / placementImpressions) * 100 : 0;
-
-    return {
-      id: placement.id,
-      size: placement.size,
-      impressions: placementImpressions,
-      clicks: placementClicks,
-      earnings: placementEarnings,
-      ctr: Math.round(placementCtr * 100) / 100,
-    };
-  });
-
+// Mock data function for client component
+function getMockPublisherReportsData(dateRange: string = '7d'): PublisherReportData {
+  // Return mock data for client component
   return {
     kpis: {
-      impressions,
-      clicks,
-      ctr: Math.round(ctr * 100) / 100,
-      earnings,
+      impressions: 125000,
+      clicks: 3200,
+      ctr: 2.56,
+      earnings: 875.50,
     },
-    dailyData: [], // Would need to implement daily aggregation
-    siteData,
-    placementData,
+    dailyData: [
+      { date: "2024-01-15", impressions: 15000, clicks: 380, earnings: 105.25 },
+      { date: "2024-01-14", impressions: 18000, clicks: 460, earnings: 127.50 },
+      { date: "2024-01-13", impressions: 12000, clicks: 310, earnings: 85.75 },
+      { date: "2024-01-12", impressions: 16000, clicks: 410, earnings: 113.25 },
+      { date: "2024-01-11", impressions: 14000, clicks: 360, earnings: 99.50 },
+      { date: "2024-01-10", impressions: 17000, clicks: 435, earnings: 120.25 },
+      { date: "2024-01-09", impressions: 13000, clicks: 335, earnings: 92.75 },
+    ],
+    siteData: [
+      { id: 1, domain: "cryptonews.com", impressions: 45000, clicks: 1150, earnings: 318.25, ctr: 2.56 },
+      { id: 2, domain: "defi-insights.com", impressions: 38000, clicks: 970, earnings: 268.50, ctr: 2.55 },
+      { id: 3, domain: "nft-trends.com", impressions: 42000, clicks: 1080, earnings: 298.75, ctr: 2.57 },
+    ],
+    placementData: [
+      { id: 1, size: "Header Banner", impressions: 25000, clicks: 640, earnings: 177.00, ctr: 2.56 },
+      { id: 2, size: "Sidebar", impressions: 20000, clicks: 510, earnings: 141.25, ctr: 2.55 },
+      { id: 3, size: "Footer", impressions: 15000, clicks: 385, earnings: 106.50, ctr: 2.57 },
+      { id: 4, size: "In-Content", impressions: 30000, clicks: 770, earnings: 213.00, ctr: 2.57 },
+      { id: 5, size: "Mobile Banner", impressions: 35000, clicks: 895, earnings: 247.75, ctr: 2.56 },
+    ],
   };
 }
 
@@ -233,36 +128,8 @@ export default function ReportsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Mock data for client component
-  const reportData: PublisherReportData = {
-    kpis: {
-      impressions: 125000,
-      clicks: 3200,
-      ctr: 2.56,
-      earnings: 875.50,
-    },
-    dailyData: [
-      { date: "2024-01-15", impressions: 15000, clicks: 380, earnings: 105.25 },
-      { date: "2024-01-14", impressions: 18000, clicks: 460, earnings: 127.50 },
-      { date: "2024-01-13", impressions: 12000, clicks: 310, earnings: 85.75 },
-      { date: "2024-01-12", impressions: 16000, clicks: 410, earnings: 113.25 },
-      { date: "2024-01-11", impressions: 14000, clicks: 360, earnings: 99.50 },
-      { date: "2024-01-10", impressions: 17000, clicks: 435, earnings: 120.25 },
-      { date: "2024-01-09", impressions: 13000, clicks: 335, earnings: 92.75 },
-    ],
-    siteData: [
-      { site: "cryptonews.com", impressions: 45000, clicks: 1150, earnings: 318.25 },
-      { site: "defi-insights.com", impressions: 38000, clicks: 970, earnings: 268.50 },
-      { site: "nft-trends.com", impressions: 42000, clicks: 1080, earnings: 298.75 },
-    ],
-    placementData: [
-      { placement: "Header Banner", impressions: 25000, clicks: 640, earnings: 177.00 },
-      { placement: "Sidebar", impressions: 20000, clicks: 510, earnings: 141.25 },
-      { placement: "Footer", impressions: 15000, clicks: 385, earnings: 106.50 },
-      { placement: "In-Content", impressions: 30000, clicks: 770, earnings: 213.00 },
-      { placement: "Mobile Banner", impressions: 35000, clicks: 895, earnings: 247.75 },
-    ],
-  };
+  // Get mock data for client component
+  const reportData: PublisherReportData = getMockPublisherReportsData(dateRange);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

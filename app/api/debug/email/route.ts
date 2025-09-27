@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendMail, emailTemplates } from "@/lib/email";
-import { env, isDevelopment } from "@/lib/env";
+import { serverEnv, isDevelopment } from "@/lib/env/server";
 
 export async function GET(request: NextRequest) {
   // Only allow in development mode
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const testEmail = emailTemplates.testEmail();
     
     await sendMail({
-      to: env.EMAIL_FROM!,
+      to: serverEnv.EMAIL_FROM!,
       subject: testEmail.subject,
       html: testEmail.html,
       text: testEmail.text,
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ 
       ok: true,
       message: "Test email sent successfully",
-      sentTo: env.EMAIL_FROM
+      sentTo: serverEnv.EMAIL_FROM
     });
   } catch (error) {
     console.error("Failed to send test email:", error);

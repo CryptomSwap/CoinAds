@@ -6,7 +6,7 @@ import { z } from "zod";
 import { randomBytes } from "crypto";
 
 // Demo mode - bypass database for development
-import { isDevelopment } from "@/lib/env";
+import { isDevelopment } from "@/lib/env/server";
 
 const DEMO_MODE = isDevelopment;
 

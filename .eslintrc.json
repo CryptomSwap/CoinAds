@@ -10,5 +10,46 @@
     "react/no-unescaped-entities": "off",
     "react-hooks/exhaustive-deps": "warn",
     "@next/next/no-img-element": "warn"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "app/**/page.tsx",
+        "app/**/layout.tsx", 
+        "components/**/*",
+        "hooks/**/*"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "lib/env/server",
+                "message": "Server-only module. Use lib/env/client for client components."
+              },
+              {
+                "name": "lib/prisma",
+                "message": "Server-only module. Use API routes or server actions instead."
+              },
+              {
+                "name": "lib/auth",
+                "message": "Server-only module. Use API routes or server actions instead."
+              },
+              {
+                "name": "lib/env",
+                "message": "Barrel export removed. Use lib/env/client for client components."
+              }
+            ],
+            "patterns": [
+              {
+                "group": ["nodemailer", "bcrypt", "fs", "path", "crypto"],
+                "message": "Node.js modules are server-only. Use API routes or server actions instead."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

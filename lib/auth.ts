@@ -4,7 +4,7 @@ import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
-import { env, isDevelopment, hasGoogleOAuthConfig, hasEmailConfig } from "./env";
+import { serverEnv, isDevelopment, hasGoogleOAuthConfig, hasEmailConfig } from "./env/server";
 import bcrypt from "bcryptjs";
 
 // Demo mode - bypass database for development
@@ -15,8 +15,8 @@ export const authOptions: NextAuthOptions = {
   providers: [
     ...(hasGoogleOAuthConfig ? [
       GoogleProvider({
-        clientId: env.GOOGLE_CLIENT_ID!,
-        clientSecret: env.GOOGLE_CLIENT_SECRET!,
+        clientId: serverEnv.GOOGLE_CLIENT_ID!,
+        clientSecret: serverEnv.GOOGLE_CLIENT_SECRET!,
       })
     ] : []),
     CredentialsProvider({
@@ -74,14 +74,14 @@ export const authOptions: NextAuthOptions = {
     ...(hasEmailConfig ? [
       EmailProvider({
         server: {
-          host: env.EMAIL_SERVER_HOST!,
-          port: env.EMAIL_SERVER_PORT!,
+          host: serverEnv.EMAIL_SERVER_HOST!,
+          port: serverEnv.EMAIL_SERVER_PORT!,
           auth: {
-            user: env.EMAIL_SERVER_USER!,
-            pass: env.EMAIL_SERVER_PASSWORD!,
+            user: serverEnv.EMAIL_SERVER_USER!,
+            pass: serverEnv.EMAIL_SERVER_PASSWORD!,
           },
         },
-        from: env.EMAIL_FROM!,
+        from: serverEnv.EMAIL_FROM!,
       })
     ] : []),
   ],
@@ -128,5 +128,5 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: env.NEXTAUTH_SECRET,
+  secret: serverEnv.NEXTAUTH_SECRET,
 };

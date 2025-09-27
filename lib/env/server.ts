@@ -1,4 +1,10 @@
+import 'server-only';
 import { z } from "zod";
+
+// Runtime guard to prevent client-side imports
+if (typeof window !== 'undefined') {
+  throw new Error('serverEnv imported by a client bundle. Use lib/env/client.');
+}
 
 // Server-side environment variables schema
 const serverSchema = z.object({
@@ -43,11 +49,6 @@ const serverSchema = z.object({
 
   // Node environment
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-});
-
-// Client-side environment variables schema
-const clientSchema = z.object({
-  NEXT_PUBLIC_APP_URL: z.string().url().optional(),
 });
 
 // Parse and validate server environment variables
@@ -95,88 +96,40 @@ function validateServerEnv() {
   }
 }
 
-// Parse and validate client environment variables
-function validateClientEnv() {
-  try {
-    return clientSchema.parse(process.env);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      const invalidVars = error.errors
-        .map((err) => `${err.path.join(".")}: ${err.message}`)
-        .join(", ");
-
-      throw new Error(`❌ Client environment validation failed: ${invalidVars}`);
-    }
-    throw error;
-  }
-}
-
 // Validate server environment variables at startup
-const serverEnv = validateServerEnv();
-
-// Validate client environment variables
-const clientEnv = validateClientEnv();
-
-// Export typed environment object
-export const env = {
-  // Server environment variables
-  DATABASE_URL: serverEnv.DATABASE_URL,
-  NEXTAUTH_SECRET: serverEnv.NEXTAUTH_SECRET,
-  NEXTAUTH_URL: serverEnv.NEXTAUTH_URL,
-  NODE_ENV: serverEnv.NODE_ENV,
-
-  // Optional server variables
-  EMAIL_SERVER_HOST: serverEnv.EMAIL_SERVER_HOST,
-  EMAIL_SERVER_PORT: serverEnv.EMAIL_SERVER_PORT,
-  EMAIL_SERVER_USER: serverEnv.EMAIL_SERVER_USER,
-  EMAIL_SERVER_PASSWORD: serverEnv.EMAIL_SERVER_PASSWORD,
-  EMAIL_FROM: serverEnv.EMAIL_FROM,
-  STRIPE_PUBLIC_KEY: serverEnv.STRIPE_PUBLIC_KEY,
-  STRIPE_SECRET_KEY: serverEnv.STRIPE_SECRET_KEY,
-  STRIPE_WEBHOOK_SECRET: serverEnv.STRIPE_WEBHOOK_SECRET,
-  GOOGLE_CLIENT_ID: serverEnv.GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET: serverEnv.GOOGLE_CLIENT_SECRET,
-  SEED_SECRET: serverEnv.SEED_SECRET,
-
-  // Client environment variables
-  NEXT_PUBLIC_APP_URL: clientEnv.NEXT_PUBLIC_APP_URL || serverEnv.NEXT_PUBLIC_APP_URL || serverEnv.NEXTAUTH_URL,
-} as const;
-
-// Type exports for TypeScript
+export const serverEnv = validateServerEnv();
 export type ServerEnv = z.infer<typeof serverSchema>;
-export type ClientEnv = z.infer<typeof clientSchema>;
-export type Env = typeof env;
 
 // Helper functions for runtime checks
-export const isDevelopment = env.NODE_ENV === "development";
-export const isProduction = env.NODE_ENV === "production";
-export const isTest = env.NODE_ENV === "test";
+export const isDevelopment = serverEnv.NODE_ENV === "development";
+export const isProduction = serverEnv.NODE_ENV === "production";
+export const isTest = serverEnv.NODE_ENV === "test";
 
 // Helper to check if optional features are enabled
 export const hasEmailConfig = !!(
-  env.EMAIL_SERVER_HOST &&
-  env.EMAIL_SERVER_PORT &&
-  env.EMAIL_SERVER_USER &&
-  env.EMAIL_SERVER_PASSWORD &&
-  env.EMAIL_FROM
+  serverEnv.EMAIL_SERVER_HOST &&
+  serverEnv.EMAIL_SERVER_PORT &&
+  serverEnv.EMAIL_SERVER_USER &&
+  serverEnv.EMAIL_SERVER_PASSWORD &&
+  serverEnv.EMAIL_FROM
 );
 
 export const hasStripeConfig = !!(
-  env.STRIPE_PUBLIC_KEY &&
-  env.STRIPE_SECRET_KEY &&
-  env.STRIPE_WEBHOOK_SECRET
+  serverEnv.STRIPE_PUBLIC_KEY &&
+  serverEnv.STRIPE_SECRET_KEY &&
+  serverEnv.STRIPE_WEBHOOK_SECRET
 );
 
 export const hasGoogleOAuthConfig = !!(
-  env.GOOGLE_CLIENT_ID &&
-  env.GOOGLE_CLIENT_SECRET
+  serverEnv.GOOGLE_CLIENT_ID &&
+  serverEnv.GOOGLE_CLIENT_SECRET
 );
 
 // Log environment status in development
 if (isDevelopment) {
-  console.log("🔧 Environment validation passed");
+  console.log("🔧 Server environment validation passed");
   console.log(`📧 Email service: ${hasEmailConfig ? "✅ Configured" : "❌ Not configured"}`);
   console.log(`💳 Stripe service: ${hasStripeConfig ? "✅ Configured" : "❌ Not configured"}`);
   console.log(`🔐 Google OAuth: ${hasGoogleOAuthConfig ? "✅ Configured" : "❌ Not configured"}`);
-  console.log(`🌐 App URL: ${env.NEXT_PUBLIC_APP_URL || "Not set"}`);
+  console.log(`🌐 App URL: ${serverEnv.NEXT_PUBLIC_APP_URL || "Not set"}`);
 }

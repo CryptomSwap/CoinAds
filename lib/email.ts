@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { env, hasEmailConfig } from "./env";
+import { serverEnv, hasEmailConfig } from "./env/server";
 
 // Email configuration interface
 interface EmailConfig {
@@ -35,12 +35,12 @@ function createTransporter() {
   }
 
   const config: EmailConfig = {
-    host: env.EMAIL_SERVER_HOST!,
-    port: env.EMAIL_SERVER_PORT!,
-    secure: env.EMAIL_SERVER_PORT === 465, // true for 465, false for other ports
+    host: serverEnv.EMAIL_SERVER_HOST!,
+    port: serverEnv.EMAIL_SERVER_PORT!,
+    secure: serverEnv.EMAIL_SERVER_PORT === 465, // true for 465, false for other ports
     auth: {
-      user: env.EMAIL_SERVER_USER!,
-      pass: env.EMAIL_SERVER_PASSWORD!,
+      user: serverEnv.EMAIL_SERVER_USER!,
+      pass: serverEnv.EMAIL_SERVER_PASSWORD!,
     },
   };
 
@@ -53,7 +53,7 @@ export async function sendMail({ to, subject, html, text }: EmailMessage): Promi
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: env.EMAIL_FROM,
+      from: serverEnv.EMAIL_FROM,
       to,
       subject,
       html,
@@ -190,9 +190,9 @@ export const emailTemplates = {
               <p><strong>Test Details:</strong></p>
               <ul>
                 <li>Timestamp: ${new Date().toISOString()}</li>
-                <li>Environment: ${env.NODE_ENV}</li>
-                <li>SMTP Host: ${env.EMAIL_SERVER_HOST}</li>
-                <li>SMTP Port: ${env.EMAIL_SERVER_PORT}</li>
+                <li>Environment: ${serverEnv.NODE_ENV}</li>
+                <li>SMTP Host: ${serverEnv.EMAIL_SERVER_HOST}</li>
+                <li>SMTP Port: ${serverEnv.EMAIL_SERVER_PORT}</li>
               </ul>
               
               <p>If you received this email, the email service is configured correctly and ready to send transactional emails.</p>
@@ -212,9 +212,9 @@ export const emailTemplates = {
       
       Test Details:
       - Timestamp: ${new Date().toISOString()}
-      - Environment: ${env.NODE_ENV}
-      - SMTP Host: ${env.EMAIL_SERVER_HOST}
-      - SMTP Port: ${env.EMAIL_SERVER_PORT}
+      - Environment: ${serverEnv.NODE_ENV}
+      - SMTP Host: ${serverEnv.EMAIL_SERVER_HOST}
+      - SMTP Port: ${serverEnv.EMAIL_SERVER_PORT}
       
       If you received this email, the email service is configured correctly and ready to send transactional emails.
       
@@ -233,9 +233,9 @@ export function isEmailServiceAvailable(): boolean {
 export function getEmailConfigStatus() {
   return {
     configured: hasEmailConfig,
-    host: env.EMAIL_SERVER_HOST || "Not set",
-    port: env.EMAIL_SERVER_PORT || "Not set",
-    user: env.EMAIL_SERVER_USER || "Not set",
-    from: env.EMAIL_FROM || "Not set",
+    host: serverEnv.EMAIL_SERVER_HOST || "Not set",
+    port: serverEnv.EMAIL_SERVER_PORT || "Not set",
+    user: serverEnv.EMAIL_SERVER_USER || "Not set",
+    from: serverEnv.EMAIL_FROM || "Not set",
   };
 }
