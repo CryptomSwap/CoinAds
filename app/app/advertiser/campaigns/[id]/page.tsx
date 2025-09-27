@@ -21,6 +21,7 @@ import {
   Target,
   Plus
 } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 interface Campaign {
   id: string;
@@ -149,7 +150,8 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
   }
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -384,6 +386,7 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

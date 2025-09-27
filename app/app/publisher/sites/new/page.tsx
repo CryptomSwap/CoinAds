@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, ArrowLeft, Globe } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 const categories = [
   { value: "news", label: "News & Media" },
@@ -73,7 +74,8 @@ export default function CreateSitePage() {
   const isValidForm = formData.domain && formData.name && validateDomain(formData.domain);
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -265,6 +267,7 @@ export default function CreateSitePage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

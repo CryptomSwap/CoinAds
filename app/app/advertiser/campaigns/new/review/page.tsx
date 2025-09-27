@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { PageHeader } from "@/components/ui/page-header";
 import { Stepper } from "@/components/ui/stepper";
 import { ArrowLeft, ArrowRight, Save, AlertTriangle, DollarSign, Globe, Smartphone, Calendar } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data - in real app this would come from campaign wizard state
 const mockCampaignData = {
@@ -91,7 +92,8 @@ export default function CampaignReviewPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <RequireAuth>
+      <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader 
         title="Review & Submit" 
         description="Review your campaign details before submitting for approval"
@@ -302,6 +304,7 @@ export default function CampaignReviewPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

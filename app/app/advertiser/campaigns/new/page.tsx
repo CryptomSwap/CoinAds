@@ -21,6 +21,7 @@ import {
   Wallet,
   Bell
 } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data for partner sites and placements
 interface Placement {
@@ -1042,7 +1043,8 @@ export default function NewCampaignPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <RequireAuth>
+      <div className="min-h-screen bg-background">
       {/* Main Content Container */}
       <div className="max-w-5xl mx-auto px-6 pb-32">
         {/* Header Section */}
@@ -1090,6 +1092,7 @@ export default function NewCampaignPage() {
 
       {/* Sticky Footer */}
       {renderStickyFooter()}
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

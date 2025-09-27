@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Copy, Download, CheckCircle, AlertTriangle, Globe, FileText } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
 const mockSiteData = {
@@ -104,7 +105,8 @@ export default function SiteVerificationPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <RequireAuth>
+      <div className="max-w-4xl mx-auto space-y-6">
       <PageHeader 
         title="Verify Domain" 
         description={`Verify ownership of ${mockSiteData.domain}`}
@@ -248,6 +250,7 @@ export default function SiteVerificationPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }
