@@ -1,0 +1,70 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e5]:
+        - link "CoinAds" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8] [cursor=pointer]:
+            - generic [ref=e9] [cursor=pointer]: Coin
+            - generic [ref=e10] [cursor=pointer]: Ads
+        - generic [ref=e11]:
+          - link "For Advertisers" [ref=e12] [cursor=pointer]:
+            - /url: /advertisers
+          - link "For Publishers" [ref=e13] [cursor=pointer]:
+            - /url: /publishers
+          - link "Ad Formats" [ref=e14] [cursor=pointer]:
+            - /url: /ad-formats
+        - generic [ref=e15]:
+          - button "Toggle theme" [ref=e16] [cursor=pointer]:
+            - img [ref=e17] [cursor=pointer]
+            - img
+            - generic [ref=e23] [cursor=pointer]: Toggle theme
+          - link "Sign In" [ref=e24] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e25] [cursor=pointer]:
+              - text: Sign In
+              - img [ref=e26] [cursor=pointer]
+          - link "Sign Up" [ref=e28] [cursor=pointer]:
+            - /url: /auth/signup?role=advertiser
+            - button "Sign Up" [ref=e29] [cursor=pointer]
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - img [ref=e38]
+        - heading "Welcome Back" [level=1] [ref=e40]
+        - paragraph [ref=e41]: Sign in to continue building your crypto advertising campaigns
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - button "Continue with Google" [ref=e46] [cursor=pointer]:
+            - generic [ref=e47] [cursor=pointer]:
+              - img [ref=e48] [cursor=pointer]
+              - text: Continue with Google
+          - generic [ref=e57]: Or continue with email
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]: Email address
+            - textbox "Email address" [ref=e61]
+          - generic [ref=e62]:
+            - generic [ref=e63]: Password
+            - generic [ref=e64]:
+              - textbox "Password" [ref=e65]
+              - button [ref=e66] [cursor=pointer]:
+                - img [ref=e67] [cursor=pointer]
+          - button "Sign In" [ref=e70] [cursor=pointer]:
+            - text: Sign In
+            - img [ref=e71] [cursor=pointer]
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - paragraph [ref=e75]:
+              - text: Don't have an account?
+              - button "Create account" [ref=e76] [cursor=pointer]
+            - paragraph [ref=e77]:
+              - button "Forgot your password?" [ref=e78] [cursor=pointer]
+          - link "Back to home" [ref=e80] [cursor=pointer]:
+            - /url: /
+            - img [ref=e81] [cursor=pointer]
+            - text: Back to home
+  - alert [ref=e83]
+```

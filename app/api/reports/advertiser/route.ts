@@ -4,6 +4,12 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
+// Tell Next these routes are always dynamic & never prerendered
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;            // disable ISR completely
+export const fetchCache = 'force-no-store'; // if this route calls fetch()
+export const runtime = 'nodejs';        // (optional) make explicit it's a Node function
+
 // Validation schema for query parameters
 const querySchema = z.object({
   dateRange: z.enum(['7d', '30d']).default('7d'),

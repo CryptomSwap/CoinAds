@@ -1,0 +1,42 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e6]: C
+      - heading "Create your account" [level=2] [ref=e7]
+      - paragraph [ref=e8]: Join CoinAds platform as an advertiser or publisher
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - heading "Sign Up" [level=3] [ref=e11]
+        - paragraph [ref=e12]: Fill in your details to create your account
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - generic [ref=e16]: Full Name
+            - textbox "Full Name" [ref=e17]
+          - generic [ref=e18]:
+            - generic [ref=e19]: Email Address
+            - textbox "Email Address" [ref=e20]
+          - generic [ref=e21]:
+            - generic [ref=e22]: Password
+            - generic [ref=e23]:
+              - textbox "Password" [ref=e24]
+              - button [ref=e25] [cursor=pointer]:
+                - img [ref=e26] [cursor=pointer]
+            - paragraph [ref=e29]: Password must be at least 8 characters long
+          - generic [ref=e30]:
+            - generic [ref=e31]: Account Type
+            - combobox [ref=e32] [cursor=pointer]:
+              - generic: Select account type
+              - img [ref=e33] [cursor=pointer]
+            - combobox [ref=e35]
+            - paragraph [ref=e36]: Advertisers create campaigns, Publishers monetize their sites
+          - button "Create Account" [ref=e37] [cursor=pointer]
+        - paragraph [ref=e39]:
+          - text: Already have an account?
+          - link "Sign in" [ref=e40] [cursor=pointer]:
+            - /url: /auth/signin
+  - alert [ref=e41]
+```

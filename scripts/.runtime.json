@@ -1,0 +1,135 @@
+{
+  "checks": [
+    {
+      "url": "http://localhost:3000/",
+      "status": 0,
+      "responseTime": 23,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/about",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/ad-formats",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/advertisers",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/publishers",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/contact",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/auth/signin",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/auth/signup",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/app",
+      "status": 0,
+      "responseTime": 2,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/app/admin/overview",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/app/advertiser/overview",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/app/publisher/overview",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/health",
+      "status": 0,
+      "responseTime": 0,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/reports/advertiser",
+      "status": 0,
+      "responseTime": 0,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/reports/advertiser.csv",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/auth/providers",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/delivery",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/track/imp",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/track/click",
+      "status": 0,
+      "responseTime": 1,
+      "error": "fetch failed"
+    },
+    {
+      "url": "http://localhost:3000/api/track/conversion",
+      "status": 0,
+      "responseTime": 0,
+      "error": "fetch failed"
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "success": 0,
+    "failed": 20,
+    "averageResponseTime": 2
+  },
+  "serverInfo": {
+    "port": 3000,
+    "pid": 0,
+    "startTime": 1759005014264
+  }
+}
