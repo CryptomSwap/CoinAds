@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +18,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import RequireAuth from "@/components/RequireAuth";
 
 // Types for our data
 interface CampaignStats {
@@ -54,110 +53,52 @@ interface DashboardData {
   balance: number;
 }
 
-// Server component to fetch dashboard data
-async function getDashboardData(userId: string): Promise<DashboardData> {
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-  // Get campaign stats by status
-  const campaignStats = await prisma.campaign.groupBy({
-    by: ['status'],
-    where: { advertiserId: parseInt(userId) },
-    _count: { id: true },
-  });
-
-  // Get performance metrics from reports (last 7 days)
-  const performanceData = await prisma.report.aggregate({
-    where: {
-      campaign: {
-        advertiserId: parseInt(userId),
-      },
-      date: {
-        gte: sevenDaysAgo,
-      },
+// Mock data for client component
+const mockDashboardData: DashboardData = {
+  campaignStats: {
+    total: 8,
+    active: 3,
+    paused: 2,
+    pending: 1,
+    completed: 2,
+  },
+  performance: {
+    impressions: 45000,
+    clicks: 1200,
+    ctr: 2.67,
+    spend: 2250.50,
+  },
+  recentCampaigns: [
+    {
+      id: 1,
+      name: "Crypto Trading Platform",
+      status: "ACTIVE",
+      impressions: 15000,
+      clicks: 400,
+      spend: 750.25,
+      updatedAt: "2024-12-15",
     },
-    _sum: {
-      impressions: true,
-      clicks: true,
-      spend: true,
+    {
+      id: 2,
+      name: "DeFi Yield Farming",
+      status: "PAUSED",
+      impressions: 12000,
+      clicks: 320,
+      spend: 600.00,
+      updatedAt: "2024-12-14",
     },
-  });
-
-  // Get recent campaigns with their performance
-  const recentCampaigns = await prisma.campaign.findMany({
-    where: { advertiserId: parseInt(userId) },
-    include: {
-      reports: {
-        where: {
-          date: {
-            gte: sevenDaysAgo,
-          },
-        },
-      },
+    {
+      id: 3,
+      name: "NFT Marketplace",
+      status: "ACTIVE",
+      impressions: 18000,
+      clicks: 480,
+      spend: 900.25,
+      updatedAt: "2024-12-15",
     },
-    orderBy: { createdAt: 'desc' },
-    take: 5,
-  });
-
-  // Get user balance from transactions
-  const balanceData = await prisma.transaction.aggregate({
-    where: {
-      userId: parseInt(userId),
-      type: 'DEPOSIT',
-    },
-    _sum: {
-      amount: true,
-    },
-  });
-
-  // Process campaign stats
-  const stats: CampaignStats = {
-    total: 0,
-    active: 0,
-    paused: 0,
-    pending: 0,
-    completed: 0,
-  };
-
-  campaignStats.forEach(stat => {
-    stats.total += stat._count.id;
-    stats[stat.status.toLowerCase() as keyof CampaignStats] = stat._count.id;
-  });
-
-  // Calculate CTR
-  const impressions = performanceData._sum.impressions || 0;
-  const clicks = performanceData._sum.clicks || 0;
-  const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
-
-  // Process recent campaigns
-  const processedCampaigns: Campaign[] = recentCampaigns.map(campaign => {
-    const campaignImpressions = campaign.reports.reduce((sum, report) => sum + report.impressions, 0);
-    const campaignClicks = campaign.reports.reduce((sum, report) => sum + report.clicks, 0);
-    const campaignSpend = campaign.reports.reduce((sum, report) => sum + report.spend, 0);
-
-    return {
-      id: campaign.id,
-      name: campaign.name,
-      status: campaign.status,
-      impressions: campaignImpressions,
-      clicks: campaignClicks,
-      spend: campaignSpend,
-      updatedAt: campaign.createdAt.toISOString().split('T')[0],
-    };
-  });
-
-  return {
-    campaignStats: stats,
-    performance: {
-      impressions,
-      clicks,
-      ctr: Math.round(ctr * 100) / 100, // Round to 2 decimal places
-      spend: performanceData._sum.spend || 0,
-    },
-    recentCampaigns: processedCampaigns,
-    balance: balanceData._sum.amount || 0,
-  };
-}
+  ],
+  balance: 2500.75,
+};
 
 // Loading skeleton component
 function LoadingSkeleton() {
@@ -236,47 +177,8 @@ function LoadingSkeleton() {
   );
 }
 
-export default async function AdvertiserOverview() {
-  // Check authentication and role
-  const session = await getServerSession(authOptions);
-  
-  if (!session?.user) {
-    redirect("/auth/signin");
-  }
-
-  if (session.user.role !== "ADVERTISER") {
-    redirect("/auth/signin");
-  }
-
-  let dashboardData: DashboardData;
-  let error: string | null = null;
-
-  try {
-    dashboardData = await getDashboardData(session.user.id);
-  } catch (err) {
-    console.error("Failed to fetch dashboard data:", err);
-    error = "Failed to load dashboard data. Please try again later.";
-    // Return error state
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">
-              Welcome back, {session.user.name || 'Advertiser'}
-            </p>
-          </div>
-        </div>
-
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error}
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+export default function AdvertiserOverview() {
+  const dashboardData = mockDashboardData;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -301,15 +203,16 @@ export default async function AdvertiserOverview() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back, {session.user.name || 'Advertiser'}
-          </p>
-        </div>
+    <RequireAuth>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground">
+              Welcome back, Advertiser
+            </p>
+          </div>
         <div className="flex items-center space-x-2">
           <Button variant="outline" size="sm" disabled>
             <Download className="mr-2 h-4 w-4" />
@@ -503,6 +406,7 @@ export default async function AdvertiserOverview() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

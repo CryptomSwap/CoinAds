@@ -1,5 +1,10 @@
 import PayoutsClient from "./PayoutsClient";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function PayoutsPage() {
-  return <PayoutsClient />;
+  return (
+    <RequireAuth>
+      <PayoutsClient />
+    </RequireAuth>
+  );
 }

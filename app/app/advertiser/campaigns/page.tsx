@@ -15,6 +15,7 @@ import {
   Trash2
 } from "lucide-react";
 import Link from "next/link";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data for MVP
 const mockCampaigns = [
@@ -156,7 +157,8 @@ export default function CampaignsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -309,6 +311,7 @@ export default function CampaignsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

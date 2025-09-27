@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DollarSign, Save, Lock, Globe, Monitor } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
 const mockPricingData = [
@@ -143,7 +144,8 @@ export default function AdminPricingPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <RequireAuth>
+      <div className="max-w-7xl mx-auto space-y-6">
       <PageHeader 
         title="Pricing Gate" 
         description="Manage CPM pricing for publisher placements"
@@ -298,6 +300,7 @@ export default function AdminPricingPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

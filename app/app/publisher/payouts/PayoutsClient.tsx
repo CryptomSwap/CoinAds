@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DollarSign, CreditCard, History, Settings, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
 const mockPayoutHistory = [
@@ -88,7 +89,8 @@ export default function PayoutsClient() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <RequireAuth>
+      <div className="max-w-6xl mx-auto space-y-6">
       <PageHeader 
         title="Payouts" 
         description="Request payouts and manage your payment methods"
@@ -291,6 +293,7 @@ export default function PayoutsClient() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

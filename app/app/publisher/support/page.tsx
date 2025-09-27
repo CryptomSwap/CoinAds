@@ -5,10 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, Phone, Mail, Clock, CheckCircle, HelpCircle } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function SupportPage() {
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Support</h1>
         <p className="text-muted-foreground">
@@ -239,6 +241,7 @@ export default function SupportPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

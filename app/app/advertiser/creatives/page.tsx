@@ -3,10 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Upload, Edit, Trash2, Eye } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function CreativesPage() {
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Creatives</h1>
@@ -132,6 +134,7 @@ export default function CreativesPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

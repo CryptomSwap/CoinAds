@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Settings, Eye, Edit, Trash2, Copy } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function PlacementsPage() {
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Ad Placements</h1>
@@ -238,6 +240,7 @@ export default function PlacementsPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

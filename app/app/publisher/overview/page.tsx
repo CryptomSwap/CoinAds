@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import RequireAuth from "@/components/RequireAuth";
 
 // Types for our data
 interface SiteStats {
@@ -66,213 +65,84 @@ interface PublisherDashboardData {
   balance: number;
 }
 
-// Server component to fetch publisher dashboard data
-async function getPublisherDashboardData(userId: string): Promise<PublisherDashboardData> {
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-  // Get site stats
-  const siteStats = await prisma.site.groupBy({
-    by: ['approved'],
-    where: { publisherId: parseInt(userId) },
-    _count: { id: true },
-  });
-
-  // Get placement stats
-  const placementStats = await prisma.placement.groupBy({
-    by: ['approved'],
-    where: { 
-      site: { publisherId: parseInt(userId) }
+// Mock data for client component
+const mockPublisherDashboardData: PublisherDashboardData = {
+  siteStats: {
+    total: 3,
+    approved: 2,
+    pending: 1,
+  },
+  placementStats: {
+    total: 8,
+    approved: 6,
+    pending: 2,
+  },
+  performance: {
+    impressions: 85000,
+    clicks: 2100,
+    earnings: 297.50,
+  },
+  sites: [
+    {
+      id: 1,
+      domain: "cryptonews.com",
+      status: "APPROVED",
+      placements: 4,
+      impressions: 35000,
+      clicks: 875,
+      earnings: 122.50,
     },
-    _count: { id: true },
-  });
-
-  // Get performance metrics from impressions (last 7 days)
-  const performanceData = await prisma.impression.aggregate({
-    where: {
-      site: {
-        publisherId: parseInt(userId),
-      },
-      createdAt: {
-        gte: sevenDaysAgo,
-      },
+    {
+      id: 2,
+      domain: "defi-insights.com",
+      status: "APPROVED",
+      placements: 3,
+      impressions: 28000,
+      clicks: 700,
+      earnings: 98.00,
     },
-    _sum: {
-      costMicros: true,
+    {
+      id: 3,
+      domain: "nft-trends.com",
+      status: "PENDING",
+      placements: 1,
+      impressions: 22000,
+      clicks: 525,
+      earnings: 77.00,
     },
-    _count: {
-      id: true,
-    },
-  });
-
-  // Get clicks count
-  const clicksData = await prisma.click.count({
-    where: {
-      impression: {
-        site: {
-          publisherId: parseInt(userId),
-        },
-      },
-      createdAt: {
-        gte: sevenDaysAgo,
-      },
-    },
-  });
-
-  // Get sites with their performance
-  const sites = await prisma.site.findMany({
-    where: { publisherId: parseInt(userId) },
-    include: {
-      placements: {
-        include: {
-          impressions: {
-            where: {
-              createdAt: {
-                gte: sevenDaysAgo,
-              },
-            },
-            include: {
-              clicks: {
-                where: {
-                  createdAt: {
-                    gte: sevenDaysAgo,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    orderBy: { id: 'desc' },
-    take: 5,
-  });
-
-  // Get user balance from transactions
-  const balanceData = await prisma.transaction.aggregate({
-    where: {
-      userId: parseInt(userId),
-      type: 'PAYOUT',
-    },
-    _sum: {
-      amount: true,
-    },
-  });
-
-  // Process site stats
-  const processedSiteStats: SiteStats = {
-    total: 0,
-    approved: 0,
-    pending: 0,
-  };
-
-  siteStats.forEach(stat => {
-    processedSiteStats.total += stat._count.id;
-    if (stat.approved) {
-      processedSiteStats.approved += stat._count.id;
-    } else {
-      processedSiteStats.pending += stat._count.id;
-    }
-  });
-
-  // Process placement stats
-  const processedPlacementStats: PlacementStats = {
-    total: 0,
-    approved: 0,
-    pending: 0,
-  };
-
-  placementStats.forEach(stat => {
-    processedPlacementStats.total += stat._count.id;
-    if (stat.approved) {
-      processedPlacementStats.approved += stat._count.id;
-    } else {
-      processedPlacementStats.pending += stat._count.id;
-    }
-  });
-
-  // Calculate earnings (assuming 70% publisher share)
-  const totalCostMicros = performanceData._sum.costMicros || 0;
-  const totalCost = totalCostMicros / 1000000; // Convert from micro-cents to dollars
-  const publisherShare = totalCost * 0.7; // 70% publisher share
-
-  // Process sites data
-  const processedSites: Site[] = sites.map(site => {
-    let siteImpressions = 0;
-    let siteClicks = 0;
-    let siteEarnings = 0;
-
-    site.placements.forEach(placement => {
-      const placementImpressions = placement.impressions.length;
-      const placementClicks = placement.impressions.reduce((sum, impression) => sum + impression.clicks.length, 0);
-      const placementCost = (placementImpressions * 0.005); // $5 CPM
-      const placementEarnings = placementCost * 0.7; // 70% publisher share
-
-      siteImpressions += placementImpressions;
-      siteClicks += placementClicks;
-      siteEarnings += placementEarnings;
-    });
-
-    return {
-      id: site.id,
-      domain: site.domain,
-      status: site.approved ? 'APPROVED' : 'PENDING',
-      placements: site.placements.length,
-      impressions: siteImpressions,
-      clicks: siteClicks,
-      earnings: siteEarnings,
-    };
-  });
-
-  // Generate setup checklist based on actual data
-  const hasApprovedSite = processedSiteStats.approved > 0;
-  const hasPlacements = processedPlacementStats.total > 0;
-  const hasApprovedPlacements = processedPlacementStats.approved > 0;
-
-  const setupChecklist: SetupChecklistItem[] = [
+  ],
+  setupChecklist: [
     {
       id: "verify-site",
       title: "Verify Site",
       description: "Complete site verification process",
-      completed: hasApprovedSite,
+      completed: true,
       href: "/app/publisher/sites"
     },
     {
       id: "create-placement",
       title: "Create Placement",
       description: "Set up ad placements on your site",
-      completed: hasPlacements,
+      completed: true,
       href: "/app/publisher/placements"
     },
     {
       id: "copy-tag",
       title: "Copy Tag",
       description: "Install the ad tag on your site",
-      completed: hasApprovedPlacements,
+      completed: true,
       href: "/app/publisher/placements"
     },
     {
       id: "request-payout",
       title: "Request Payout",
       description: "Set up payout method and request earnings",
-      completed: publisherShare > 0,
+      completed: false,
       href: "/app/publisher/earnings"
     }
-  ];
-
-  return {
-    siteStats: processedSiteStats,
-    placementStats: processedPlacementStats,
-    performance: {
-      impressions: performanceData._count.id || 0,
-      clicks: clicksData,
-      earnings: publisherShare,
-    },
-    sites: processedSites,
-    setupChecklist,
-    balance: balanceData._sum.amount || 0,
-  };
-}
+  ],
+  balance: 297.50,
+};
 
 // Loading skeleton component
 function PublisherLoadingSkeleton() {
@@ -375,47 +245,8 @@ function PublisherLoadingSkeleton() {
   );
 }
 
-export default async function PublisherOverview() {
-  // Check authentication and role
-  const session = await getServerSession(authOptions);
-  
-  if (!session?.user) {
-    redirect("/auth/signin");
-  }
-
-  if (session.user.role !== "PUBLISHER") {
-    redirect("/auth/signin");
-  }
-
-  let dashboardData: PublisherDashboardData;
-  let error: string | null = null;
-
-  try {
-    dashboardData = await getPublisherDashboardData(session.user.id);
-  } catch (err) {
-    console.error("Failed to fetch publisher dashboard data:", err);
-    error = "Failed to load dashboard data. Please try again later.";
-    // Return error state
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">
-              Welcome back, {session.user.name || 'Publisher'}
-            </p>
-          </div>
-        </div>
-
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error}
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+export default function PublisherOverview() {
+  const dashboardData = mockPublisherDashboardData;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -439,15 +270,16 @@ export default async function PublisherOverview() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back, {session.user.name || 'Publisher'}
-          </p>
-        </div>
+    <RequireAuth>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground">
+              Welcome back, Publisher
+            </p>
+          </div>
         <div className="flex items-center space-x-2">
           <Button variant="outline" size="sm" asChild>
             <Link href="/app/publisher/sites">
@@ -636,6 +468,7 @@ export default async function PublisherOverview() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

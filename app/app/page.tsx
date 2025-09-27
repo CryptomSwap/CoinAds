@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function AppPage() {
   const { data: session, status } = useSession();
@@ -30,8 +31,10 @@ export default function AppPage() {
   }, [session, status, router]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-600"></div>
-    </div>
+    <RequireAuth>
+      <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-600"></div>
+      </div>
+    </RequireAuth>
   );
 }

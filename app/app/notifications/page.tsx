@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Bell, CheckCircle, AlertTriangle, Info, DollarSign, Megaphone, Globe, Check } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
 const mockNotifications = [
@@ -155,7 +156,8 @@ export default function NotificationsPage() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <RequireAuth>
+      <div className="max-w-4xl mx-auto space-y-6">
       <PageHeader 
         title="Notifications" 
         description="Stay updated with your account activities"
@@ -287,6 +289,7 @@ export default function NotificationsPage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

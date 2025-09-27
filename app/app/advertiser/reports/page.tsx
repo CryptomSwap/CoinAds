@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Download, Calendar, TrendingUp, Eye, MousePointer, AlertCircle } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Types for our data
 interface ReportKPIs {
@@ -221,14 +222,15 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
-          <p className="text-muted-foreground">
-            Analyze your campaign performance and metrics
-          </p>
-        </div>
+    <RequireAuth>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
+            <p className="text-muted-foreground">
+              Analyze your campaign performance and metrics
+            </p>
+          </div>
         <div className="flex space-x-2">
           <Button variant="outline" disabled>
             <Calendar className="h-4 w-4 mr-2" />
@@ -372,6 +374,7 @@ export default function ReportsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

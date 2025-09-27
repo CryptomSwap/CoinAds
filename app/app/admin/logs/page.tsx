@@ -23,6 +23,7 @@ import {
   ChevronRight,
   AlertCircle
 } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 interface AdminLog {
   id: number;
@@ -240,7 +241,8 @@ export default function AdminLogsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Admin Logs</h1>
@@ -483,6 +485,7 @@ export default function AdminLogsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle, XCircle, Clock, Eye, User, Globe, Filter, Search, CheckSquare, Square, AlertCircle } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function ApprovalsPage() {
   const { data: session, status } = useSession();
@@ -272,7 +273,8 @@ export default function ApprovalsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Approvals</h1>
@@ -910,6 +912,7 @@ export default function ApprovalsPage() {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

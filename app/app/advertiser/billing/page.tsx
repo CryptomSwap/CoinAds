@@ -19,6 +19,7 @@ import {
   Clock,
   XCircle
 } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 interface Wallet {
   id: string;
@@ -176,7 +177,8 @@ export default function BillingPage() {
   const isLowBalance = wallet.balanceCents < wallet.lowBalanceThresholdCents;
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -392,6 +394,7 @@ export default function BillingPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

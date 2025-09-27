@@ -29,6 +29,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import RequireAuth from "@/components/RequireAuth";
 
 interface Site {
   id: string;
@@ -156,7 +157,8 @@ export default function SitesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -374,6 +376,7 @@ export default function SitesPage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

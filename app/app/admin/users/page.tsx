@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Shield, Mail, Phone, Calendar, Search, Filter } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function UsersPage() {
   const { data: session, status } = useSession();
@@ -46,7 +47,8 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Users</h1>
@@ -239,6 +241,7 @@ export default function UsersPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

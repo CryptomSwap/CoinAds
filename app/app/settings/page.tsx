@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Settings, Bell, Shield, Globe, Palette } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function SettingsPage() {
   const [notifications, setNotifications] = useState({
@@ -32,7 +33,8 @@ export default function SettingsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">Settings</h1>
         <p className="text-muted-foreground">
@@ -282,6 +284,7 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

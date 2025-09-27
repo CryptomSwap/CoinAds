@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +20,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import Link from "next/link";
+import RequireAuth from "@/components/RequireAuth";
 
 // Types for our data
 interface UserCounts {
@@ -55,200 +54,45 @@ interface AdminDashboardData {
   pendingApprovals: PendingApproval[];
 }
 
-// Server component to fetch admin dashboard data
-async function getAdminDashboardData(): Promise<AdminDashboardData> {
-  const twentyFourHoursAgo = new Date();
-  twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
-
-  // Get user counts by role
-  const userCounts = await prisma.user.groupBy({
-    by: ['role'],
-    _count: { id: true },
-  });
-
-  // Get total campaigns
-  const totalCampaigns = await prisma.campaign.count();
-
-  // Get pending creatives (assuming creatives need approval)
-  const pendingCreatives = await prisma.creative.count({
-    where: {
-      // Assuming there's a status field or we need to add one
-      // For now, we'll count all creatives as pending approval
+// Mock data for client component
+const mockAdminDashboardData: AdminDashboardData = {
+  kpis: {
+    userCounts: {
+      advertisers: 45,
+      publishers: 23,
+      admins: 3,
+      total: 71,
     },
-  });
-
-  // Get pending payouts
-  const pendingPayouts = await prisma.transaction.count({
-    where: {
-      type: 'PAYOUT',
-      status: 'PENDING',
-    },
-  });
-
-  // Get last 24h impressions
-  const last24hImpressions = await prisma.impression.count({
-    where: {
-      createdAt: {
-        gte: twentyFourHoursAgo,
-      },
-    },
-  });
-
-  // Get last 24h clicks
-  const last24hClicks = await prisma.click.count({
-    where: {
-      createdAt: {
-        gte: twentyFourHoursAgo,
-      },
-    },
-  });
-
-  // Get pending approvals
-  const pendingCampaigns = await prisma.campaign.findMany({
-    where: { status: 'PENDING' },
-    take: 2,
-    orderBy: { createdAt: 'desc' },
-  });
-
-  const pendingSites = await prisma.site.findMany({
-    where: { approved: false },
-    take: 2,
-    orderBy: { id: 'desc' },
-  });
-
-  const pendingPlacements = await prisma.placement.findMany({
-    where: { approved: false },
-    take: 1,
-    orderBy: { id: 'desc' },
-  });
-
-  // Process user counts
-  const processedUserCounts: UserCounts = {
-    advertisers: 0,
-    publishers: 0,
-    admins: 0,
-    total: 0,
-  };
-
-  userCounts.forEach(count => {
-    processedUserCounts.total += count._count.id;
-    switch (count.role) {
-      case 'ADVERTISER':
-        processedUserCounts.advertisers = count._count.id;
-        break;
-      case 'PUBLISHER':
-        processedUserCounts.publishers = count._count.id;
-        break;
-      case 'ADMIN':
-        processedUserCounts.admins = count._count.id;
-        break;
-    }
-  });
-
-  // Process pending approvals
-  const pendingApprovals: PendingApproval[] = [];
-
-  // Add pending campaigns
-  pendingCampaigns.forEach(campaign => {
-    pendingApprovals.push({
-      id: `campaign-${campaign.id}`,
+    totalCampaigns: 156,
+    pendingCreatives: 8,
+    pendingPayouts: 12,
+    last24hImpressions: 125000,
+    last24hClicks: 3200,
+  },
+  pendingApprovals: [
+    {
+      id: 'campaign-1',
       type: 'campaign',
-      title: `Campaign: ${campaign.name}`,
-      description: `Budget: $${campaign.budget} - Created ${campaign.createdAt.toLocaleDateString()}`,
-      createdAt: campaign.createdAt.toISOString(),
-      href: `/app/admin/approvals?type=campaign&id=${campaign.id}`,
+      title: 'Campaign: Crypto Trading Platform',
+      description: 'Budget: $5000 - Created 12/15/2024',
+      createdAt: '2024-12-15T10:30:00Z',
+      href: '/app/admin/approvals?type=campaign&id=1',
       priority: 'high',
-    });
-  });
-
-  // Add pending sites
-  pendingSites.forEach(site => {
-    pendingApprovals.push({
-      id: `site-${site.id}`,
-      type: 'site',
-      title: `Site: ${site.domain}`,
-      description: `Publisher site awaiting verification`,
-      createdAt: site.id.toString(), // Using ID as timestamp placeholder
-      href: `/app/admin/approvals?type=site&id=${site.id}`,
-      priority: 'medium',
-    });
-  });
-
-  // Add pending placements
-  pendingPlacements.forEach(placement => {
-    pendingApprovals.push({
-      id: `placement-${placement.id}`,
-      type: 'placement',
-      title: `Placement: ${placement.size}`,
-      description: `Price: $${placement.price} - ${placement.pricing}`,
-      createdAt: placement.id.toString(), // Using ID as timestamp placeholder
-      href: `/app/admin/approvals?type=placement&id=${placement.id}`,
-      priority: 'low',
-    });
-  });
-
-  // Sort by priority and limit to top 5
-  const sortedApprovals = pendingApprovals
-    .sort((a, b) => {
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      return priorityOrder[b.priority] - priorityOrder[a.priority];
-    })
-    .slice(0, 5);
-
-  return {
-    kpis: {
-      userCounts: processedUserCounts,
-      totalCampaigns,
-      pendingCreatives,
-      pendingPayouts,
-      last24hImpressions,
-      last24hClicks,
     },
-    pendingApprovals: sortedApprovals,
-  };
-}
+    {
+      id: 'site-1',
+      type: 'site',
+      title: 'Site: cryptonews.com',
+      description: 'Publisher site awaiting verification',
+      createdAt: '2024-12-14T15:20:00Z',
+      href: '/app/admin/approvals?type=site&id=1',
+      priority: 'medium',
+    },
+  ],
+};
 
-export default async function AdminOverview() {
-  // Check authentication and role
-  const session = await getServerSession(authOptions);
-  
-  if (!session?.user) {
-    redirect("/auth/signin");
-  }
-
-  if (session.user.role !== "ADMIN") {
-    redirect("/auth/signin");
-  }
-
-  let dashboardData: AdminDashboardData;
-  let error: string | null = null;
-
-  try {
-    dashboardData = await getAdminDashboardData();
-  } catch (err) {
-    console.error("Failed to fetch admin dashboard data:", err);
-    error = "Failed to load dashboard data. Please try again later.";
-    // Return error state
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Admin Overview</h1>
-            <p className="text-muted-foreground">
-              Monitor platform activity and manage operations
-            </p>
-          </div>
-        </div>
-
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error}
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+export default function AdminOverview() {
+  const dashboardData = mockAdminDashboardData;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -292,7 +136,8 @@ export default async function AdminOverview() {
 
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -510,6 +355,7 @@ export default async function AdminOverview() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

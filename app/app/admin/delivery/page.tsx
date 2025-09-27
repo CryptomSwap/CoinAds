@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Monitor, Activity, AlertTriangle, CheckCircle, Clock, TrendingUp, RefreshCw, Download, Filter } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function DeliveryPage() {
   const { data: session, status } = useSession();
@@ -170,7 +171,8 @@ export default function DeliveryPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Delivery Monitor</h1>
@@ -408,6 +410,7 @@ export default function DeliveryPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

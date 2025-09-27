@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DollarSign, TrendingUp, Download, Filter, Search, Eye, Calendar, CreditCard, Banknote } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 export default function TransactionsPage() {
   const { data: session, status } = useSession();
@@ -219,7 +220,8 @@ export default function TransactionsPage() {
   const platformFee = totalRevenue * 0.1; // 10% platform fee
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Transactions</h1>
@@ -542,6 +544,7 @@ export default function TransactionsPage() {
           </Button>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

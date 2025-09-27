@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+'use client';
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Download, Calendar, TrendingUp, Eye, MousePointer, DollarSign, AlertCircle } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Types for our data
 interface PublisherReportKPIs {
@@ -226,54 +226,43 @@ function PublisherLoadingSkeleton() {
   );
 }
 
-export default async function ReportsPage({
-  searchParams,
-}: {
-  searchParams: { dateRange?: string; site?: string; placement?: string };
-}) {
-  // Check authentication and role
-  const session = await getServerSession(authOptions);
+export default function ReportsPage() {
+  const [dateRange, setDateRange] = useState("7d");
+  const [selectedSite, setSelectedSite] = useState("all");
+  const [selectedPlacement, setSelectedPlacement] = useState("all");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
-  if (!session?.user) {
-    redirect("/auth/signin");
-  }
-
-  if (session.user.role !== "PUBLISHER") {
-    redirect("/auth/signin");
-  }
-
-  const dateRange = searchParams.dateRange || '7d';
-  const siteFilter = searchParams.site || 'all';
-  const placementFilter = searchParams.placement || 'all';
-
-  let reportData: PublisherReportData;
-  let error: string | null = null;
-
-  try {
-    reportData = await getPublisherReportsData(session.user.id, dateRange);
-  } catch (err) {
-    console.error("Failed to fetch publisher reports data:", err);
-    error = "Failed to load reports data. Please try again later.";
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
-            <p className="text-muted-foreground">
-              Analyze your site performance and earnings
-            </p>
-          </div>
-        </div>
-
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {error}
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+  // Mock data for client component
+  const reportData: PublisherReportData = {
+    kpis: {
+      impressions: 125000,
+      clicks: 3200,
+      ctr: 2.56,
+      earnings: 875.50,
+    },
+    dailyData: [
+      { date: "2024-01-15", impressions: 15000, clicks: 380, earnings: 105.25 },
+      { date: "2024-01-14", impressions: 18000, clicks: 460, earnings: 127.50 },
+      { date: "2024-01-13", impressions: 12000, clicks: 310, earnings: 85.75 },
+      { date: "2024-01-12", impressions: 16000, clicks: 410, earnings: 113.25 },
+      { date: "2024-01-11", impressions: 14000, clicks: 360, earnings: 99.50 },
+      { date: "2024-01-10", impressions: 17000, clicks: 435, earnings: 120.25 },
+      { date: "2024-01-09", impressions: 13000, clicks: 335, earnings: 92.75 },
+    ],
+    siteData: [
+      { site: "cryptonews.com", impressions: 45000, clicks: 1150, earnings: 318.25 },
+      { site: "defi-insights.com", impressions: 38000, clicks: 970, earnings: 268.50 },
+      { site: "nft-trends.com", impressions: 42000, clicks: 1080, earnings: 298.75 },
+    ],
+    placementData: [
+      { placement: "Header Banner", impressions: 25000, clicks: 640, earnings: 177.00 },
+      { placement: "Sidebar", impressions: 20000, clicks: 510, earnings: 141.25 },
+      { placement: "Footer", impressions: 15000, clicks: 385, earnings: 106.50 },
+      { placement: "In-Content", impressions: 30000, clicks: 770, earnings: 213.00 },
+      { placement: "Mobile Banner", impressions: 35000, clicks: 895, earnings: 247.75 },
+    ],
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -288,14 +277,15 @@ export default async function ReportsPage({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
-          <p className="text-muted-foreground">
-            Analyze your site performance and earnings
-          </p>
-        </div>
+    <RequireAuth>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
+            <p className="text-muted-foreground">
+              Analyze your site performance and earnings
+            </p>
+          </div>
         <div className="flex space-x-2">
           <Button variant="outline" disabled>
             <Calendar className="h-4 w-4 mr-2" />
@@ -457,6 +447,7 @@ export default async function ReportsPage({
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

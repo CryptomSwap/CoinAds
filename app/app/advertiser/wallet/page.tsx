@@ -15,6 +15,7 @@ import {
   TrendingDown,
   AlertTriangle
 } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 // Mock data for MVP
 const mockWallet = {
@@ -126,7 +127,8 @@ export default function WalletPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -299,6 +301,7 @@ export default function WalletPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }

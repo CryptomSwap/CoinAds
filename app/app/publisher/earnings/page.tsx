@@ -17,6 +17,7 @@ import {
   XCircle,
   Wallet
 } from "lucide-react";
+import RequireAuth from "@/components/RequireAuth";
 
 interface EarningsSummary {
   totalEarnings: number;
@@ -154,7 +155,8 @@ export default function EarningsPage() {
   const { summary, sites, payouts } = earningsData;
 
   return (
-    <div className="space-y-6">
+    <RequireAuth>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -371,6 +373,7 @@ export default function EarningsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </RequireAuth>
   );
 }
