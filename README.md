@@ -273,6 +273,28 @@ npm run type-check
 npm run audit:metadata
 ```
 
+### Smoke Tests
+Basic functionality tests to verify core features work without requiring authentication:
+
+```bash
+# Run smoke tests
+npx playwright test tests/smoke.spec.ts
+
+# Run with custom base URL
+E2E_BASE_URL=https://your-app.vercel.app npx playwright test tests/smoke.spec.ts
+```
+
+**Required Environment Variables:**
+- `E2E_BASE_URL` - Base URL for testing (defaults to http://localhost:3000)
+
+**What Smoke Tests Cover:**
+- Marketing pages load correctly (/, /about, /advertisers, /publishers, /contact)
+- Authentication pages render properly (/auth/signin, /auth/signup)
+- Form interactions work (email/password inputs)
+- Navigation between pages functions
+- Legal pages are accessible
+- 404 error handling works
+
 ## 📋 Code Quality Rules
 
 ### Metadata Export Rule

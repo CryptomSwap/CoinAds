@@ -30,8 +30,8 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // Demo mode - allow any email/password combination
-        if (DEMO_MODE) {
+        // Demo mode - only allow in development
+        if (DEMO_MODE && process.env.NODE_ENV !== 'production') {
           const role = credentials.email.includes('admin') ? 'ADMIN' : 
                       credentials.email.includes('publisher') ? 'PUBLISHER' : 'ADVERTISER';
           
@@ -54,8 +54,13 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // For MVP, we'll skip password validation since the User model doesn't have a password field
-          // In production, you'd implement proper password hashing and validation
+          // Validate password if user has one
+          if (user.password) {
+            const isValid = await bcrypt.compare(credentials.password, user.password);
+            if (!isValid) {
+              return null;
+            }
+          }
 
           return {
             id: user.id.toString(),
@@ -66,7 +71,8 @@ export const authOptions: NextAuthOptions = {
             emailVerified: true, // For MVP, assume all users are verified
           };
         } catch (error) {
-          console.error('Database error in auth:', error);
+          const { log } = require('@/lib/logger');
+          log.error('Database error in auth', error);
           return null;
         }
       }
@@ -88,8 +94,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user && token.sub) {
-        // Demo mode - return demo user data
-        if (DEMO_MODE && token.sub === 'demo-user-id') {
+        // Demo mode - only allow in development
+        if (DEMO_MODE && process.env.NODE_ENV !== 'production' && token.sub === 'demo-user-id') {
           session.user.id = 'demo-user-id';
           session.user.role = token.role as string;
           session.user.emailVerified = true;
@@ -107,7 +113,8 @@ export const authOptions: NextAuthOptions = {
             session.user.emailVerified = true; // For MVP, assume all users are verified
           }
         } catch (error) {
-          console.error('Database error in session callback:', error);
+          const { log } = require('@/lib/logger');
+          log.error('Database error in session callback', error);
         }
       }
       return session;

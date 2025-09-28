@@ -4,8 +4,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
-  // Feature flag: allow disabling client auth to isolate issues
-  if (process.env.NEXT_PUBLIC_DISABLE_CLIENT_AUTH === '1') return <>{children}</>;
+  // Feature flag: allow disabling client auth to isolate issues (development only)
+  if (process.env.NEXT_PUBLIC_DISABLE_CLIENT_AUTH === '1' && process.env.NODE_ENV !== 'production') {
+    return <>{children}</>;
+  }
 
   const { status } = useSession();
   const router = useRouter();

@@ -1,0 +1,517 @@
+{
+  "pages": [
+    {
+      "path": "about",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\about\\page.tsx"
+    },
+    {
+      "path": "ad-formats",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\ad-formats\\page.tsx"
+    },
+    {
+      "path": "advertisers",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\advertisers\\page.tsx"
+    },
+    {
+      "path": "app",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\approvals",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\approvals\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\delivery",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\delivery\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\logs",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\logs\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\overview",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\overview\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\pricing",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\pricing\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\transactions",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\transactions\\page.tsx"
+    },
+    {
+      "path": "app\\admin\\users",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\admin\\users\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\billing",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\billing\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\campaigns",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\campaigns\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\campaigns\\[id]",
+      "type": "page",
+      "isDynamic": true,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\campaigns\\[id]\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\campaigns\\new",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\campaigns\\new\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\campaigns\\new\\review",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\campaigns\\new\\review\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\creatives",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\creatives\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\overview",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\overview\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\reports",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\reports\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\support",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\support\\page.tsx"
+    },
+    {
+      "path": "app\\advertiser\\wallet",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\advertiser\\wallet\\page.tsx"
+    },
+    {
+      "path": "app\\notifications",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\notifications\\page.tsx"
+    },
+    {
+      "path": "app\\profile",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\profile\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\ad-tags",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\ad-tags\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\earnings",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\earnings\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\overview",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\overview\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\payouts",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\payouts\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\placements",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\placements\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\reports",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\reports\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\sites",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\sites\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\sites\\[id]\\verify",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\sites\\[id]\\verify\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\sites\\new",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\sites\\new\\page.tsx"
+    },
+    {
+      "path": "app\\publisher\\support",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\publisher\\support\\page.tsx"
+    },
+    {
+      "path": "app\\settings",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\app\\settings\\page.tsx"
+    },
+    {
+      "path": "auth\\forgot-password",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\forgot-password\\page.tsx"
+    },
+    {
+      "path": "auth\\link-expired",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\link-expired\\page.tsx"
+    },
+    {
+      "path": "auth\\reset-password",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\reset-password\\page.tsx"
+    },
+    {
+      "path": "auth\\signin",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\signin\\page.tsx"
+    },
+    {
+      "path": "auth\\signup",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\signup\\page.tsx"
+    },
+    {
+      "path": "auth\\verified",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\verified\\page.tsx"
+    },
+    {
+      "path": "auth\\verify-email",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\auth\\verify-email\\page.tsx"
+    },
+    {
+      "path": "contact",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\contact\\page.tsx"
+    },
+    {
+      "path": "debug",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\debug\\page.tsx"
+    },
+    {
+      "path": "docs\\publisher-integration",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\docs\\publisher-integration\\page.tsx"
+    },
+    {
+      "path": "health",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\health\\page.tsx"
+    },
+    {
+      "path": "legal\\advertiser-terms",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\legal\\advertiser-terms\\page.tsx"
+    },
+    {
+      "path": "legal\\cookie-preferences",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\legal\\cookie-preferences\\page.tsx"
+    },
+    {
+      "path": "legal\\cookies",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\legal\\cookies\\page.tsx"
+    },
+    {
+      "path": "legal\\privacy",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\legal\\privacy\\page.tsx"
+    },
+    {
+      "path": "legal\\publisher-terms",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\legal\\publisher-terms\\page.tsx"
+    },
+    {
+      "path": "publishers",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\publishers\\page.tsx"
+    },
+    {
+      "path": "test-auth",
+      "type": "page",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\test-auth\\page.tsx"
+    }
+  ],
+  "apis": [
+    {
+      "path": "api\\admin\\approvals",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\admin\\approvals\\route.ts"
+    },
+    {
+      "path": "api\\admin\\logs",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\admin\\logs\\route.ts"
+    },
+    {
+      "path": "api\\advertiser\\campaigns",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\advertiser\\campaigns\\route.ts"
+    },
+    {
+      "path": "api\\advertiser\\campaigns\\[id]",
+      "type": "api",
+      "isDynamic": true,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\advertiser\\campaigns\\[id]\\route.ts"
+    },
+    {
+      "path": "api\\advertiser\\wallet",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\advertiser\\wallet\\route.ts"
+    },
+    {
+      "path": "api\\auth\\[...nextauth]",
+      "type": "api",
+      "isDynamic": true,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\auth\\[...nextauth]\\route.ts"
+    },
+    {
+      "path": "api\\auth\\register",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\auth\\register\\route.ts"
+    },
+    {
+      "path": "api\\auth\\reset-password",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\auth\\reset-password\\route.ts"
+    },
+    {
+      "path": "api\\debug\\email",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\debug\\email\\route.ts"
+    },
+    {
+      "path": "api\\delivery",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\delivery\\route.ts"
+    },
+    {
+      "path": "api\\dev\\seed-admin",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\dev\\seed-admin\\route.ts"
+    },
+    {
+      "path": "api\\health",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\health\\route.ts"
+    },
+    {
+      "path": "api\\publisher\\earnings",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\publisher\\earnings\\route.ts"
+    },
+    {
+      "path": "api\\publisher\\sites",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\publisher\\sites\\route.ts"
+    },
+    {
+      "path": "api\\publisher\\sites\\[id]",
+      "type": "api",
+      "isDynamic": true,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\publisher\\sites\\[id]\\route.ts"
+    },
+    {
+      "path": "api\\reports\\advertiser",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\reports\\advertiser\\route.ts"
+    },
+    {
+      "path": "api\\reports\\advertiser.csv",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\reports\\advertiser.csv\\route.ts"
+    },
+    {
+      "path": "api\\track\\click",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\track\\click\\route.ts"
+    },
+    {
+      "path": "api\\track\\conversion",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\track\\conversion\\route.ts"
+    },
+    {
+      "path": "api\\track\\imp",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\api\\track\\imp\\route.ts"
+    },
+    {
+      "path": "c",
+      "type": "api",
+      "isDynamic": false,
+      "isAuthGated": false,
+      "filePath": "C:\\Users\\User\\CoinAds\\app\\c\\route.ts"
+    }
+  ]
+}

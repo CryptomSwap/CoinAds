@@ -57,7 +57,8 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Registration error:", error);
+    const { log } = await import('@/lib/logger');
+    log.error("Registration error", error);
     
     if (error instanceof z.ZodError) {
       return NextResponse.json(

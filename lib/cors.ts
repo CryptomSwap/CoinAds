@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // CORS configuration
 const CORS_CONFIG = {
-  // For MVP, allow all origins. In production, restrict to publisher domains
-  allowedOrigins: ['*'] as string[], // TODO: Replace with specific publisher domains in production
+  // In production, restrict to specific publisher domains
+  allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',') || ['*'] as string[],
   allowedMethods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',

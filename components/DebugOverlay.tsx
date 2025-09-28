@@ -3,6 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function DebugOverlay() {
+  // Only show in development
+  if (process.env.NODE_ENV === 'production') {
+    return null;
+  }
+  
   const on = process.env.NEXT_PUBLIC_DEBUG_OVERLAY === '1';
   const pathname = usePathname();
   const [errors, setErrors] = useState<string[]>([]);
