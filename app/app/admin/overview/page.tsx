@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import RequireAuth from "@/components/RequireAuth";
+import { getAdminOverview, getPendingApprovals } from "@/lib/server-actions/admin";
 
 // Types for our data
 interface UserCounts {
@@ -92,7 +94,42 @@ const mockAdminDashboardData: AdminDashboardData = {
 };
 
 export default function AdminOverview() {
-  const dashboardData = mockAdminDashboardData;
+  const [dashboardData, setDashboardData] = useState<AdminDashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [overview, approvals] = await Promise.all([
+          getAdminOverview(),
+          getPendingApprovals(),
+        ]);
+
+        setDashboardData({
+          kpis: overview,
+          pendingApprovals: approvals.map(approval => ({
+            id: approval.id,
+            type: approval.entityType as 'campaign' | 'creative' | 'site' | 'placement',
+            title: `${approval.entityType}: ${approval.entityId}`,
+            description: approval.reason || 'Pending approval',
+            createdAt: approval.createdAt,
+            href: `/app/admin/approvals?type=${approval.entityType}&id=${approval.entityId}`,
+            priority: 'medium' as const,
+          })),
+        });
+      } catch (error) {
+        console.error('Failed to load admin data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  if (loading || !dashboardData) {
+    return <div className="p-6">Loading...</div>;
+  }
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

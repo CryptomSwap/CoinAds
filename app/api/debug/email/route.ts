@@ -3,8 +3,8 @@ import { sendMail, emailTemplates } from "@/lib/email";
 import { serverEnv, isDevelopment } from "@/lib/env/server";
 
 export async function GET(request: NextRequest) {
-  // Only allow in development mode
-  if (!isDevelopment) {
+  // Block in production - debug endpoints should not be accessible
+  if (process.env.NODE_ENV === 'production') {
     return NextResponse.json(
       { error: "Not found" },
       { status: 404 }

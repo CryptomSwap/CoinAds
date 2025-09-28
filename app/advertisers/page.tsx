@@ -163,7 +163,7 @@ export default function AdvertisersPage() {
             </Button>
           </Link>
           <Link href="/contact">
-            <Button size="lg">
+            <Button size="lg" variant="outline">
               Contact Sales
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -402,11 +402,17 @@ export default function AdvertisersPage() {
                 Get Started Free
               </Button>
             </Link>
-            <Link href="/contact">
-              <Button size="lg" variant="outline">
+            <Button 
+              asChild 
+              size="lg" 
+              variant="outline" 
+              className="border-white text-white hover:bg-white hover:text-gray-900"
+              data-testid="schedule-demo"
+            >
+              <Link href="/contact?subject=Schedule%20Demo">
                 Schedule Demo
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

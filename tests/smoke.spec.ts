@@ -1,103 +1,106 @@
 import { test, expect } from '@playwright/test';
 
-const baseURL = process.env.E2E_BASE_URL || 'http://localhost:3000';
-
-test.describe('Smoke Tests', () => {
-  test('should load marketing pages', async ({ page }) => {
+test.describe('CoinAds MVP Smoke Tests', () => {
+  test('Marketing pages load and have titles', async ({ page }) => {
     // Test homepage
-    await page.goto(`${baseURL}/`);
+    await page.goto('/');
     await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
-
-    // Test about page
-    await page.goto(`${baseURL}/about`);
-    await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
-
+    
     // Test advertisers page
-    await page.goto(`${baseURL}/advertisers`);
+    await page.goto('/advertisers');
     await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
-
+    await expect(page.locator('h1')).toContainText('Reach Crypto Audiences');
+    
     // Test publishers page
-    await page.goto(`${baseURL}/publishers`);
+    await page.goto('/publishers');
     await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
-
-    // Test contact page
-    await page.goto(`${baseURL}/contact`);
-    await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1')).toContainText('Earn More From Your Crypto Traffic');
   });
 
-  test('should load authentication pages', async ({ page }) => {
+  test('Auth pages are accessible', async ({ page }) => {
     // Test sign in page
-    await page.goto(`${baseURL}/auth/signin`);
+    await page.goto('/auth/signin');
     await expect(page).toHaveTitle(/CoinAds/);
+    await expect(page.locator('h1')).toContainText('Sign in');
     
-    // Check for main sign in elements
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('input[type="password"]')).toBeVisible();
-    await expect(page.locator('button[type="submit"]')).toBeVisible();
-
     // Test sign up page
-    await page.goto(`${baseURL}/auth/signup`);
+    await page.goto('/auth/signup');
     await expect(page).toHaveTitle(/CoinAds/);
-    
-    // Check for main sign up elements
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('input[type="password"]')).toBeVisible();
-    await expect(page.locator('button[type="submit"]')).toBeVisible();
+    await expect(page.locator('h1')).toContainText('Create account');
   });
 
-  test('should handle navigation', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+  test('Email verification flow works', async ({ page }) => {
+    // Go to sign in page
+    await page.goto('/auth/signin');
     
-    // Test navigation to about page
-    const aboutLink = page.locator('a[href="/about"]').first();
-    if (await aboutLink.isVisible()) {
-      await aboutLink.click();
-      await expect(page).toHaveURL(/.*\/about/);
-    }
-
-    // Test navigation to contact page
-    const contactLink = page.locator('a[href="/contact"]').first();
-    if (await contactLink.isVisible()) {
-      await contactLink.click();
-      await expect(page).toHaveURL(/.*\/contact/);
-    }
+    // Test that unverified users are blocked
+    await page.fill('input[name="email"]', 'unverified@example.com');
+    await page.fill('input[name="password"]', 'password123');
+    
+    // Submit form
+    await page.click('button[type="submit"]');
+    
+    // Should show verification error
+    await expect(page.locator('text=verify your email')).toBeVisible();
+    
+    // Should show resend button
+    await expect(page.locator('button:has-text("Resend verification")')).toBeVisible();
   });
 
-  test('should handle form interactions', async ({ page }) => {
-    await page.goto(`${baseURL}/auth/signin`);
+  test('Unauthenticated users are redirected from protected routes', async ({ page }) => {
+    // Try to access protected route
+    await page.goto('/app');
     
-    // Test form field interactions
-    const emailInput = page.locator('input[type="email"]');
-    const passwordInput = page.locator('input[type="password"]');
-    
-    await emailInput.fill('test@example.com');
-    await passwordInput.fill('testpassword');
-    
-    // Verify values are set
-    await expect(emailInput).toHaveValue('test@example.com');
-    await expect(passwordInput).toHaveValue('testpassword');
+    // Should redirect to sign in
+    await expect(page).toHaveURL(/\/auth\/signin/);
   });
 
-  test('should handle error states', async ({ page }) => {
+  test('Marketing CTAs work correctly', async ({ page }) => {
+    // Test homepage CTA
+    await page.goto('/');
+    const heroCta = page.locator('[data-testid="start-advertising"]').first();
+    await expect(heroCta).toBeVisible();
+    await heroCta.click();
+    await expect(page).toHaveURL(/\/auth\/signup\?role=advertiser/);
+    
+    // Test publishers page CTA
+    await page.goto('/publishers');
+    const publisherCta = page.locator('[data-testid="start-monetizing"]').first();
+    await expect(publisherCta).toBeVisible();
+    await publisherCta.click();
+    await expect(page).toHaveURL(/\/auth\/signup\?role=publisher/);
+  });
+
+  test('Navigation works correctly', async ({ page }) => {
+    await page.goto('/');
+    
+    // Test navigation links using data-testid
+    await page.click('[data-testid="nav-advertisers"]');
+    await expect(page).toHaveURL('/advertisers');
+    
+    await page.goto('/');
+    await page.click('[data-testid="nav-publishers"]');
+    await expect(page).toHaveURL('/publishers');
+    
+    // Test sign in button
+    await page.goto('/');
+    await page.click('[data-testid="sign-in"]');
+    await expect(page).toHaveURL('/auth/signin');
+  });
+
+  test('Error boundaries work', async ({ page }) => {
     // Test 404 page
-    await page.goto(`${baseURL}/nonexistent-page`);
+    await page.goto('/non-existent-page');
     await expect(page.locator('h1')).toContainText('404');
   });
 
-  test('should load legal pages', async ({ page }) => {
-    // Test privacy page
-    await page.goto(`${baseURL}/legal/privacy`);
-    await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
-
-    // Test terms page
-    await page.goto(`${baseURL}/legal/advertiser-terms`);
-    await expect(page).toHaveTitle(/CoinAds/);
-    await expect(page.locator('h1')).toBeVisible();
+  test('API endpoints respond correctly', async ({ page }) => {
+    // Test health endpoint (should require auth)
+    const response = await page.request.get('/api/health');
+    expect(response.status()).toBe(401);
+    
+    // Test CORS headers
+    const corsResponse = await page.request.options('/api/track/imp');
+    expect(corsResponse.headers()['access-control-allow-origin']).toBeDefined();
   });
 });

@@ -6,8 +6,11 @@ import { Logo } from "@/components/ui/logo";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Menu, ArrowRight } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function TopBar() {
+  const { data: session } = useSession();
+  
   return (
     <nav className="h-16 bg-background/70 backdrop-blur-none border-b border-border/20 sticky top-0 z-50">
       <div className="mx-auto max-w-6xl px-6 h-full">
@@ -40,19 +43,32 @@ export default function TopBar() {
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center space-x-3">
             <ThemeToggle />
-            <Link href="/auth/signin">
-              <Button 
-                className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                Sign In
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/auth/signup?role=advertiser">
-              <Button className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                Sign Up
-              </Button>
-            </Link>
+            {session ? (
+              <Link href="/app">
+                <Button 
+                  className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Dashboard
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/auth/signin">
+                  <Button 
+                    className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Sign In
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/auth/signin">
+                  <Button className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -93,21 +109,34 @@ export default function TopBar() {
                     Ad Formats
                   </Link>
                   <div className="pt-4 border-t border-border space-y-3">
-                    <Link href="/auth/signin" className="block">
-                      <Button 
-                        className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      >
-                        Sign In
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                    <Link href="/auth/signup?role=advertiser" className="block">
-                      <Button 
-                        className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      >
-                        Sign Up
-                      </Button>
-                    </Link>
+                    {session ? (
+                      <Link href="/app" className="block">
+                        <Button 
+                          className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          Dashboard
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    ) : (
+                      <>
+                        <Link href="/auth/signin" className="block">
+                          <Button 
+                            className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          >
+                            Sign In
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </Link>
+                        <Link href="/auth/signin" className="block">
+                          <Button 
+                            className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          >
+                            Sign Up
+                          </Button>
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
               </SheetContent>

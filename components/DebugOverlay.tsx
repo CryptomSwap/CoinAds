@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function DebugOverlay() {
-  // Only show in development
+  // Block in production - debug overlay should never be shown
   if (process.env.NODE_ENV === 'production') {
     return null;
   }

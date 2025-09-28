@@ -358,7 +358,17 @@ export function TopUpModal({ open, onOpenChange }: TopUpModalProps) {
                     <div className="font-mono text-sm break-all">
                       bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
                     </div>
-                    <Button variant="outline" size="sm" className="mt-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-2"
+                      onClick={() => {
+                        navigator.clipboard.writeText(bitcoinAddress);
+                        // TODO: Add toast notification
+                        console.log('Bitcoin address copied to clipboard');
+                      }}
+                      data-testid="copy-bitcoin-address"
+                    >
                       <Copy className="h-4 w-4 mr-2" />
                       Copy Address
                     </Button>

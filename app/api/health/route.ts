@@ -6,7 +6,13 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   // Require health token for authentication
   const healthToken = request.headers.get('x-health-token');
-  if (healthToken !== process.env.HEALTH_TOKEN) {
+  const expectedToken = process.env.HEALTH_TOKEN;
+  
+  if (!expectedToken) {
+    return NextResponse.json({ error: 'Health check not configured' }, { status: 503 });
+  }
+  
+  if (!healthToken || healthToken !== expectedToken) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

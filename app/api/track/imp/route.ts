@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors";
+import { rateLimit, createRateLimitHeaders, createRateLimitResponse } from "@/lib/rate-limit";
 
 
 // Helper function to add security headers
@@ -16,6 +17,13 @@ export async function POST(request: NextRequest) {
   if (corsResponse) {
     return corsResponse;
   }
+
+  // Apply rate limiting
+  const rateLimitResult = await rateLimit(request);
+  if (!rateLimitResult.allowed) {
+    return createRateLimitResponse(rateLimitResult);
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const campaignId = searchParams.get("campaignId");
@@ -41,6 +49,10 @@ export async function POST(request: NextRequest) {
             });
 
     const response = NextResponse.json({ success: true });
+    const headers = createRateLimitHeaders(rateLimitResult);
+    Object.entries(headers).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
     return addSecurityHeaders(addCORSHeaders(response, request));
 
   } catch (error) {

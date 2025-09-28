@@ -1,0 +1,4037 @@
+[
+  {
+    "file": "app\\about\\page.tsx",
+    "line": 90,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\about\\page.tsx",
+    "line": 95,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signup?role=advertiser",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\about\\page.tsx",
+    "line": 100,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\about\\page.tsx",
+    "line": 106,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signup?role=publisher",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 100,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 107,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 114,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 115,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 135,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 136,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signup?role=advertiser",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 141,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 142,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 289,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 290,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signup?role=advertiser",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 294,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 295,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 317,
+    "text": "For Advertisers",
+    "type": "Link",
+    "href": "/advertisers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 318,
+    "text": "For Publishers",
+    "type": "Link",
+    "href": "/publishers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 319,
+    "text": "Ad Formats",
+    "type": "Link",
+    "href": "/ad-formats",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 325,
+    "text": "About",
+    "type": "Link",
+    "href": "/about",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 326,
+    "text": "Contact",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 327,
+    "text": "Privacy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 333,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 334,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\ad-formats\\page.tsx",
+    "line": 335,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 127,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 133,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 139,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 140,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 159,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 160,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 165,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 166,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 328,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 400,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 401,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 405,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 412,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact?subject=Schedule%20Demo",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 433,
+    "text": "For Advertisers",
+    "type": "Link",
+    "href": "/advertisers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 434,
+    "text": "For Publishers",
+    "type": "Link",
+    "href": "/publishers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 435,
+    "text": "Ad Formats",
+    "type": "Link",
+    "href": "/ad-formats",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 441,
+    "text": "About",
+    "type": "Link",
+    "href": "/about",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 442,
+    "text": "Contact",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 443,
+    "text": "Privacy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 449,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 450,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\advertisers\\page.tsx",
+    "line": 451,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 265,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 267,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "fetchPendingApprovals",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 288,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 290,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleBulkAction(\"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 296,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 298,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleBulkAction(\"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 363,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 366,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSelectAll",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 375,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 378,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 487,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 490,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleReviewItem(item)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 495,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 499,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(item.id, \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 504,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 508,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleRejectClick(item)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 545,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 549,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 553,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 558,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 562,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 580,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 584,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 588,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 593,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 597,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 628,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 632,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 636,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 641,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 645,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 663,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 667,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 671,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 676,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 680,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 714,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 718,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 722,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 727,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 731,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 752,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 756,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 760,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"approve\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 765,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 769,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleApproval(\"1\", \"reject\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 838,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 840,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowReviewModal(false)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 844,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 846,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 854,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 856,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 895,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 897,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 905,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\approvals\\page.tsx",
+    "line": 907,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleRejectSubmit",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\delivery\\page.tsx",
+    "line": 198,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\delivery\\page.tsx",
+    "line": 200,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleRefresh",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\delivery\\page.tsx",
+    "line": 206,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleExport",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 231,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 233,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "fetchLogs",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 253,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 255,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "fetchLogs",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 327,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 330,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSearch",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 334,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 337,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 465,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 468,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handlePageChange(Math.max(0, pagination.offset - pagination.limit))",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 474,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\logs\\page.tsx",
+    "line": 477,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handlePageChange(pagination.offset + pagination.limit)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 315,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 316,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 329,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 330,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/admin/approvals",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 368,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 369,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/admin/approvals",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 374,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 375,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/admin/delivery",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 380,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 381,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/admin/transactions",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 386,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 387,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/admin/users",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\pricing\\page.tsx",
+    "line": 214,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\pricing\\page.tsx",
+    "line": 216,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleEditSave(item.id)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\pricing\\page.tsx",
+    "line": 221,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\pricing\\page.tsx",
+    "line": 224,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleEditCancel",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\pricing\\page.tsx",
+    "line": 240,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\pricing\\page.tsx",
+    "line": 243,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleEditStart(item.id, item.cpm)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\transactions\\page.tsx",
+    "line": 233,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleExport",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\transactions\\page.tsx",
+    "line": 542,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\users\\page.tsx",
+    "line": 60,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleFilter",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\users\\page.tsx",
+    "line": 64,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleAddUser",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\billing\\page.tsx",
+    "line": 313,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\billing\\page.tsx",
+    "line": 314,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleAddFunds",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 467,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 469,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "prevStep",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 478,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 481,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 511,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 512,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "nextStep",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 519,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 520,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSubmit",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 548,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 550,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.push('/app/advertiser/wallet')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 555,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 558,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowLowBalanceBanner(false)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 700,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 704,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 723,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 727,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 770,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 913,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 915,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "openFileDialog",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 976,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 979,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => removeCreative(creative.id)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 1089,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleSubmit",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 1093,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleSubmit",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 1132,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
+    "line": 1134,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.back()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
+    "line": 297,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
+    "line": 299,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.back()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
+    "line": 306,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
+    "line": 308,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSaveDraft",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
+    "line": 315,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
+    "line": 316,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSubmit",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 178,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 179,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/advertiser/campaigns/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 206,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 210,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setStatusFilter(filter.value)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 256,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 257,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 262,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 265,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleStatusChange(campaign.id, \"PAUSED\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 270,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 273,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleStatusChange(campaign.id, \"ACTIVE\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 278,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 281,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleCopyCampaign(campaign.id)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 285,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 288,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => openDeleteDialog(campaign)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 310,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\page.tsx",
+    "line": 311,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/advertiser/campaigns/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 174,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => router.back()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 193,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => router.back()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 209,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 210,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 217,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 219,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleStatusChange(\"PAUSED\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 227,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 228,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleStatusChange(\"ACTIVE\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 235,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 237,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowDeleteDialog(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 383,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 401,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\campaigns\\[id]\\page.tsx",
+    "line": 421,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 194,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowUploadDialog(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 203,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowUploadDialog(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 216,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 219,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open(creative.url, '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 223,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 226,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => openDeleteDialog(creative)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 290,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 292,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => document.getElementById('file-upload')?.click()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 350,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 352,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 359,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\creatives\\page.tsx",
+    "line": 360,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleUpload",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 271,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 274,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleExportCSV",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 289,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 290,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/advertiser/campaigns/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 374,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 436,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 439,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 448,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 449,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/advertiser/campaigns",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 467,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\overview\\page.tsx",
+    "line": 468,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/advertiser/campaigns/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\reports\\page.tsx",
+    "line": 235,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\reports\\page.tsx",
+    "line": 239,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\reports\\page.tsx",
+    "line": 240,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\support\\page.tsx",
+    "line": 31,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\support\\page.tsx",
+    "line": 35,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\support\\page.tsx",
+    "line": 39,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\support\\page.tsx",
+    "line": 111,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\wallet\\page.tsx",
+    "line": 140,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowAddCredits(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\wallet\\page.tsx",
+    "line": 228,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowAddCredits(false)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\wallet\\page.tsx",
+    "line": 231,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleAddCredits",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\wallet\\page.tsx",
+    "line": 289,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\wallet\\page.tsx",
+    "line": 293,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\notifications\\page.tsx",
+    "line": 166,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\notifications\\page.tsx",
+    "line": 167,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleMarkAllRead",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\notifications\\page.tsx",
+    "line": 273,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\notifications\\page.tsx",
+    "line": 276,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleMarkAsRead(notification.id)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\profile\\page.tsx",
+    "line": 73,
+    "text": "Save Changes",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\profile\\page.tsx",
+    "line": 135,
+    "text": "Change Password",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\ad-tags\\page.tsx",
+    "line": 304,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "copyToClipboard",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\earnings\\page.tsx",
+    "line": 169,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleExportData",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\earnings\\page.tsx",
+    "line": 173,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleRequestPayout",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 284,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 285,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/publisher/sites",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 363,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 364,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 428,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 429,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 433,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 442,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 443,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/publisher/sites",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 461,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\overview\\page.tsx",
+    "line": 462,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/publisher/sites/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 115,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 176,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 178,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setIsRequestModalOpen(false)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 182,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 183,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleRequestPayout",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 278,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\payouts\\PayoutsClient.tsx",
+    "line": 287,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 231,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowCreateDialog(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 240,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowCreateDialog(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 281,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 284,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => openEditDialog(placement)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 288,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 291,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => openDeleteDialog(placement)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 375,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowCreateDialog(false)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 378,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleCreatePlacement",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 444,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setShowEditDialog(false)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\placements\\page.tsx",
+    "line": 447,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleEditPlacement",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\reports\\page.tsx",
+    "line": 157,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\reports\\page.tsx",
+    "line": 161,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\new\\page.tsx",
+    "line": 82,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\new\\page.tsx",
+    "line": 84,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.back()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\new\\page.tsx",
+    "line": 191,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\new\\page.tsx",
+    "line": 194,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.back()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\new\\page.tsx",
+    "line": 198,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 152,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/publisher/sites/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 153,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 221,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app/publisher/sites/new",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 222,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 277,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 278,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 286,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 292,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 298,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => copyVerificationToken(site.verificationToken!)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 304,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleVerifySite(site.id)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\page.tsx",
+    "line": 311,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleDeleteSite(site.id)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\[id]\\verify\\page.tsx",
+    "line": 138,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\[id]\\verify\\page.tsx",
+    "line": 139,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleVerify",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\[id]\\verify\\page.tsx",
+    "line": 184,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\[id]\\verify\\page.tsx",
+    "line": 185,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleCopyMetaTag",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\[id]\\verify\\page.tsx",
+    "line": 214,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\sites\\[id]\\verify\\page.tsx",
+    "line": 215,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleDownloadFile",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 78,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 80,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 94,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 97,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('mailto:support@coinads.io?subject=Support Request', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 103,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 106,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('mailto:support@coinads.io?subject=Support Request', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 111,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 114,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('tel:+1-555-0123', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 197,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 198,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSubmitTicket",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 309,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 312,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('/docs/publisher-integration', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 320,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 323,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('/docs/publisher-integration', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 331,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 334,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('/docs/publisher-integration', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 342,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\publisher\\support\\page.tsx",
+    "line": 345,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.open('/docs/publisher-integration', '_blank')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\settings\\page.tsx",
+    "line": 135,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\settings\\page.tsx",
+    "line": 136,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\settings\\page.tsx",
+    "line": 214,
+    "text": "Save Privacy Settings",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\settings\\page.tsx",
+    "line": 300,
+    "text": "Save Preferences",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\auth\\forgot-password\\page.tsx",
+    "line": 97,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\forgot-password\\page.tsx",
+    "line": 110,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\link-expired\\page.tsx",
+    "line": 51,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\link-expired\\page.tsx",
+    "line": 52,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleResend",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\link-expired\\page.tsx",
+    "line": 67,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\link-expired\\page.tsx",
+    "line": 72,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\link-expired\\page.tsx",
+    "line": 82,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 89,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 150,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 155,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowPassword(!showPassword)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 181,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 186,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowConfirmPassword(!showConfirmPassword)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 197,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\reset-password\\page.tsx",
+    "line": 210,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 147,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 151,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => signIn(\"google\", { callbackUrl: \"/app\" ",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 193,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 196,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleResendVerification",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 242,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 247,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowPassword(!showPassword)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 258,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 282,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 285,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setIsSignupOpen(true)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 291,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 294,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setIsForgotPasswordOpen(true)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 302,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 330,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 334,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => signIn(\"google\", { callbackUrl: \"/app\" ",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 528,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 533,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowPassword(!showPassword)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 556,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 561,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowConfirmPassword(!showConfirmPassword)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 573,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 661,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 681,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signin\\page.tsx",
+    "line": 684,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => onSuccess()",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signup\\page.tsx",
+    "line": 125,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signup\\page.tsx",
+    "line": 130,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setShowPassword(!showPassword)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\signup\\page.tsx",
+    "line": 165,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\signup\\page.tsx",
+    "line": 180,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\verified\\page.tsx",
+    "line": 43,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\verified\\page.tsx",
+    "line": 44,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.push(\"/auth/signin?message=Email verified! You can now sign in.\")",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\verify-email\\page.tsx",
+    "line": 81,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\verify-email\\page.tsx",
+    "line": 82,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleResend",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\verify-email\\page.tsx",
+    "line": 99,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\auth\\verify-email\\page.tsx",
+    "line": 105,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\auth\\verify-email\\page.tsx",
+    "line": 115,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 162,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 168,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 174,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 175,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 223,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 225,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "method.onClick",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 368,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 493,
+    "text": "For Advertisers",
+    "type": "Link",
+    "href": "/advertisers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 494,
+    "text": "For Publishers",
+    "type": "Link",
+    "href": "/publishers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 495,
+    "text": "Ad Formats",
+    "type": "Link",
+    "href": "/ad-formats",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 501,
+    "text": "About",
+    "type": "Link",
+    "href": "/about",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 502,
+    "text": "Contact",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 503,
+    "text": "Privacy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 509,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 510,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\contact\\page.tsx",
+    "line": 511,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 150,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signup?role=publisher",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 151,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 156,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 157,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 173,
+    "text": "For Advertisers",
+    "type": "Link",
+    "href": "/advertisers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 174,
+    "text": "For Publishers",
+    "type": "Link",
+    "href": "/publishers",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 175,
+    "text": "Ad Formats",
+    "type": "Link",
+    "href": "/ad-formats",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 181,
+    "text": "About",
+    "type": "Link",
+    "href": "/about",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 182,
+    "text": "Contact",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 188,
+    "text": "Privacy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 189,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 190,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 191,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 197,
+    "text": "Contact Support",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\docs\\publisher-integration\\page.tsx",
+    "line": 198,
+    "text": "Sign In",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\error.tsx",
+    "line": 40,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\error.tsx",
+    "line": 41,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "reset",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\global-error.tsx",
+    "line": 42,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\global-error.tsx",
+    "line": 43,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "reset",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\advertiser-terms\\page.tsx",
+    "line": 160,
+    "text": "Privacy Policy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\advertiser-terms\\page.tsx",
+    "line": 161,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\advertiser-terms\\page.tsx",
+    "line": 162,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\advertiser-terms\\page.tsx",
+    "line": 163,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 205,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 206,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSavePreferences",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 215,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 216,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleAcceptAll",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 225,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 226,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleRejectNonEssential",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 247,
+    "text": "Unknown",
+    "type": "a",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 254,
+    "text": "Unknown",
+    "type": "a",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 261,
+    "text": "Unknown",
+    "type": "a",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 364,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 366,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => onOpenChange(false)",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 370,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 371,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSavePreferences",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 377,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\legal\\cookie-preferences\\page.tsx",
+    "line": 378,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleAcceptAll",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookies\\page.tsx",
+    "line": 169,
+    "text": "Privacy Policy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookies\\page.tsx",
+    "line": 170,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookies\\page.tsx",
+    "line": 171,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\cookies\\page.tsx",
+    "line": 172,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\privacy\\page.tsx",
+    "line": 144,
+    "text": "Privacy Policy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\privacy\\page.tsx",
+    "line": 145,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\privacy\\page.tsx",
+    "line": 146,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\privacy\\page.tsx",
+    "line": 147,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\publisher-terms\\page.tsx",
+    "line": 144,
+    "text": "Privacy Policy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\publisher-terms\\page.tsx",
+    "line": 145,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\publisher-terms\\page.tsx",
+    "line": 146,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\legal\\publisher-terms\\page.tsx",
+    "line": 147,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\not-found.tsx",
+    "line": 26,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\not-found.tsx",
+    "line": 27,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\not-found.tsx",
+    "line": 33,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "app\\not-found.tsx",
+    "line": 34,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "javascript:history.back()",
+    "status": "WORKING"
+  },
+  {
+    "file": "app\\not-found.tsx",
+    "line": 44,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\sidebar.tsx",
+    "line": 151,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\sidebar.tsx",
+    "line": 172,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 102,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 109,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleRoleChange(\"advertiser\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 115,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleRoleChange(\"publisher\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 121,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => handleRoleChange(\"admin\")",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 132,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 164,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 166,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setIsWalletOpen(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 175,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 176,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setIsTopUpOpen(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 185,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 189,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setIsNotificationsOpen(true)",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 198,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 202,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.push('/contact')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 210,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 221,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.push('/app/profile')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 225,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => router.push('/app/settings')",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-bar.tsx",
+    "line": 230,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => signOut()",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 300,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleClose",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 303,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 304,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setStep(2)",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 361,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 365,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 385,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "() => setStep(1)",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 388,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleTopUp",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 415,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleClose",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\top-up-modal.tsx",
+    "line": 418,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "handleClose",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 175,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 177,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => setAutoRechargeEnabled(!autoRechargeEnabled)",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 228,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 231,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 251,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 254,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 283,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 286,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 303,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\app\\wallet-drawer.tsx",
+    "line": 306,
+    "text": "Unknown",
+    "type": "Unknown",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\cookie\\CookiePreferences.tsx",
+    "line": 138,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\cookie\\CookiePreferences.tsx",
+    "line": 140,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleRejectNonEssential",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\cookie\\CookiePreferences.tsx",
+    "line": 145,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\cookie\\CookiePreferences.tsx",
+    "line": 146,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleSavePreferences",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\cookie\\CookiePreferences.tsx",
+    "line": 153,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\cookie\\CookiePreferences.tsx",
+    "line": 154,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleAcceptAll",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 21,
+    "text": "For Advertisers",
+    "type": "Link",
+    "href": "/advertisers",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 22,
+    "text": "For Publishers",
+    "type": "Link",
+    "href": "/publishers",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 23,
+    "text": "Ad Formats",
+    "type": "Link",
+    "href": "/ad-formats",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 29,
+    "text": "About",
+    "type": "Link",
+    "href": "/about",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 30,
+    "text": "Contact",
+    "type": "Link",
+    "href": "/contact",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 31,
+    "text": "Privacy",
+    "type": "Link",
+    "href": "/legal/privacy",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 37,
+    "text": "Advertiser Terms",
+    "type": "Link",
+    "href": "/legal/advertiser-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 38,
+    "text": "Publisher Terms",
+    "type": "Link",
+    "href": "/legal/publisher-terms",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 39,
+    "text": "Cookie Policy",
+    "type": "Link",
+    "href": "/legal/cookies",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\Footer.tsx",
+    "line": 40,
+    "text": "Cookie Preferences",
+    "type": "Link",
+    "href": "/legal/cookie-preferences",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\FormatsTeaser.tsx",
+    "line": 68,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/ad-formats",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\FormatsTeaser.tsx",
+    "line": 69,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\Hero.tsx",
+    "line": 65,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\Hero.tsx",
+    "line": 66,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\Hero.tsx",
+    "line": 70,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\Hero.tsx",
+    "line": 71,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\marketing\\Hero.tsx",
+    "line": 82,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\marketing\\Hero.tsx",
+    "line": 87,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\marketing\\Hero.tsx",
+    "line": 93,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\marketing\\Hero.tsx",
+    "line": 99,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\marketing\\Hero.tsx",
+    "line": 108,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\publishers\\CtaBand.tsx",
+    "line": 14,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\CtaBand.tsx",
+    "line": 15,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\CtaBand.tsx",
+    "line": 19,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\CtaBand.tsx",
+    "line": 20,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/docs/publisher-integration",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\HeroPublishers.tsx",
+    "line": 28,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\HeroPublishers.tsx",
+    "line": 29,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\HeroPublishers.tsx",
+    "line": 33,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\publishers\\HeroPublishers.tsx",
+    "line": 34,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/contact",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 23,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 29,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 35,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 47,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 48,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 57,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 58,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 65,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 66,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 78,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 93,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 99,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 105,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 113,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/app",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 114,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 123,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 124,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 131,
+    "text": "Unknown",
+    "type": "Link",
+    "href": "/auth/signin",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\TopBar.tsx",
+    "line": 132,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "components\\ui\\confirm-dialog.tsx",
+    "line": 65,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\ui\\confirm-dialog.tsx",
+    "line": 67,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleCancel",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\ui\\confirm-dialog.tsx",
+    "line": 72,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\ui\\confirm-dialog.tsx",
+    "line": 74,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleConfirm",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\ui\\empty-state.tsx",
+    "line": 36,
+    "text": "Unknown",
+    "type": "Button",
+    "onClick": "action.onClick",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\ui\\logo.tsx",
+    "line": 20,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\ui\\theme-toggle.tsx",
+    "line": 26,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\ui\\theme-toggle.tsx",
+    "line": 40,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\ui\\theme-toggle.tsx",
+    "line": 43,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "handleToggle",
+    "status": "WORKING"
+  }
+]

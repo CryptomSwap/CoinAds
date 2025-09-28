@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { handleCORS, addCORSHeaders, createCORSErrorResponse } from "@/lib/cors";
+import { rateLimit, createRateLimitHeaders, createRateLimitResponse } from "@/lib/rate-limit";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,13 @@ export async function GET(request: NextRequest) {
   if (corsResponse) {
     return corsResponse;
   }
+
+  // Apply rate limiting
+  const rateLimitResult = await rateLimit(request);
+  if (!rateLimitResult.allowed) {
+    return createRateLimitResponse(rateLimitResult);
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const impressionId = searchParams.get("impressionId");
@@ -82,6 +90,10 @@ export async function GET(request: NextRequest) {
 
     // Redirect to the landing page
     const response = NextResponse.redirect(landingUrl);
+    const headers = createRateLimitHeaders(rateLimitResult);
+    Object.entries(headers).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
     return addSecurityHeaders(addCORSHeaders(response, request));
 
   } catch (error) {

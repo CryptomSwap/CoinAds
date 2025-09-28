@@ -45,6 +45,10 @@
               {
                 "group": ["nodemailer", "bcrypt", "fs", "path", "crypto"],
                 "message": "Node.js modules are server-only. Use API routes or server actions instead."
+              },
+              {
+                "group": ["**/__mocks__/**", "**/mocks/**", "**/fixtures/**"],
+                "message": "Mock/fixture imports are not allowed in production code. Use real data sources instead."
               }
             ]
           }

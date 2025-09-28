@@ -1,0 +1,158 @@
+erDiagram
+    User {
+        int id PK
+        string email UK
+        string password
+        enum role
+        string name
+        datetime createdAt
+    }
+    
+    Campaign {
+        int id PK
+        int advertiserId FK
+        string name
+        float budget
+        enum status
+        datetime startDate
+        datetime endDate
+        datetime createdAt
+    }
+    
+    Creative {
+        int id PK
+        int campaignId FK
+        string fileUrl
+        string clickUrl
+        string altText
+        datetime createdAt
+    }
+    
+    Site {
+        int id PK
+        int publisherId FK
+        string domain
+        boolean verified
+        boolean approved
+    }
+    
+    Placement {
+        int id PK
+        int siteId FK
+        string size
+        enum pricing
+        float price
+        boolean approved
+        int campaignId FK
+    }
+    
+    Transaction {
+        int id PK
+        int userId FK
+        float amount
+        enum type
+        string status
+        datetime createdAt
+    }
+    
+    Approval {
+        int id PK
+        string entityType
+        int entityId
+        enum status
+        string reason
+        int adminUserId FK
+        datetime createdAt
+    }
+    
+    AdminLog {
+        int id PK
+        int userId FK
+        string action
+        string entityType
+        int entityId
+        datetime createdAt
+    }
+    
+    Impression {
+        int id PK
+        int campaignId FK
+        int creativeId FK
+        int placementId FK
+        int siteId FK
+        string device
+        string country
+        string browser
+        string os
+        int costMicros
+        datetime createdAt
+    }
+    
+    Click {
+        int id PK
+        int impressionId FK
+        datetime createdAt
+    }
+    
+    Conversion {
+        int id PK
+        int clickId FK
+        int campaignId FK
+        float value
+        string currency
+        datetime createdAt
+    }
+    
+    Report {
+        int id PK
+        int campaignId FK
+        datetime date
+        int impressions
+        int clicks
+        float spend
+    }
+    
+    %% Relationships
+    User ||--o{ Campaign : "advertiser creates"
+    User ||--o{ Site : "publisher owns"
+    User ||--o{ Transaction : "user has"
+    User ||--o{ Approval : "admin approves"
+    User ||--o{ AdminLog : "admin logs"
+    
+    Campaign ||--o{ Creative : "contains"
+    Campaign ||--o{ Placement : "targets"
+    Campaign ||--o{ Report : "generates"
+    Campaign ||--o{ Impression : "tracks"
+    Campaign ||--o{ Conversion : "converts"
+    
+    Site ||--o{ Placement : "hosts"
+    Site ||--o{ Impression : "serves"
+    
+    Placement ||--o{ Impression : "displays"
+    
+    Creative ||--o{ Impression : "shows"
+    
+    Impression ||--o{ Click : "receives"
+    
+    Click ||--o{ Conversion : "generates"
+    
+    %% Role-based access patterns
+    User {
+        enum role "ADVERTISER, PUBLISHER, ADMIN"
+    }
+    
+    Campaign {
+        enum status "PENDING, ACTIVE, PAUSED, COMPLETED, REJECTED"
+    }
+    
+    Placement {
+        enum pricing "CPM, CPA, CPI, FIXED"
+    }
+    
+    Transaction {
+        enum type "DEPOSIT, PAYOUT"
+    }
+    
+    Approval {
+        enum status "APPROVED, REJECTED"
+    }

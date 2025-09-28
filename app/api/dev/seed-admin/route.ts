@@ -4,6 +4,14 @@ import { serverEnv } from "@/lib/env/server";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
+  // Block in production - dev endpoints should not be accessible
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: "Not found" },
+      { status: 404 }
+    );
+  }
+
   try {
     // Check if SEED_SECRET is configured
     if (!serverEnv.SEED_SECRET) {
@@ -62,6 +70,14 @@ export async function POST(request: NextRequest) {
 
 // Disable this route after first successful use
 export async function GET() {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: "Not found" },
+      { status: 404 }
+    );
+  }
+  
   return NextResponse.json(
     { error: "This endpoint is disabled. Use POST with secret parameter." },
     { status: 403 }

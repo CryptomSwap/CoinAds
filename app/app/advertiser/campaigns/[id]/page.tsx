@@ -19,9 +19,12 @@ import {
   TrendingUp,
   Calendar,
   Target,
-  Plus
+  Plus,
+  Loader2
 } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
+import { useToast } from "@/lib/toast";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 interface Campaign {
   id: string;
@@ -46,9 +49,12 @@ interface Campaign {
 
 export default function CampaignDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const { success, error: showError } = useToast();
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchCampaign();
@@ -74,7 +80,7 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
   const handleStatusChange = async (newStatus: string) => {
     try {
       const response = await fetch(`/api/advertiser/campaigns/${params.id}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -82,13 +88,40 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
       });
 
       if (response.ok) {
+        success(`Campaign status changed to ${newStatus}`);
         fetchCampaign(); // Refresh the campaign data
       } else {
         const data = await response.json();
-        setError(data.error || "Failed to update campaign");
+        showError(data.error || "Failed to update campaign");
       }
     } catch (error) {
-      setError("Error updating campaign");
+      console.error('Error updating campaign:', error);
+      showError("Error updating campaign");
+    }
+  };
+
+  const handleDeleteCampaign = async () => {
+    if (!campaign) return;
+
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/advertiser/campaigns/${campaign.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete campaign');
+      }
+
+      success('Campaign deleted successfully');
+      setShowDeleteDialog(false);
+      router.push('/app/advertiser/campaigns');
+    } catch (error) {
+      console.error('Error deleting campaign:', error);
+      showError(error instanceof Error ? error.message : 'Failed to delete campaign');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -126,9 +159,11 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-600"></div>
-      </div>
+      <RequireAuth>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </RequireAuth>
     );
   }
 
@@ -196,6 +231,14 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
               Resume
             </Button>
           )}
+
+          <Button 
+            variant="outline" 
+            onClick={() => setShowDeleteDialog(true)}
+            className="text-destructive hover:text-destructive"
+          >
+            Delete
+          </Button>
         </div>
       </div>
 
@@ -386,6 +429,18 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        title="Delete Campaign"
+        description={`Are you sure you want to delete "${campaign?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="destructive"
+        onConfirm={handleDeleteCampaign}
+      />
       </div>
     </RequireAuth>
   );

@@ -2,16 +2,30 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { sendVerificationEmail } from "@/lib/email-verification";
+import { checkRateLimitRedis, getRateLimitHeaders } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one lowercase letter, one uppercase letter, and one number"),
   role: z.enum(["ADVERTISER", "PUBLISHER"]),
 });
 
 export async function POST(request: NextRequest) {
   try {
+    // Check rate limit
+    const rateLimit = await checkRateLimitRedis(request, 'auth');
+    if (!rateLimit.allowed) {
+      const headers = getRateLimitHeaders(rateLimit.remaining, rateLimit.resetTime);
+      return NextResponse.json(
+        { error: 'Too many registration attempts. Please try again later.' },
+        { status: 429, headers }
+      );
+    }
+
     const body = await request.json();
     const { name, email, password, role } = registerSchema.parse(body);
 
@@ -32,11 +46,12 @@ export async function POST(request: NextRequest) {
 
     // Create user and wallet in a transaction
     const result = await prisma.$transaction(async (tx) => {
-      // Create user
+      // Create user with hashed password (emailVerified is null by default)
       const user = await tx.user.create({
         data: {
           name,
           email,
+          password: hashedPassword,
           role: role as any,
         },
       });
@@ -44,11 +59,17 @@ export async function POST(request: NextRequest) {
       return { user };
     });
 
-    // TODO: Send verification email
-    // For now, we'll skip email verification in MVP
+    // Send verification email
+    try {
+      await sendVerificationEmail(result.user.id, result.user.email);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Don't fail registration if email fails
+    }
 
     return NextResponse.json({
-      message: "User created successfully",
+      message: "User created successfully. Please check your email to verify your account.",
+      pendingVerification: true,
       user: {
         id: result.user.id,
         email: result.user.email,

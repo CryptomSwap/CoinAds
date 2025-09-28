@@ -225,7 +225,15 @@ export function WalletDrawer({ open, onOpenChange }: WalletDrawerProps) {
                         </div>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        // TODO: Implement payment method editing
+                        console.log('Edit payment method');
+                      }}
+                      data-testid="edit-payment-method"
+                    >
                       Edit
                     </Button>
                   </div>
@@ -240,7 +248,15 @@ export function WalletDrawer({ open, onOpenChange }: WalletDrawerProps) {
                         </div>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        // TODO: Implement crypto wallet configuration
+                        console.log('Configure crypto wallet');
+                      }}
+                      data-testid="configure-crypto-wallet"
+                    >
                       Configure
                     </Button>
                   </div>
@@ -264,7 +280,15 @@ export function WalletDrawer({ open, onOpenChange }: WalletDrawerProps) {
                         Maximum $1,000 per day
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        // TODO: Implement spending limit editing
+                        console.log('Edit spending limits');
+                      }}
+                      data-testid="edit-spending-limits"
+                    >
                       Edit
                     </Button>
                   </div>
@@ -276,7 +300,15 @@ export function WalletDrawer({ open, onOpenChange }: WalletDrawerProps) {
                         Email notification below $50
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        // TODO: Implement alert configuration
+                        console.log('Configure low balance alerts');
+                      }}
+                      data-testid="configure-alerts"
+                    >
                       Configure
                     </Button>
                   </div>

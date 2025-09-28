@@ -15,6 +15,13 @@ export default function Error({
   useEffect(() => {
     // Log the error to an error reporting service
     console.error('Application error:', error);
+    
+    // Send to Sentry if configured
+    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+      import('@sentry/nextjs').then((Sentry) => {
+        Sentry.captureException(error);
+      });
+    }
   }, [error]);
 
   return (
@@ -34,6 +41,7 @@ export default function Error({
             onClick={reset}
             className="w-full"
             variant="outline"
+            data-testid="try-again"
           >
             <RefreshCw className="mr-2 h-4 w-4" />
             Try again

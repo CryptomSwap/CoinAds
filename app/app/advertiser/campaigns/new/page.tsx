@@ -253,23 +253,56 @@ export default function NewCampaignPage() {
     setIsTransitioning(false);
   };
 
-  const handleSubmit = () => {
-    if (validateStep(currentStep)) {
+  const handleSubmit = async () => {
+    if (!validateStep(currentStep)) {
+      return;
+    }
+
+    try {
       // Check if any selected placement has TBD pricing
       const hasTbdPricing = formData.selectedPlacements.some(placementId => {
         const placement = mockSites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
         return placement?.cpmCents === null;
       });
 
+      // Create campaign
+      const response = await fetch('/api/advertiser/campaigns', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          budget: formData.budget,
+          startDate: formData.startDate,
+          endDate: formData.endDate,
+          countries: formData.countries,
+          devices: formData.devices,
+          selectedPlacements: formData.selectedPlacements,
+          creatives: formData.creatives,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create campaign');
+      }
+
+      const result = await response.json();
+      
       if (hasTbdPricing) {
         // Submit for review
-        console.log("Submitting for review due to TBD pricing");
-        router.push("/app/advertiser/campaigns");
+        console.log("Campaign created and submitted for review due to TBD pricing");
+        router.push("/app/advertiser/campaigns/new/review");
       } else {
         // Activate campaign
-        console.log("Activating campaign");
+        console.log("Campaign created and activated");
         router.push("/app/advertiser/campaigns");
       }
+    } catch (error) {
+      console.error('Error creating campaign:', error);
+      // TODO: Show error toast
+      alert(`Failed to create campaign: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -445,12 +478,39 @@ export default function NewCampaignPage() {
           <Button 
             variant="outline" 
             className="text-muted-foreground border-border hover:bg-accent"
+            onClick={async () => {
+              try {
+                // Save draft functionality
+                const response = await fetch('/api/advertiser/campaigns', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    ...formData,
+                    status: 'DRAFT',
+                  }),
+                });
+
+                if (!response.ok) {
+                  throw new Error('Failed to save draft');
+                }
+
+                // TODO: Show success toast
+                alert('Draft saved successfully');
+              } catch (error) {
+                console.error('Error saving draft:', error);
+                // TODO: Show error toast
+                alert('Failed to save draft');
+              }
+            }}
           >
             Save Draft
           </Button>
           {currentStep < steps.length ? (
             <Button 
               onClick={nextStep}
+              disabled={!validateStep(currentStep)}
             >
               Next Step
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -458,6 +518,7 @@ export default function NewCampaignPage() {
           ) : (
             <Button 
               onClick={handleSubmit}
+              disabled={!validateStep(currentStep)}
             >
               Create Campaign
             </Button>

@@ -13,15 +13,130 @@ console.log('🔍 Enforcing production build requirements...');
 
 const errors = [];
 
-// Check for debug/test pages
+// Mock/demo data detection patterns
+const mockPatterns = [
+  '__mocks__',
+  '/mocks/',
+  '/fixtures/',
+  'mockData',
+  'demoData',
+  'sampleData',
+  'lipsum',
+  "console.log('TODO')",
+  "alert('TODO')",
+  '// mock',
+  '/* mock */',
+  'placeholder',
+  'TODO:',
+  'FIXME:',
+  'HACK:'
+];
+
+// Directories to scan (excluding tests and dev scripts)
+const scanDirs = [
+  'app',
+  'components',
+  'lib',
+  'contexts',
+  'types'
+];
+
+// Files to exclude from mock detection
+const excludePatterns = [
+  'tests/',
+  '__tests__/',
+  'test-results/',
+  'scripts/',
+  'tools/',
+  'node_modules/',
+  '.next/',
+  'coverage/',
+  'docs/',
+  'reports/'
+];
+
+function shouldExcludeFile(filePath) {
+  return excludePatterns.some(pattern => filePath.includes(pattern));
+}
+
+function scanDirectory(dirPath) {
+  const items = fs.readdirSync(dirPath, { withFileTypes: true });
+  
+  for (const item of items) {
+    const fullPath = path.join(dirPath, item.name);
+    
+    if (shouldExcludeFile(fullPath)) {
+      continue;
+    }
+    
+    if (item.isDirectory()) {
+      scanDirectory(fullPath);
+    } else if (item.isFile() && (item.name.endsWith('.ts') || item.name.endsWith('.tsx') || item.name.endsWith('.js') || item.name.endsWith('.jsx'))) {
+      checkFileForMocks(fullPath);
+    }
+  }
+}
+
+function checkFileForMocks(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    for (const pattern of mockPatterns) {
+      if (content.includes(pattern)) {
+        errors.push(`❌ Mock/demo data found in ${filePath}: "${pattern}"`);
+      }
+    }
+    
+    // Check for placeholder arrays in UI components
+    if (filePath.includes('components/') || filePath.includes('app/')) {
+      const arrayMatches = content.match(/const\s+\w+\s*=\s*\[[^\]]*\]/g);
+      if (arrayMatches) {
+        for (const match of arrayMatches) {
+          if (match.includes('placeholder') || match.includes('demo') || match.includes('sample') || match.includes('mock')) {
+            errors.push(`❌ Placeholder array found in ${filePath}: ${match.substring(0, 50)}...`);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    // Skip files that can't be read
+  }
+}
+
+// Scan for mock/demo data
+console.log('🔍 Scanning for mock/demo data...');
+for (const dir of scanDirs) {
+  const dirPath = path.join(process.cwd(), dir);
+  if (fs.existsSync(dirPath)) {
+    scanDirectory(dirPath);
+  }
+}
+
+// Check for debug/test pages and API routes
 const debugPages = [
   'app/debug/page.tsx',
   'app/test-auth/page.tsx',
 ];
 
+const debugApiRoutes = [
+  'app/api/debug/email/route.ts',
+  'app/api/dev/seed-admin/route.ts',
+];
+
 debugPages.forEach(page => {
   if (fs.existsSync(path.join(process.cwd(), page))) {
     errors.push(`❌ Debug/test page found: ${page} - Remove before production`);
+  }
+});
+
+// Check debug API routes for production guards
+debugApiRoutes.forEach(route => {
+  const filePath = path.join(process.cwd(), route);
+  if (fs.existsSync(filePath)) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!content.includes("process.env.NODE_ENV === 'production'")) {
+      errors.push(`❌ Debug API route ${route} missing production guard`);
+    }
   }
 });
 

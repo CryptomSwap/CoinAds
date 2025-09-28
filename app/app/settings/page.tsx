@@ -132,7 +132,24 @@ export default function SettingsPage() {
                 </div>
               </div>
             </div>
-            <Button>Save Notification Settings</Button>
+            <Button 
+              onClick={async () => {
+                try {
+                  const response = await fetch('/api/user/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type: 'notifications', settings: notifications })
+                  });
+                  if (!response.ok) throw new Error('Failed to save settings');
+                  // Show success toast - will implement toast later
+                } catch (error) {
+                  console.error('Error saving notification settings:', error);
+                }
+              }}
+              data-testid="save-notification-settings"
+            >
+              Save Notification Settings
+            </Button>
           </CardContent>
         </Card>
 

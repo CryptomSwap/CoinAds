@@ -1,0 +1,36 @@
+method,path,file,zod_validation,role_required,rate_limit,side_effects,errors,notes
+POST,/api/auth/register,app/api/auth/register/route.ts,registerSchema,None,5/min,User creation,400/500,User registration with role selection
+POST,/api/auth/reset-password,app/api/auth/reset-password/route.ts,resetSchema,None,5/min,Password reset,400/500,Password reset functionality
+GET,/api/auth/[...nextauth],app/api/auth/[...nextauth]/route.ts,None,None,10/min,Session management,401/500,NextAuth.js authentication
+POST,/api/user/settings,app/api/user/settings/route.ts,settingsSchema,Any,60/min,User settings update,400/401/500,Update user settings
+GET,/api/advertiser/campaigns,app/api/advertiser/campaigns/route.ts,None,ADVERTISER,60/min,Campaign read,401/500,List advertiser campaigns
+POST,/api/advertiser/campaigns,app/api/advertiser/campaigns/route.ts,campaignSchema,ADVERTISER,60/min,Campaign creation,400/401/500,Create new campaign
+GET,/api/advertiser/campaigns/[id],app/api/advertiser/campaigns/[id]/route.ts,None,ADVERTISER,60/min,Campaign read,401/404/500,Get campaign details
+PUT,/api/advertiser/campaigns/[id],app/api/advertiser/campaigns/[id]/route.ts,campaignSchema,ADVERTISER,60/min,Campaign update,400/401/404/500,Update campaign
+DELETE,/api/advertiser/campaigns/[id],app/api/advertiser/campaigns/[id]/route.ts,None,ADVERTISER,60/min,Campaign deletion,401/404/500,Delete campaign
+GET,/api/advertiser/wallet,app/api/advertiser/wallet/route.ts,None,ADVERTISER,60/min,Wallet read,401/500,Get wallet balance and transactions
+GET,/api/publisher/sites,app/api/publisher/sites/route.ts,None,PUBLISHER,60/min,Site read,401/500,List publisher sites
+POST,/api/publisher/sites,app/api/publisher/sites/route.ts,siteSchema,PUBLISHER,60/min,Site creation,400/401/500,Create new site
+GET,/api/publisher/sites/[id],app/api/publisher/sites/[id]/route.ts,None,PUBLISHER,60/min,Site read,401/404/500,Get site details
+PUT,/api/publisher/sites/[id],app/api/publisher/sites/[id]/route.ts,siteSchema,PUBLISHER,60/min,Site update,400/401/404/500,Update site
+DELETE,/api/publisher/sites/[id],app/api/publisher/sites/[id]/route.ts,None,PUBLISHER,60/min,Site deletion,401/404/500,Delete site
+GET,/api/publisher/placements,app/api/publisher/placements/route.ts,None,PUBLISHER,60/min,Placement read,401/500,List placements
+POST,/api/publisher/placements,app/api/publisher/placements/route.ts,createPlacementSchema,PUBLISHER,60/min,Placement creation,400/401/500,Create placement
+GET,/api/publisher/placements/[id],app/api/publisher/placements/[id]/route.ts,None,PUBLISHER,60/min,Placement read,401/404/500,Get placement details
+PATCH,/api/publisher/placements/[id],app/api/publisher/placements/[id]/route.ts,updatePlacementSchema,PUBLISHER,60/min,Placement update,400/401/404/500,Update placement
+DELETE,/api/publisher/placements/[id],app/api/publisher/placements/[id]/route.ts,None,PUBLISHER,60/min,Placement deletion,401/404/500,Delete placement
+GET,/api/publisher/earnings,app/api/publisher/earnings/route.ts,None,PUBLISHER,60/min,Earnings read,401/500,Get earnings data
+GET,/api/admin/approvals,app/api/admin/approvals/route.ts,None,ADMIN,60/min,Approval read,401/500,Get pending approvals
+POST,/api/admin/approvals,app/api/admin/approvals/route.ts,approvalSchema,ADMIN,60/min,Approval creation,400/401/500,Approve/reject items
+GET,/api/admin/logs,app/api/admin/logs/route.ts,None,ADMIN,60/min,Log read,401/500,Get admin logs
+POST,/api/track/imp,app/api/track/imp/route.ts,impressionSchema,None,1000/min,Impression creation,400/500,Track ad impressions
+GET,/api/track/click,app/api/track/click/route.ts,None,None,1000/min,Click creation,400/500,Track ad clicks
+POST,/api/track/conversion,app/api/track/conversion/route.ts,conversionSchema,None,1000/min,Conversion creation,400/500,Track conversions
+GET,/api/reports/advertiser,app/api/reports/advertiser/route.ts,None,ADVERTISER,60/min,Report generation,401/500,Advertiser reports
+GET,/api/reports/advertiser.csv,app/api/reports/advertiser.csv/route.ts,None,ADVERTISER,60/min,CSV generation,401/500,CSV export for reports
+GET,/api/health,app/api/health/route.ts,None,Token,60/min,Health check,401/503/500,Health check with database connectivity
+POST,/api/support,app/api/support/route.ts,supportTicketSchema,Any,5/min,Support ticket creation,400/401/500,Submit support tickets
+GET,/api/delivery,app/api/delivery/route.ts,None,Any,60/min,Delivery status,401/500,Ad delivery status
+POST,/api/dev/seed-admin,app/api/dev/seed-admin/route.ts,None,Dev Only,60/min,Admin user creation,401/500,Seed admin user (development only)
+GET,/api/debug/email,app/api/debug/email/route.ts,None,Dev Only,60/min,Email debug,401/500,Email configuration debug
+GET,/c,app/c/route.ts,None,None,1000/min,Click tracking,400/500,Click tracking redirect

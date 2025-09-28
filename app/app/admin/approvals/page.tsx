@@ -14,9 +14,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle, XCircle, Clock, Eye, User, Globe, Filter, Search, CheckSquare, Square, AlertCircle } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
+import { useToast } from "@/lib/toast";
 
 export default function ApprovalsPage() {
   const { data: session, status } = useSession();
+  const { success, error: showError } = useToast();
 
   useEffect(() => {
     if (status === "loading") return;
@@ -111,21 +113,21 @@ export default function ApprovalsPage() {
       const message = action === 'approve' 
         ? `Item approved successfully` 
         : `Item rejected successfully${reason ? ' with reason: ' + reason : ''}`;
-      alert(message);
+      success(message);
     } catch (error) {
       console.error(`Failed to ${action} item:`, error);
-      alert(`Failed to ${action} item: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      showError(`Failed to ${action} item: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
   const handleBulkAction = async (action: "approve" | "reject") => {
     if (selectedItems.length === 0) {
-      alert("Please select items to perform bulk action");
+      showError("Please select items to perform bulk action");
       return;
     }
 
     if (action === "reject") {
-      alert("Bulk rejection requires individual reasons. Please reject items one by one.");
+      showError("Bulk rejection requires individual reasons. Please reject items one by one.");
       return;
     }
 
@@ -139,10 +141,10 @@ export default function ApprovalsPage() {
       }
       
       setSelectedItems([]);
-      alert(`${selectedItems.length} items ${action}d successfully`);
+      success(`${selectedItems.length} items ${action}d successfully`);
     } catch (error) {
       console.error(`Failed to bulk ${action} items:`, error);
-      alert(`Failed to bulk ${action} items`);
+      showError(`Failed to bulk ${action} items`);
     }
   };
 

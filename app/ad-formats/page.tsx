@@ -100,21 +100,23 @@ export default function AdFormatsPage() {
               <Link 
                 href="/advertisers" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
+                data-testid="nav-advertisers"
               >
                 For Advertisers
               </Link>
               <Link 
                 href="/publishers" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
+                data-testid="nav-publishers"
               >
                 For Publishers
               </Link>
-              <Link href="/auth/signin">
-                <Button>
+              <Button asChild data-testid="sign-in">
+                <Link href="/auth/signin">
                   Sign In
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -130,18 +132,18 @@ export default function AdFormatsPage() {
           and performance across all devices and platforms.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <Link href="/auth/signin">
-            <Button size="lg">
+          <Button asChild size="lg" data-testid="start-advertising-cta">
+            <Link href="/auth/signup?role=advertiser">
               Start Advertising
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-          <Link href="/contact">
-            <Button size="lg">
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" data-testid="contact-sales">
+            <Link href="/contact">
               Contact Sales
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </section>
 
@@ -284,17 +286,17 @@ export default function AdFormatsPage() {
             Choose your ad format and start reaching crypto audiences today
           </p>
           <div className="flex justify-center space-x-4">
-            <Link href="/auth/signin">
-              <Button size="lg" variant="secondary">
+            <Button asChild size="lg" variant="secondary" data-testid="get-started-bottom">
+              <Link href="/auth/signup?role=advertiser">
                 Get Started
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button size="lg">
+              </Link>
+            </Button>
+            <Button asChild size="lg" data-testid="contact-sales-bottom">
+              <Link href="/contact">
                 Contact Sales
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

@@ -108,21 +108,31 @@ export default function ContactPage() {
       title: "Email Support",
       description: "Get help from our support team",
       contact: "support@coinads.com",
-      action: "Send Email"
+      action: "Send Email",
+      onClick: () => window.open('mailto:support@coinads.com?subject=Support Request', '_blank')
     },
     {
       icon: MessageCircle,
       title: "Live Chat",
       description: "Chat with us in real-time",
       contact: "Available 24/7",
-      action: "Start Chat"
+      action: "Start Chat",
+      onClick: () => {
+        // Open chat widget or redirect to chat service
+        if (typeof window !== 'undefined' && (window as any).Intercom) {
+          (window as any).Intercom('show');
+        } else {
+          window.open('mailto:support@coinads.com?subject=Live Chat Request', '_blank');
+        }
+      }
     },
     {
       icon: Phone,
       title: "Phone Support",
       description: "Speak with our team directly",
       contact: "+1 (555) 123-4567",
-      action: "Call Now"
+      action: "Call Now",
+      onClick: () => window.open('tel:+15551234567', '_blank')
     }
   ];
 
@@ -210,7 +220,11 @@ export default function ContactPage() {
                     <div className="text-lg font-semibold text-slate-900 dark:text-white">
                       {method.contact}
                     </div>
-                    <Button className="w-full">
+                    <Button 
+                      className="w-full"
+                      onClick={method.onClick}
+                      data-testid={`contact-${method.title.toLowerCase().replace(' ', '-')}`}
+                    >
                       {method.action}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>

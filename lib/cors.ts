@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// CORS configuration
+// CORS configuration - production-safe with allow-list
 const CORS_CONFIG = {
-  // In production, restrict to specific publisher domains
-  allowedOrigins: process.env.ALLOWED_ORIGINS?.split(',') || ['*'] as string[],
+  // Production: restrict to specific domains from ALLOWED_ORIGINS
+  // Development: allow localhost for development
+  allowedOrigins: process.env.NODE_ENV === 'production' 
+    ? (process.env.ALLOWED_ORIGINS?.split(',') || [])
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   allowedMethods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
@@ -26,11 +29,12 @@ function getOrigin(request: NextRequest): string | null {
 function isOriginAllowed(origin: string | null): boolean {
   if (!origin) return false;
   
-  // For MVP, allow all origins
-  if (CORS_CONFIG.allowedOrigins.includes('*')) {
-    return true;
+  // In production, require explicit allow-list
+  if (process.env.NODE_ENV === 'production') {
+    return CORS_CONFIG.allowedOrigins.includes(origin);
   }
   
+  // In development, allow localhost
   return CORS_CONFIG.allowedOrigins.includes(origin);
 }
 
@@ -38,11 +42,7 @@ function isOriginAllowed(origin: string | null): boolean {
 function getAllowedOrigin(request: NextRequest): string {
   const origin = getOrigin(request);
   
-  // For MVP, return the requesting origin or * if no origin
-  if (CORS_CONFIG.allowedOrigins.includes('*')) {
-    return origin || '*';
-  }
-  
+  // Return the origin if it's allowed, otherwise return the first allowed origin
   return isOriginAllowed(origin) ? origin! : CORS_CONFIG.allowedOrigins[0];
 }
 
@@ -54,11 +54,10 @@ export function addCORSHeaders(response: NextResponse, request: NextRequest): Ne
   response.headers.set('Access-Control-Allow-Methods', CORS_CONFIG.allowedMethods.join(', '));
   response.headers.set('Access-Control-Allow-Headers', CORS_CONFIG.allowedHeaders.join(', '));
   response.headers.set('Access-Control-Max-Age', CORS_CONFIG.maxAge.toString());
+  response.headers.set('Vary', 'Origin');
   
-  // Allow credentials if origin is specific (not wildcard)
-  if (allowedOrigin !== '*') {
-    response.headers.set('Access-Control-Allow-Credentials', 'true');
-  }
+  // Allow credentials for specific origins
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
   
   return response;
 }
@@ -89,9 +88,7 @@ export function createCORSErrorResponse(message: string = 'CORS policy violation
     { 
       status: 403,
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Vary': 'Origin',
       }
     }
   );

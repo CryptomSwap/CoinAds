@@ -15,6 +15,13 @@ export default function GlobalError({
   useEffect(() => {
     // Log the error to an error reporting service
     console.error('Global application error:', error);
+    
+    // Send to Sentry if configured
+    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+      import('@sentry/nextjs').then((Sentry) => {
+        Sentry.captureException(error);
+      });
+    }
   }, [error]);
 
   return (
@@ -36,6 +43,7 @@ export default function GlobalError({
                 onClick={reset}
                 className="w-full"
                 variant="outline"
+                data-testid="refresh-page"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Refresh page

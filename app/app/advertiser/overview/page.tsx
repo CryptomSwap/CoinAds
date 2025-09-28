@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,11 +15,13 @@ import {
   Download,
   AlertTriangle,
   Megaphone,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import RequireAuth from "@/components/RequireAuth";
+import { useToast } from "@/lib/toast";
 
 // Types for our data
 interface CampaignStats {
@@ -178,6 +181,8 @@ function LoadingSkeleton() {
 }
 
 export default function AdvertiserOverview() {
+  const { success, error: showError } = useToast();
+  const [isExporting, setIsExporting] = useState(false);
   const dashboardData = mockDashboardData;
 
   const formatCurrency = (amount: number) => {
@@ -202,6 +207,55 @@ export default function AdvertiserOverview() {
     }
   };
 
+  const handleExportCSV = async () => {
+    setIsExporting(true);
+    try {
+      // Get date range for last 30 days
+      const dateTo = new Date();
+      const dateFrom = new Date();
+      dateFrom.setDate(dateFrom.getDate() - 30);
+
+      const dateFromStr = dateFrom.toISOString().split('T')[0];
+      const dateToStr = dateTo.toISOString().split('T')[0];
+
+      const response = await fetch(
+        `/api/reports/advertiser.csv?dateFrom=${dateFromStr}&dateTo=${dateToStr}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to export CSV');
+      }
+
+      // Get the CSV content
+      const csvContent = await response.text();
+      
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `coinads_report_${dateFromStr}_to_${dateToStr}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      success('CSV exported successfully!');
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+      showError(error instanceof Error ? error.message : 'Failed to export CSV');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <RequireAuth>
       <div className="space-y-6">
@@ -214,9 +268,23 @@ export default function AdvertiserOverview() {
             </p>
           </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm" disabled>
-            <Download className="mr-2 h-4 w-4" />
-            Export CSV
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleExportCSV}
+            disabled={isExporting}
+          >
+            {isExporting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <Download className="mr-2 h-4 w-4" />
+                Export CSV
+              </>
+            )}
           </Button>
           <Button asChild>
             <Link href="/app/advertiser/campaigns/new">

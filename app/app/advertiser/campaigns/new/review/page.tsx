@@ -51,19 +51,30 @@ export default function CampaignReviewPage() {
     setMessage("");
     
     try {
-      // TODO: Implement POST /api/advertiser/campaigns/:id/submit
-      const response = await fetch("/api/advertiser/campaigns/submit", {
+      // Create campaign and submit for approval
+      const response = await fetch("/api/advertiser/campaigns", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mockCampaignData),
+        body: JSON.stringify({
+          ...mockCampaignData,
+          status: 'PENDING', // Submit for admin approval
+        }),
       });
       
       if (response.ok) {
-        router.push("/app/advertiser/campaigns");
+        const result = await response.json();
+        setMessage("Campaign submitted for review successfully!");
+        
+        // Redirect to campaigns list after a short delay
+        setTimeout(() => {
+          router.push("/app/advertiser/campaigns");
+        }, 2000);
       } else {
-        setMessage("Failed to submit campaign. Please try again.");
+        const errorData = await response.json();
+        setMessage(errorData.error || "Failed to submit campaign. Please try again.");
       }
     } catch (error) {
+      console.error('Error submitting campaign:', error);
       setMessage("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -74,10 +85,24 @@ export default function CampaignReviewPage() {
     setIsSaving(true);
     
     try {
-      // TODO: Implement save draft logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setMessage("Campaign saved as draft.");
+      // Save campaign as draft
+      const response = await fetch("/api/advertiser/campaigns", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...mockCampaignData,
+          status: 'DRAFT',
+        }),
+      });
+      
+      if (response.ok) {
+        setMessage("Campaign saved as draft.");
+      } else {
+        const errorData = await response.json();
+        setMessage(errorData.error || "Failed to save draft. Please try again.");
+      }
     } catch (error) {
+      console.error('Error saving draft:', error);
       setMessage("Failed to save draft. Please try again.");
     } finally {
       setIsSaving(false);

@@ -87,23 +87,27 @@ export default function AboutPage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
-              <Link href="/auth/signup?role=advertiser">
-                <Button 
-                  className="h-11 px-6 bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white font-medium focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
-                >
+              <Button 
+                asChild
+                className="h-11 px-6 bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white font-medium focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
+                data-testid="start-advertising"
+              >
+                <Link href="/auth/signup?role=advertiser">
                   Start Advertising
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/publishers">
-                <Button 
-                  variant="outline"
-                  className="h-11 px-6 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
-                >
+                </Link>
+              </Button>
+              <Button 
+                asChild
+                variant="outline"
+                className="h-11 px-6 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-colors"
+                data-testid="start-publishing"
+              >
+                <Link href="/auth/signup?role=publisher">
                   Start Publishing
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </section>
 

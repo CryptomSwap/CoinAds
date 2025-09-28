@@ -7,8 +7,7 @@ import { prisma } from "./prisma";
 import { serverEnv, isDevelopment, hasGoogleOAuthConfig, hasEmailConfig } from "./env/server";
 import bcrypt from "bcryptjs";
 
-// Demo mode - bypass database for development
-const DEMO_MODE = isDevelopment;
+// Demo mode removed for security - all authentication must go through database
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -30,20 +29,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // Demo mode - only allow in development
-        if (DEMO_MODE && process.env.NODE_ENV !== 'production') {
-          const role = credentials.email.includes('admin') ? 'ADMIN' : 
-                      credentials.email.includes('publisher') ? 'PUBLISHER' : 'ADVERTISER';
-          
-          return {
-            id: 'demo-user-id',
-            email: credentials.email,
-            name: credentials.email.split('@')[0],
-            image: null,
-            role: role,
-            emailVerified: true,
-          };
-        }
+        // All authentication must go through database - no demo bypass
 
         try {
           const user = await prisma.user.findUnique({
@@ -54,12 +40,19 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // Validate password if user has one
-          if (user.password) {
-            const isValid = await bcrypt.compare(credentials.password, user.password);
-            if (!isValid) {
-              return null;
-            }
+          // Validate password - user must have a password for credentials login
+          if (!user.password) {
+            return null; // User exists but has no password (OAuth only)
+          }
+          
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          if (!isValid) {
+            return null;
+          }
+
+          // Check email verification
+          if (!user.emailVerified) {
+            throw new Error('Please verify your email address before signing in.');
           }
 
           return {
@@ -68,7 +61,7 @@ export const authOptions: NextAuthOptions = {
             name: user.name,
             image: null,
             role: user.role,
-            emailVerified: true, // For MVP, assume all users are verified
+            emailVerified: !!user.emailVerified,
           };
         } catch (error) {
           const { log } = require('@/lib/logger');
@@ -94,13 +87,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user && token.sub) {
-        // Demo mode - only allow in development
-        if (DEMO_MODE && process.env.NODE_ENV !== 'production' && token.sub === 'demo-user-id') {
-          session.user.id = 'demo-user-id';
-          session.user.role = token.role as string;
-          session.user.emailVerified = true;
-          return session;
-        }
+        // All sessions must come from database - no demo bypass
 
         try {
           const user = await prisma.user.findUnique({
@@ -110,7 +97,7 @@ export const authOptions: NextAuthOptions = {
           if (user) {
             session.user.id = user.id.toString();
             session.user.role = user.role;
-            session.user.emailVerified = true; // For MVP, assume all users are verified
+            session.user.emailVerified = !!user.emailVerified;
           }
         } catch (error) {
           const { log } = require('@/lib/logger');

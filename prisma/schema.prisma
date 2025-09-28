@@ -8,148 +8,148 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String?  // Optional for OAuth users
-  role      Role
-  name      String?
-  createdAt DateTime @default(now())
-  campaigns   Campaign[]
-  sites       Site[]
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  role         Role
+  name         String?
+  createdAt    DateTime      @default(now())
+  password     String?
+  adminLogs    AdminLog[]
+  approvals    Approval[]
+  campaigns    Campaign[]
+  sites        Site[]
   transactions Transaction[]
-  approvals   Approval[]
-  adminLogs   AdminLog[]
 }
 
 model Campaign {
-  id          Int       @id @default(autoincrement())
-  advertiser  User      @relation(fields: [advertiserId], references: [id])
+  id           Int            @id @default(autoincrement())
   advertiserId Int
-  name        String
-  budget      Float
-  status      CampaignStatus @default(PENDING)
-  startDate   DateTime?
-  endDate     DateTime?
-  createdAt   DateTime @default(now())
-  creatives   Creative[]
-  placements  Placement[]
-  reports     Report[]
-  impressions Impression[]
-  conversions Conversion[]
+  name         String
+  budget       Float
+  status       CampaignStatus @default(PENDING)
+  startDate    DateTime?
+  endDate      DateTime?
+  createdAt    DateTime       @default(now())
+  advertiser   User           @relation(fields: [advertiserId], references: [id])
+  conversions  Conversion[]
+  creatives    Creative[]
+  impressions  Impression[]
+  placements   Placement[]
+  reports      Report[]
 }
 
 model Creative {
-  id         Int      @id @default(autoincrement())
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
-  campaignId Int
-  fileUrl    String
-  clickUrl   String
-  altText    String?
-  createdAt  DateTime @default(now())
+  id          Int          @id @default(autoincrement())
+  campaignId  Int
+  fileUrl     String
+  clickUrl    String
+  altText     String?
+  createdAt   DateTime     @default(now())
+  campaign    Campaign     @relation(fields: [campaignId], references: [id])
   impressions Impression[]
 }
 
 model Site {
-  id          Int       @id @default(autoincrement())
-  publisher   User      @relation(fields: [publisherId], references: [id])
+  id          Int          @id @default(autoincrement())
   publisherId Int
   domain      String
-  verified    Boolean   @default(false)
-  approved    Boolean   @default(false)
-  placements  Placement[]
+  verified    Boolean      @default(false)
+  approved    Boolean      @default(false)
   impressions Impression[]
+  placements  Placement[]
+  publisher   User         @relation(fields: [publisherId], references: [id])
 }
 
 model Placement {
-  id         Int      @id @default(autoincrement())
-  site       Site     @relation(fields: [siteId], references: [id])
-  siteId     Int
-  size       String
-  pricing    PricingType
-  price      Float
-  approved   Boolean   @default(false)
-  campaign   Campaign? @relation(fields: [campaignId], references: [id])
-  campaignId Int?
+  id          Int          @id @default(autoincrement())
+  siteId      Int
+  size        String
+  pricing     PricingType
+  price       Float
+  approved    Boolean      @default(false)
+  campaignId  Int?
   impressions Impression[]
+  campaign    Campaign?    @relation(fields: [campaignId], references: [id])
+  site        Site         @relation(fields: [siteId], references: [id])
 }
 
 model Transaction {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  amount     Float
-  type       TransactionType
-  status     String   @default("PENDING")
-  createdAt  DateTime @default(now())
+  id        Int             @id @default(autoincrement())
+  userId    Int
+  amount    Float
+  type      TransactionType
+  status    String          @default("PENDING")
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id])
 }
 
 model Approval {
-  id          Int      @id @default(autoincrement())
-  entityType  String   // 'campaign', 'site', 'creative', 'placement'
+  id          Int            @id @default(autoincrement())
+  entityType  String
   entityId    Int
   status      ApprovalStatus
-  reason      String?  // Required for rejections
-  adminUser   User     @relation(fields: [adminUserId], references: [id])
+  reason      String?
   adminUserId Int
-  createdAt   DateTime @default(now())
+  createdAt   DateTime       @default(now())
+  adminUser   User           @relation(fields: [adminUserId], references: [id])
 }
 
 model AdminLog {
   id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
   userId     Int
-  action     String   // 'approve', 'reject', 'create', 'update', 'delete'
-  entityType String   // 'campaign', 'site', 'creative', 'placement', 'user'
+  action     String
+  entityType String
   entityId   Int?
   createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 model Impression {
-  id         Int      @id @default(autoincrement())
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
-  campaignId Int
-  creative   Creative @relation(fields: [creativeId], references: [id])
-  creativeId Int
-  placement  Placement? @relation(fields: [placementId], references: [id])
+  id          Int        @id @default(autoincrement())
+  campaignId  Int
+  creativeId  Int
   placementId Int?
-  site       Site? @relation(fields: [siteId], references: [id])
-  siteId     Int?
-  device     String?
-  country    String?
-  browser    String?
-  os         String?
-  costMicros Int      @default(0)
-  createdAt  DateTime @default(now())
-  clicks     Click[]
+  siteId      Int?
+  device      String?
+  country     String?
+  browser     String?
+  os          String?
+  costMicros  Int        @default(0)
+  createdAt   DateTime   @default(now())
+  clicks      Click[]
+  campaign    Campaign   @relation(fields: [campaignId], references: [id])
+  creative    Creative   @relation(fields: [creativeId], references: [id])
+  placement   Placement? @relation(fields: [placementId], references: [id])
+  site        Site?      @relation(fields: [siteId], references: [id])
 }
 
 model Click {
-  id           Int         @id @default(autoincrement())
-  impression   Impression  @relation(fields: [impressionId], references: [id])
+  id           Int          @id @default(autoincrement())
   impressionId Int
-  createdAt    DateTime    @default(now())
+  createdAt    DateTime     @default(now())
+  impression   Impression   @relation(fields: [impressionId], references: [id])
   conversions  Conversion[]
 }
 
 model Conversion {
   id         Int      @id @default(autoincrement())
-  click      Click?   @relation(fields: [clickId], references: [id])
   clickId    Int?
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
   campaignId Int
   value      Float    @default(0)
   currency   String   @default("USD")
   createdAt  DateTime @default(now())
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  click      Click?   @relation(fields: [clickId], references: [id])
 }
 
 model Report {
-  id         Int      @id @default(autoincrement())
-  campaign   Campaign @relation(fields: [campaignId], references: [id])
-  campaignId Int
-  date       DateTime
+  id          Int      @id @default(autoincrement())
+  campaignId  Int
+  date        DateTime
   impressions Int
-  clicks     Int
-  spend      Float
+  clicks      Int
+  spend       Float
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
 }
 
 enum Role {

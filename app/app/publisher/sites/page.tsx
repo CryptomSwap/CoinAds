@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import RequireAuth from "@/components/RequireAuth";
+import { getSites, deleteSite } from "@/lib/server-actions/sites";
 
 interface Site {
   id: string;
@@ -64,19 +65,8 @@ export default function SitesPage() {
 
   const fetchSites = async () => {
     try {
-      const params = new URLSearchParams();
-      if (statusFilter !== "all") {
-        params.append("status", statusFilter);
-      }
-
-      const response = await fetch(`/api/publisher/sites?${params}`);
-      const data = await response.json();
-
-      if (response.ok) {
-        setSites(data.sites);
-      } else {
-        setError(data.error || "Failed to fetch sites");
-      }
+      const data = await getSites();
+      setSites(data);
     } catch (error) {
       setError("Error fetching sites");
     } finally {
@@ -109,17 +99,9 @@ export default function SitesPage() {
     }
 
     try {
-      const response = await fetch(`/api/publisher/sites/${siteId}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        setSuccess("Site deleted successfully");
-        fetchSites(); // Refresh the list
-      } else {
-        const data = await response.json();
-        setError(data.error || "Failed to delete site");
-      }
+      await deleteSite(siteId);
+      setSuccess("Site deleted successfully");
+      fetchSites(); // Refresh the list
     } catch (error) {
       setError("Error deleting site");
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,59 +12,14 @@ import {
   Play,
   Pause,
   Copy,
-  Trash2
+  Trash2,
+  Loader2
 } from "lucide-react";
 import Link from "next/link";
 import RequireAuth from "@/components/RequireAuth";
-
-// Mock data for MVP
-const mockCampaigns = [
-  {
-    id: "1",
-    name: "Crypto Exchange Launch",
-    status: "ACTIVE",
-    impressions: 45230,
-    clicks: 1023,
-    spend: 450.25,
-    updatedAt: "2024-01-15"
-  },
-  {
-    id: "2", 
-    name: "DeFi Protocol Campaign",
-    status: "PAUSED",
-    impressions: 32100,
-    clicks: 756,
-    spend: 320.10,
-    updatedAt: "2024-01-14"
-  },
-  {
-    id: "3",
-    name: "NFT Marketplace Promo",
-    status: "PENDING",
-    impressions: 0,
-    clicks: 0,
-    spend: 0,
-    updatedAt: "2024-01-16"
-  },
-  {
-    id: "4",
-    name: "Blockchain Education Series",
-    status: "ACTIVE",
-    impressions: 28900,
-    clicks: 567,
-    spend: 289.50,
-    updatedAt: "2024-01-15"
-  },
-  {
-    id: "5",
-    name: "Crypto Wallet Promotion",
-    status: "COMPLETED",
-    impressions: 156700,
-    clicks: 3421,
-    spend: 1567.00,
-    updatedAt: "2024-01-10"
-  }
-];
+import { useToast } from "@/lib/toast";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { getCampaigns, updateCampaignStatus, deleteCampaign } from "@/lib/server-actions/campaigns";
 
 const statusFilters = [
   { label: "All", value: "all" },
@@ -74,17 +29,47 @@ const statusFilters = [
   { label: "Completed", value: "COMPLETED" }
 ];
 
+interface Campaign {
+  id: string;
+  name: string;
+  status: string;
+  impressions: number;
+  clicks: number;
+  spend: number;
+  updatedAt: string;
+}
+
 export default function CampaignsPage() {
+  const { success, error: showError } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [campaigns, setCampaigns] = useState(mockCampaigns);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deletingCampaign, setDeletingCampaign] = useState<Campaign | null>(null);
+
+  useEffect(() => {
+    fetchCampaigns();
+  }, []);
+
+  const fetchCampaigns = async () => {
+    try {
+      setLoading(true);
+      const data = await getCampaigns();
+      setCampaigns(data);
+    } catch (error) {
+      console.error('Error fetching campaigns:', error);
+      showError('Failed to load campaigns');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleStatusChange = async (campaignId: string, newStatus: string) => {
     try {
-      // In a real app, this would make an API call
-      console.log(`Changing campaign ${campaignId} status to ${newStatus}`);
+      await updateCampaignStatus(campaignId, newStatus as "ACTIVE" | "PAUSED");
       
-      // Update local state for MVP
+      // Update local state
       setCampaigns(prev => 
         prev.map(campaign => 
           campaign.id === campaignId 
@@ -93,38 +78,51 @@ export default function CampaignsPage() {
         )
       );
       
-      alert(`Campaign status changed to ${newStatus}`);
+      success(`Campaign status changed to ${newStatus}`);
     } catch (error) {
       console.error("Failed to change campaign status:", error);
-      alert("Failed to change campaign status");
+      showError(error instanceof Error ? error.message : "Failed to change campaign status");
     }
   };
 
   const handleCopyCampaign = async (campaignId: string) => {
     try {
-      // In a real app, this would make an API call to duplicate the campaign
-      console.log(`Copying campaign ${campaignId}`);
-      alert("Campaign copy functionality would be implemented here");
+      const response = await fetch(`/api/advertiser/campaigns/${campaignId}/copy`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to copy campaign');
+      }
+
+      const result = await response.json();
+      success('Campaign copied successfully');
+      fetchCampaigns(); // Refresh the list
     } catch (error) {
       console.error("Failed to copy campaign:", error);
-      alert("Failed to copy campaign");
+      showError(error instanceof Error ? error.message : "Failed to copy campaign");
     }
   };
 
-  const handleDeleteCampaign = async (campaignId: string) => {
-    if (confirm("Are you sure you want to delete this campaign? This action cannot be undone.")) {
-      try {
-        // In a real app, this would make an API call
-        console.log(`Deleting campaign ${campaignId}`);
-        
-        // Update local state for MVP
-        setCampaigns(prev => prev.filter(campaign => campaign.id !== campaignId));
-        
-        alert("Campaign deleted successfully");
-      } catch (error) {
-        console.error("Failed to delete campaign:", error);
-        alert("Failed to delete campaign");
-      }
+  const openDeleteDialog = (campaign: Campaign) => {
+    setDeletingCampaign(campaign);
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteCampaign = async () => {
+    if (!deletingCampaign) return;
+
+    try {
+      await deleteCampaign(deletingCampaign.id);
+      success('Campaign deleted successfully');
+      setShowDeleteDialog(false);
+      setDeletingCampaign(null);
+      fetchCampaigns(); // Refresh the list
+    } catch (error) {
+      console.error("Failed to delete campaign:", error);
+      showError(error instanceof Error ? error.message : "Failed to delete campaign");
     }
   };
 
@@ -155,6 +153,16 @@ export default function CampaignsPage() {
     const matchesStatus = statusFilter === "all" || campaign.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+
+  if (loading) {
+    return (
+      <RequireAuth>
+        <div className="flex items-center justify-center min-h-64">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </RequireAuth>
+    );
+  }
 
   return (
     <RequireAuth>
@@ -277,7 +285,7 @@ export default function CampaignsPage() {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => handleDeleteCampaign(campaign.id)}
+                      onClick={() => openDeleteDialog(campaign)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -311,6 +319,18 @@ export default function CampaignsPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        title="Delete Campaign"
+        description={`Are you sure you want to delete "${deletingCampaign?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="destructive"
+        onConfirm={handleDeleteCampaign}
+      />
       </div>
     </RequireAuth>
   );

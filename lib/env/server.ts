@@ -41,6 +41,10 @@ const serverSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
+  // Optional chat widget configuration
+  CRISP_WEBSITE_ID: z.string().optional(),
+  TWAKTO_PROPERTY_ID: z.string().optional(),
+
   // Optional application configuration
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
   
@@ -125,11 +129,16 @@ export const hasGoogleOAuthConfig = !!(
   serverEnv.GOOGLE_CLIENT_SECRET
 );
 
+export const hasChatConfig = !!(
+  serverEnv.CRISP_WEBSITE_ID || serverEnv.TWAKTO_PROPERTY_ID
+);
+
 // Log environment status in development
 if (isDevelopment) {
   console.log("🔧 Server environment validation passed");
   console.log(`📧 Email service: ${hasEmailConfig ? "✅ Configured" : "❌ Not configured"}`);
   console.log(`💳 Stripe service: ${hasStripeConfig ? "✅ Configured" : "❌ Not configured"}`);
   console.log(`🔐 Google OAuth: ${hasGoogleOAuthConfig ? "✅ Configured" : "❌ Not configured"}`);
+  console.log(`💬 Chat widget: ${hasChatConfig ? "✅ Configured" : "❌ Not configured"}`);
   console.log(`🌐 App URL: ${serverEnv.NEXT_PUBLIC_APP_URL || "Not set"}`);
 }

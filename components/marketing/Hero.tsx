@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 /**
  * Hero component with three variants and customizable CTAs
@@ -78,24 +79,27 @@ export default function Hero({
             {/* CTA Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4">
               {/* Primary Button */}
-              <Link href={finalPrimaryCta.href}>
-                <a 
-                  role="button"
-                  className="bg-cyan-600 hover:bg-cyan-700 focus:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 text-white px-6 py-3 rounded-md shadow-md transition-colors duration-200 font-medium"
-                >
+              <Button 
+                asChild
+                className="bg-cyan-600 hover:bg-cyan-700 focus:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 text-white px-6 py-3 rounded-md shadow-md transition-colors duration-200 font-medium"
+                data-testid="hero-primary-cta"
+              >
+                <Link href={finalPrimaryCta.href}>
                   {finalPrimaryCta.label}
-                </a>
-              </Link>
+                </Link>
+              </Button>
               
               {/* Secondary Button */}
-              <Link href={finalSecondaryCta.href}>
-                <a 
-                  role="button"
-                  className="border border-cyan-600 text-cyan-600 hover:bg-cyan-50 focus:bg-cyan-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 px-6 py-3 rounded-md transition-colors duration-200 font-medium"
-                >
+              <Button 
+                asChild
+                variant="outline"
+                className="border border-cyan-600 text-cyan-600 hover:bg-cyan-50 focus:bg-cyan-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 px-6 py-3 rounded-md transition-colors duration-200 font-medium"
+                data-testid="hero-secondary-cta"
+              >
+                <Link href={finalSecondaryCta.href}>
                   {finalSecondaryCta.label}
-                </a>
-              </Link>
+                </Link>
+              </Button>
             </div>
             
             {/* Scroll Down Chevron */}
