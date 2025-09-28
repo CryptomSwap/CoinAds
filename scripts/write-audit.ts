@@ -3,9 +3,15 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
+type EnvVarInfo = { 
+  present: boolean; 
+  usedIn: string[]; 
+  clientServer?: string;
+};
+
 interface AnalysisData {
   routes: any[];
-  envVars: any;
+  envVars: Record<string, EnvVarInfo> | null;
   buildWarnings: string[];
   summary: any;
 }
@@ -111,17 +117,21 @@ function generateMarkdownReport(
   }
   
   // Environment Variables Matrix
-  if (analysis) {
+  if (analysis && analysis.envVars) {
     report += '## Environment Variables Matrix\n\n';
     report += '| Variable | Present | Used In | Client/Server | Required |\n';
     report += '|----------|---------|---------|---------------|----------|\n';
     
-    for (const [varName, info] of Object.entries(analysis.envVars)) {
-      const present = info.present ? '✅' : '❌';
-      const usedIn = info.usedIn.slice(0, 2).join(', ') + (info.usedIn.length > 2 ? '...' : '');
-      const required = varName === 'DATABASE_URL' || varName === 'NEXTAUTH_SECRET' ? '✅' : '❌';
+    const envVars = (analysis?.envVars ?? {}) as Record<string, EnvVarInfo>;
+    for (const [varName, info] of Object.entries(envVars)) {
+      const present = info?.present ? '✅' : '❌';
+      const usedInArr = Array.isArray(info?.usedIn) ? info.usedIn : [];
+      const usedIn =
+        usedInArr.slice(0, 2).join(', ') + (usedInArr.length > 2 ? '...' : '');
+      const required =
+        varName === 'DATABASE_URL' || varName === 'NEXTAUTH_SECRET' ? '✅' : '❌';
       
-      report += `| ${varName} | ${present} | ${usedIn} | ${info.clientServer} | ${required} |\n`;
+      report += `| ${varName} | ${present} | ${usedIn} | ${info?.clientServer || 'N/A'} | ${required} |\n`;
     }
     report += '\n';
   }
@@ -129,7 +139,7 @@ function generateMarkdownReport(
   // Google Auth Verification
   report += '## Google OAuth Verification\n\n';
   
-  if (analysis) {
+  if (analysis && analysis.envVars) {
     const hasGoogleConfig = analysis.envVars.GOOGLE_CLIENT_ID?.present && 
                            analysis.envVars.GOOGLE_CLIENT_SECRET?.present;
     
@@ -194,9 +204,9 @@ function generateMarkdownReport(
       report += '\n';
     }
     
-    const missingEnvVars = Object.entries(analysis.envVars)
+    const missingEnvVars = analysis.envVars ? Object.entries(analysis.envVars)
       .filter(([name, info]) => !info.present && (name === 'DATABASE_URL' || name === 'NEXTAUTH_SECRET'))
-      .map(([name]) => name);
+      .map(([name]) => name) : [];
     
     if (missingEnvVars.length > 0) {
       report += '- **Missing Required Environment Variables**:\n';
@@ -227,9 +237,9 @@ function generateMarkdownReport(
     }
     
     // Fix missing environment variables
-    const missingVars = Object.entries(analysis.envVars)
+    const missingVars = analysis.envVars ? Object.entries(analysis.envVars)
       .filter(([name, info]) => !info.present && (name === 'DATABASE_URL' || name === 'NEXTAUTH_SECRET'))
-      .map(([name]) => name);
+      .map(([name]) => name) : [];
     
     if (missingVars.length > 0) {
       report += `${fixCount}. **Set Required Environment Variables**\n`;
@@ -242,7 +252,7 @@ function generateMarkdownReport(
     }
     
     // Fix Google OAuth configuration
-    if (!analysis.envVars.GOOGLE_CLIENT_ID?.present || !analysis.envVars.GOOGLE_CLIENT_SECRET?.present) {
+    if (!analysis.envVars?.GOOGLE_CLIENT_ID?.present || !analysis.envVars?.GOOGLE_CLIENT_SECRET?.present) {
       report += `${fixCount}. **Configure Google OAuth**\n`;
       report += '   Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET for production\n';
       report += '   Update OAuth callback URLs in Google Console\n\n';
