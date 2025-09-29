@@ -49,8 +49,9 @@ const serverSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
   
   // Seed configuration
+  SEED_SECRET: z.string().optional(),
   SEED_ADMIN_EMAIL: z.string().email().optional(),
-  SEED_ADMIN_PASSWORD: z.string().min(6).optional(),
+  SEED_ADMIN_PASSWORD: z.string().min(8).optional(),
 
   // Node environment
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),

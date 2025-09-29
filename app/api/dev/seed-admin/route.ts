@@ -5,9 +5,9 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
   // Block in production - dev endpoints should not be accessible
-  if (process.env.NODE_ENV === 'production') {
+  if (serverEnv.NODE_ENV === "production") {
     return NextResponse.json(
-      { error: "Not found" },
+      { error: "Disabled in production" },
       { status: 404 }
     );
   }
@@ -33,19 +33,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Hash the default password
-    const hashedPassword = await bcrypt.hash("ChangeMe123!", 12);
+    // Use environment variables or defaults
+    const email = serverEnv.SEED_ADMIN_EMAIL ?? "admin@coinads.com";
+    const adminPassword = serverEnv.SEED_ADMIN_PASSWORD ?? "ChangeMeNow123!";
+    const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
     // Upsert admin user
     const adminUser = await prisma.user.upsert({
-      where: { email: "admin@coinads.com" },
+      where: { email },
       update: {
         role: "ADMIN",
         password: hashedPassword,
         name: "Admin User",
       },
       create: {
-        email: "admin@coinads.com",
+        email,
         password: hashedPassword,
         role: "ADMIN",
         name: "Admin User",
@@ -56,13 +58,15 @@ export async function POST(request: NextRequest) {
     const { password, ...userWithoutPassword } = adminUser;
 
     return NextResponse.json({
+      ok: true,
+      adminId: adminUser.id,
       message: "Admin user created/updated successfully",
       user: userWithoutPassword,
     });
   } catch (error) {
     console.error("Seed admin error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: (error as Error).message },
       { status: 500 }
     );
   }
@@ -71,9 +75,9 @@ export async function POST(request: NextRequest) {
 // Disable this route after first successful use
 export async function GET() {
   // Block in production
-  if (process.env.NODE_ENV === 'production') {
+  if (serverEnv.NODE_ENV === "production") {
     return NextResponse.json(
-      { error: "Not found" },
+      { error: "Disabled in production" },
       { status: 404 }
     );
   }
@@ -83,3 +87,6 @@ export async function GET() {
     { status: 403 }
   );
 }
+
+// Ensure dynamic
+export const dynamic = "force-dynamic";

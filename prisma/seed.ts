@@ -66,18 +66,23 @@ async function main() {
 
     // Create sites and placements
     for (const siteData of publisher.sites) {
-      const site = await prisma.site.upsert({
+      // Check if site already exists
+      let site = await prisma.site.findFirst({
         where: { 
           domain: siteData.domain 
-        },
-        update: {},
-        create: {
-          publisherId: publisherUser.id,
-          domain: siteData.domain,
-          verified: true,
-          approved: true,
         }
       });
+
+      if (!site) {
+        site = await prisma.site.create({
+          data: {
+            publisherId: publisherUser.id,
+            domain: siteData.domain,
+            verified: true,
+            approved: true,
+          }
+        });
+      }
 
       console.log(`✅ Created site: ${site.domain}`);
 
