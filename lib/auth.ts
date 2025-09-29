@@ -5,7 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { serverEnv, isDevelopment, hasGoogleOAuthConfig, hasEmailConfig } from "./env/server";
-import bcrypt from "bcryptjs";
+import * as bcrypt from "bcryptjs";
 
 // Demo mode removed for security - all authentication must go through database
 
@@ -93,9 +93,9 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (user) {
-            session.user.id = user.id.toString();
-            session.user.role = user.role;
-            session.user.emailVerified = true; // Assume verified since field doesn't exist
+            (session.user as any).id = user.id.toString();
+            (session.user as any).role = user.role as string;
+            (session.user as any).emailVerified = true; // Assume verified since field doesn't exist
           }
         } catch (error) {
           const { log } = require('@/lib/logger');
@@ -107,7 +107,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
+        token.role = (user as any).role;
       }
       return token;
     },
