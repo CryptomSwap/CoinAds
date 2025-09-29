@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
             name: user.name,
             image: null,
             role: user.role,
-            emailVerified: user.emailVerified,
+            emailVerified: !!user.emailVerified,
           };
         } catch (error) {
           const { log } = require('@/lib/logger');
