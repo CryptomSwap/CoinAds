@@ -100,7 +100,8 @@ test.describe('CoinAds MVP Smoke Tests', () => {
     expect(response.status()).toBe(401);
     
     // Test CORS headers
-    const corsResponse = await page.request.options('/api/track/imp');
-    expect(corsResponse.headers()['access-control-allow-origin']).toBeDefined();
+    const corsResponse = await page.request.fetch('/api/track/imp', { method: 'OPTIONS' });
+    const headers = corsResponse.headers();
+    expect(headers['access-control-allow-origin']).toBeDefined();
   });
 });

@@ -111,7 +111,7 @@ test.describe('Database API End-to-End Tests', () => {
 
   test('Publisher Sites CRUD', async ({ browser }) => {
     if (!authContext) {
-      test.skip('Authentication required for publisher sites');
+      test.skip();
       return;
     }
 
@@ -145,10 +145,10 @@ test.describe('Database API End-to-End Tests', () => {
       createResult.response = await createResponse.json();
       
       if (createResponse.ok()) {
-        createdSiteId = createResult.response.id;
+        createdSiteId = createResult.response.id || '';
         testSummary.createdResources.push({
           type: 'publisher_site',
-          id: createdSiteId,
+          id: createdSiteId || '',
           data: createResult.response
         });
         createResult.success = true;
@@ -234,7 +234,7 @@ test.describe('Database API End-to-End Tests', () => {
 
   test('Advertiser Campaigns CRUD', async ({ browser }) => {
     if (!authContext) {
-      test.skip('Authentication required for advertiser campaigns');
+      test.skip();
       return;
     }
 
@@ -270,10 +270,10 @@ test.describe('Database API End-to-End Tests', () => {
       createResult.response = await createResponse.json();
       
       if (createResponse.ok()) {
-        createdCampaignId = createResult.response.id;
+        createdCampaignId = createResult.response.id || '';
         testSummary.createdResources.push({
           type: 'advertiser_campaign',
-          id: createdCampaignId,
+          id: createdCampaignId || '',
           data: createResult.response
         });
         createResult.success = true;
