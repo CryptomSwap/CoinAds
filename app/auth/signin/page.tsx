@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Eye, EyeOff, UserPlus, ArrowRight, Sparkles, Mail } from "lucide-react";
 import TopBar from "@/components/TopBar";
+import { shouldShowEmailVerification } from "@/lib/guards";
 // Removed server-only import to fix build issue
 
 function SignInFormContent() {
@@ -39,7 +40,7 @@ function SignInFormContent() {
     }
     
     if (error) {
-      if (error.includes('verify') || error.includes('verification')) {
+      if ((error.includes('verify') || error.includes('verification')) && shouldShowEmailVerification()) {
         setError('Please verify your email address before signing in.');
         setShowResendVerification(true);
       } else {
@@ -61,7 +62,7 @@ function SignInFormContent() {
       });
 
       if (result?.error) {
-        if (result.error.includes('verify')) {
+        if (result.error.includes('verify') && shouldShowEmailVerification()) {
           setError('Please verify your email address before signing in.');
           setShowResendVerification(true);
           setResendEmail(email);
@@ -188,7 +189,7 @@ function SignInFormContent() {
                   {error && (
                     <Alert variant="destructive" className="border-destructive/20 bg-destructive/5">
                       <AlertDescription>{error}</AlertDescription>
-                      {showResendVerification && (
+                      {showResendVerification && shouldShowEmailVerification() && (
                         <div className="mt-3">
                           <Button
                             variant="outline"

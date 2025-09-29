@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import {
   Bell
 } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Mock data for partner sites and placements
 interface Placement {
@@ -195,6 +196,13 @@ export default function NewCampaignPage() {
   const currentBalance = 1500.00;
   const isLowBalance = currentBalance < 100;
 
+  // Development diagnostic logging
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[NewCampaignPage] Component mounted/updated');
+    }
+  });
+
   const updateFormData = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
@@ -203,7 +211,29 @@ export default function NewCampaignPage() {
     }
   };
 
-  const validateStep = (step: number): boolean => {
+  // Non-mutating validation that doesn't trigger renders
+  const checkStepValid = useCallback((step: number): boolean => {
+    switch (step) {
+      case 1:
+        if (!formData.name.trim() || formData.name.trim().length < 3) return false;
+        if (!formData.totalBudget || parseFloat(formData.totalBudget) < 50) return false;
+        break;
+      case 2:
+        if (formData.countries.length === 0) return false;
+        if (formData.devices.length === 0) return false;
+        break;
+      case 3:
+        if (formData.selectedPlacements.length === 0) return false;
+        break;
+      case 4:
+        if (formData.creatives.length === 0) return false;
+        break;
+    }
+    return true;
+  }, [formData.name, formData.totalBudget, formData.countries.length, formData.devices.length, formData.selectedPlacements.length, formData.creatives.length]);
+
+  // Validation with error setting (only call in event handlers)
+  const validateStep = useCallback((step: number): boolean => {
     const newErrors: Record<string, string> = {};
 
     switch (step) {
@@ -235,7 +265,7 @@ export default function NewCampaignPage() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [formData]);
 
   const nextStep = async () => {
     if (validateStep(currentStep)) {
@@ -303,22 +333,21 @@ export default function NewCampaignPage() {
     }
   };
 
-  const getSelectedPlacements = () => {
+  const getSelectedPlacements = useMemo(() => {
     return emptySites.flatMap(site => site.placements)
       .filter((placement: Placement) => formData.selectedPlacements.includes(placement.id));
-  };
+  }, [formData.selectedPlacements]);
 
-  const getRequiredSizes = () => {
-    const selectedPlacements = getSelectedPlacements();
+  const getRequiredSizes = useMemo(() => {
     const sizes = new Set<string>();
-    selectedPlacements.forEach((placement: Placement) => {
+    getSelectedPlacements.forEach((placement: Placement) => {
       sizes.add(placement.size);
       if (placement.mobileSize && placement.mobileSize !== placement.size) {
         sizes.add(placement.mobileSize);
       }
     });
     return Array.from(sizes);
-  };
+  }, [getSelectedPlacements]);
 
   const validateFile = (file: File): string | null => {
     // Check file type
@@ -507,7 +536,7 @@ export default function NewCampaignPage() {
           {currentStep < steps.length ? (
             <Button 
               onClick={nextStep}
-              disabled={!validateStep(currentStep)}
+              disabled={!checkStepValid(currentStep)}
             >
               Next Step
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -515,7 +544,7 @@ export default function NewCampaignPage() {
           ) : (
             <Button 
               onClick={handleSubmit}
-              disabled={!validateStep(currentStep)}
+              disabled={!checkStepValid(currentStep)}
             >
               Create Campaign
             </Button>
@@ -809,7 +838,7 @@ export default function NewCampaignPage() {
                   <p className="text-muted-foreground">No placements selected</p>
                 ) : (
                   <div className="space-y-2">
-                    {getSelectedPlacements().map((placement: Placement) => (
+                    {getSelectedPlacements.map((placement: Placement) => (
                       <div key={placement.id} className="p-3 border rounded-lg bg-muted">
                         <div className="flex items-center justify-between">
                           <div>
@@ -861,7 +890,7 @@ export default function NewCampaignPage() {
                 <h3 className="text-lg font-semibold text-foreground">Required Creative Sizes</h3>
               </div>
               <div className="flex flex-wrap gap-3">
-                {getRequiredSizes().map(size => (
+                {getRequiredSizes.map(size => (
                   <div key={size} className="px-4 py-2 bg-primary/5 border border-primary/20 rounded-lg">
                     <span className="text-sm font-medium text-primary">{size}</span>
                   </div>
@@ -1101,8 +1130,9 @@ export default function NewCampaignPage() {
   };
 
   return (
-    <RequireAuth>
-      <div className="min-h-screen bg-background">
+    <ErrorBoundary>
+      <RequireAuth>
+        <div className="min-h-screen bg-background">
       {/* Main Content Container */}
       <div className="max-w-5xl mx-auto px-6 pb-32">
         {/* Header Section */}
@@ -1149,8 +1179,9 @@ export default function NewCampaignPage() {
       </div>
 
       {/* Sticky Footer */}
-      {renderStickyFooter()}
-      </div>
-    </RequireAuth>
+        {renderStickyFooter()}
+        </div>
+      </RequireAuth>
+    </ErrorBoundary>
   );
 }

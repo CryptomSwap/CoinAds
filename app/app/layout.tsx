@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { TopBar } from "@/components/app/top-bar";
 import { Sidebar } from "@/components/app/sidebar";
 import { RoleProvider, useRole } from "@/contexts/RoleContext";
+import { mustBeVerified } from "@/lib/guards";
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { currentRole } = useRole();
@@ -43,10 +44,9 @@ export default function AppLayout({
     redirect("/auth/signin");
   }
 
-  // Check if user needs email verification
-  if (session.user && !session.user.emailVerified) {
-    // For MVP, we'll skip email verification
-    // In production, redirect to verification page
+  // Check if user needs email verification based on feature flag
+  if (session.user && !mustBeVerified(session.user.emailVerified)) {
+    redirect("/auth/verify-email");
   }
 
   return (

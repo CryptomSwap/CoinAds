@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { serverEnv, isDevelopment, hasGoogleOAuthConfig, hasEmailConfig } from "./env/server";
+import { REQUIRE_EMAIL_VERIFICATION } from "./featureFlags";
 import * as bcrypt from "bcryptjs";
 
 // Demo mode removed for security - all authentication must go through database
@@ -50,8 +51,8 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // Check if email is verified
-          if (!user.emailVerified) {
+          // Check if email is verified (only if feature flag is enabled)
+          if (REQUIRE_EMAIL_VERIFICATION && !user.emailVerified) {
             return null; // User must verify email before login
           }
 
@@ -97,7 +98,7 @@ export const authOptions: NextAuthOptions = {
           if (user) {
             (session.user as any).id = user.id.toString();
             (session.user as any).role = user.role as string;
-            (session.user as any).emailVerified = true; // Assume verified since field doesn't exist
+            (session.user as any).emailVerified = !!user.emailVerified; // Read actual value from database
           }
         } catch (error) {
           const { log } = require('@/lib/logger');
