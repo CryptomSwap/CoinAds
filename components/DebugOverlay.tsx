@@ -8,7 +8,7 @@ export default function DebugOverlay() {
     return null;
   }
   
-  const on = process.env.NEXT_PUBLIC_DEBUG_OVERLAY === '1';
+  const on = process.env.NODE_ENV === 'development';
   const pathname = usePathname();
   const [errors, setErrors] = useState<string[]>([]);
   const installed = useRef(false);
@@ -49,7 +49,7 @@ export default function DebugOverlay() {
         borderRadius: 8, maxWidth: 480
       }}>
         <div><b>Path:</b> {pathname}</div>
-        <div><b>Auth disabled:</b> {process.env.NEXT_PUBLIC_DISABLE_CLIENT_AUTH === '1' ? 'yes' : 'no'}</div>
+        <div><b>Environment:</b> {process.env.NODE_ENV}</div>
         {errors.length > 0 && (
           <div style={{ marginTop: 6 }}>
             <b>Recent errors:</b>

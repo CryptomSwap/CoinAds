@@ -12,7 +12,7 @@ import { ArrowLeft, ArrowRight, Save, AlertTriangle, DollarSign, Globe, Smartpho
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data - in real app this would come from campaign wizard state
-const mockCampaignData = {
+const emptyCampaignData = {
   name: "Bitcoin Exchange Campaign",
   budget: 5000,
   startDate: "2024-01-15",
@@ -56,7 +56,7 @@ export default function CampaignReviewPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...mockCampaignData,
+          ...emptyCampaignData,
           status: 'PENDING', // Submit for admin approval
         }),
       });
@@ -90,7 +90,7 @@ export default function CampaignReviewPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...mockCampaignData,
+          ...emptyCampaignData,
           status: 'DRAFT',
         }),
       });
@@ -110,8 +110,8 @@ export default function CampaignReviewPage() {
   };
 
   const calculateEstimatedCost = () => {
-    const totalImpressions = mockCampaignData.placements.reduce((sum, placement) => {
-      return sum + (mockCampaignData.budget / placement.cpm) * 1000;
+  const totalImpressions = emptyCampaignData.placements.reduce((sum, placement) => {
+    return sum + (emptyCampaignData.budget / placement.cpm) * 1000;
     }, 0);
     return totalImpressions;
   };
@@ -147,19 +147,19 @@ export default function CampaignReviewPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-slate-600">Campaign Name</p>
-                  <p className="font-medium">{mockCampaignData.name}</p>
+                  <p className="font-medium">{emptyCampaignData.name}</p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-600">Budget</p>
-                  <p className="font-medium">${mockCampaignData.budget.toLocaleString()}</p>
+                  <p className="font-medium">${emptyCampaignData.budget.toLocaleString()}</p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-600">Start Date</p>
-                  <p className="font-medium">{mockCampaignData.startDate}</p>
+                  <p className="font-medium">{emptyCampaignData.startDate}</p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-600">End Date</p>
-                  <p className="font-medium">{mockCampaignData.endDate}</p>
+                  <p className="font-medium">{emptyCampaignData.endDate}</p>
                 </div>
               </div>
             </CardContent>
@@ -177,7 +177,7 @@ export default function CampaignReviewPage() {
               <div>
                 <p className="text-sm text-slate-600 mb-2">Countries</p>
                 <div className="flex flex-wrap gap-2">
-                  {mockCampaignData.countries.map((country) => (
+                  {emptyCampaignData.countries.map((country) => (
                     <Badge key={country} variant="secondary">{country}</Badge>
                   ))}
                 </div>
@@ -185,7 +185,7 @@ export default function CampaignReviewPage() {
               <div>
                 <p className="text-sm text-slate-600 mb-2">Devices</p>
                 <div className="flex flex-wrap gap-2">
-                  {mockCampaignData.devices.map((device) => (
+                  {emptyCampaignData.devices.map((device) => (
                     <Badge key={device} variant="secondary">
                       {device === "desktop" ? <Globe className="mr-1 h-3 w-3" /> : <Smartphone className="mr-1 h-3 w-3" />}
                       {device}
@@ -203,7 +203,7 @@ export default function CampaignReviewPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {mockCampaignData.placements.map((placement, index) => (
+                {emptyCampaignData.placements.map((placement, index) => (
                   <div key={index} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
                     <div>
                       <p className="font-medium">{placement.publisher}</p>
@@ -226,7 +226,7 @@ export default function CampaignReviewPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {mockCampaignData.creatives.map((creative, index) => (
+                {emptyCampaignData.creatives.map((creative, index) => (
                   <div key={index} className="flex items-center space-x-3 p-3 border border-slate-200 rounded-lg">
                     <div className="w-16 h-12 bg-slate-100 rounded flex items-center justify-center">
                       <span className="text-xs text-slate-500">Preview</span>

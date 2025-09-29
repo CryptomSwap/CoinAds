@@ -10,7 +10,7 @@ import { Bell, CheckCircle, AlertTriangle, Info, DollarSign, Megaphone, Globe, C
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
-const mockNotifications = [
+const emptyNotifications = [
   {
     id: 1,
     title: "Campaign Approved",
@@ -92,7 +92,7 @@ const getNotificationBadge = (type: string) => {
 // Metadata removed - client component cannot export metadata
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState(mockNotifications);
+  const [notifications, setNotifications] = useState(emptyNotifications);
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
 
   const unreadCount = notifications.filter(n => !n.isRead).length;

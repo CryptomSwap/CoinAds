@@ -44,7 +44,7 @@ interface Site {
   placements: Placement[];
 }
 
-const mockSites: Site[] = [
+const emptySites: Site[] = [
   {
     id: "1",
     domain: "coinranking.com",
@@ -261,7 +261,7 @@ export default function NewCampaignPage() {
     try {
       // Check if any selected placement has TBD pricing
       const hasTbdPricing = formData.selectedPlacements.some(placementId => {
-        const placement = mockSites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
+        const placement = emptySites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
         return placement?.cpmCents === null;
       });
 
@@ -307,7 +307,7 @@ export default function NewCampaignPage() {
   };
 
   const getSelectedPlacements = () => {
-    return mockSites.flatMap(site => site.placements)
+    return emptySites.flatMap(site => site.placements)
       .filter((placement: Placement) => formData.selectedPlacements.includes(placement.id));
   };
 
@@ -747,7 +747,7 @@ export default function NewCampaignPage() {
               {/* Sites List */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-foreground">Available Sites</h3>
-                {mockSites.map(site => (
+                {emptySites.map(site => (
                   <Card key={site.id} className="p-4">
                     <div className="flex items-center space-x-3 mb-3">
                       <span className="text-2xl">{site.logo}</span>
@@ -839,7 +839,7 @@ export default function NewCampaignPage() {
             </div>
 
             {formData.selectedPlacements.some(placementId => {
-              const placement = mockSites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
+              const placement = emptySites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
               return placement?.cpmCents === null;
             }) && (
               <Alert>
@@ -1083,7 +1083,7 @@ export default function NewCampaignPage() {
             {/* Action Button */}
             <div className="pt-4">
               {formData.selectedPlacements.some(placementId => {
-                const placement = mockSites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
+                const placement = emptySites.flatMap(site => site.placements).find((p: Placement) => p.id === placementId);
                 return placement?.cpmCents === null;
               }) ? (
                 <Button onClick={handleSubmit} className="w-full">

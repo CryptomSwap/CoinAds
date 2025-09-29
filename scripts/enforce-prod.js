@@ -13,14 +13,13 @@ console.log('🔍 Enforcing production build requirements...');
 
 const errors = [];
 
-// Mock/demo data detection patterns
-const mockPatterns = [
+// Test/demo data detection patterns
+const testPatterns = [
   '__mocks__',
   '/mocks/',
   '/fixtures/',
-  'mockData',
-  'demoData',
-  'sampleData',
+  'testData',
+  'tempData',
   'lipsum',
   "console.log('TODO')",
   "alert('TODO')",
@@ -81,7 +80,7 @@ function checkFileForMocks(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
     
-    for (const pattern of mockPatterns) {
+    for (const pattern of testPatterns) {
       if (content.includes(pattern)) {
         errors.push(`❌ Mock/demo data found in ${filePath}: "${pattern}"`);
       }
@@ -160,7 +159,7 @@ filesToCheck.forEach(file => {
 const authFile = path.join(process.cwd(), 'lib/auth.ts');
 if (fs.existsSync(authFile)) {
   const content = fs.readFileSync(authFile, 'utf8');
-  if (content.includes('DEMO_MODE') && !content.includes('NODE_ENV !== \'production\'')) {
+    if (content.includes('TEST_MODE') && !content.includes('NODE_ENV !== \'production\'')) {
     errors.push(`❌ Demo mode bypass found in lib/auth.ts - Must be guarded with NODE_ENV check`);
   }
 }

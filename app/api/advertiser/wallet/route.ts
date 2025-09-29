@@ -4,10 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
-// Demo mode - bypass database for development
-import { isDevelopment } from "@/lib/env/server";
-
-const DEMO_MODE = isDevelopment;
+// Removed demo mode - always use database
 
 const addFundsSchema = z.object({
   amountCents: z.number().min(100, "Minimum amount is $1.00"),
@@ -22,55 +19,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Demo mode - return mock wallet data
-    if (DEMO_MODE) {
-      const mockWallet = {
-        id: "demo-wallet-1",
-        organizationId: "demo-org",
-        balanceCents: 250000, // $2,500
-        currency: "USD",
-        createdAt: new Date("2024-01-01"),
-        updatedAt: new Date("2024-01-15"),
-        transactions: [
-          {
-            id: "demo-transaction-1",
-            walletId: "demo-wallet-1",
-            type: "TOP_UP",
-            method: "STRIPE",
-            amountCents: 100000,
-            status: "SUCCEEDED",
-            meta: { userId: "demo-user-id", timestamp: "2024-01-01T00:00:00Z" },
-            createdAt: new Date("2024-01-01"),
-            updatedAt: new Date("2024-01-01")
-          },
-          {
-            id: "demo-transaction-2",
-            walletId: "demo-wallet-1",
-            type: "SPEND",
-            method: "SYSTEM",
-            amountCents: -25000,
-            status: "SUCCEEDED",
-            meta: { campaignId: "demo-campaign-1", timestamp: "2024-01-15T00:00:00Z" },
-            createdAt: new Date("2024-01-15"),
-            updatedAt: new Date("2024-01-15")
-          }
-        ]
-      };
-
-      const mockOrganization = {
-        id: "demo-org",
-        name: "Demo Organization",
-        slug: "demo-org",
-        createdAt: new Date("2024-01-01"),
-        updatedAt: new Date("2024-01-01"),
-        wallet: mockWallet
-      };
-
-      return NextResponse.json({
-        wallet: mockWallet,
-        organization: mockOrganization,
-      });
-    }
+    // Always query database - no mock fallbacks
 
     // For MVP, get user's transactions directly
     const transactions = await prisma.transaction.findMany({
@@ -114,55 +63,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { amountCents, method } = addFundsSchema.parse(body);
 
-    // Demo mode - return mock transaction
-    if (DEMO_MODE) {
-      const mockTransaction = {
-        id: `demo-transaction-${Date.now()}`,
-        walletId: "demo-wallet-1",
-        type: "TOP_UP",
-        method: method,
-        amountCents: amountCents,
-        status: method === "STRIPE" ? "SUCCEEDED" : "PENDING",
-        meta: JSON.stringify({
-          userId: session.user.id,
-          timestamp: new Date().toISOString(),
-        }),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      if (method === "STRIPE") {
-        return NextResponse.json({
-          message: "Funds added successfully",
-          transaction: {
-            id: mockTransaction.id,
-            amountCents,
-            status: "SUCCEEDED",
-          },
-        });
-      } else if (method === "COINBASE") {
-        return NextResponse.json({
-          message: "Payment instructions generated",
-          transaction: {
-            id: mockTransaction.id,
-            amountCents,
-            status: "PENDING",
-            paymentAddress: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
-            qrCode: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
-          },
-        });
-      } else {
-        return NextResponse.json({
-          message: "Wire transfer instructions sent",
-          transaction: {
-            id: mockTransaction.id,
-            amountCents,
-            status: "PENDING",
-            instructions: "Please transfer funds to the following account...",
-          },
-        });
-      }
-    }
+    // Always create in database - no mock responses
 
     // Create transaction record directly for user
     const transaction = await prisma.transaction.create({

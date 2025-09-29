@@ -12,7 +12,7 @@ import { Copy, Download, CheckCircle, AlertTriangle, Globe, FileText } from "luc
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
-const mockSiteData = {
+const emptySiteData = {
   id: "1",
   domain: "example.com",
   status: "pending",
@@ -26,12 +26,12 @@ export default function SiteVerificationPage() {
   const params = useParams();
   const siteId = params.id as string;
   const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationStatus, setVerificationStatus] = useState(mockSiteData.status);
+  const [verificationStatus, setVerificationStatus] = useState(emptySiteData.status);
   const [message, setMessage] = useState("");
 
   const handleCopyMetaTag = async () => {
     try {
-      await navigator.clipboard.writeText(`<meta name="coinads-verification" content="${mockSiteData.metaTag}" />`);
+      await navigator.clipboard.writeText(`<meta name="coinads-verification" content="${emptySiteData.metaTag}" />`);
       setMessage("Meta tag copied to clipboard!");
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
@@ -41,12 +41,12 @@ export default function SiteVerificationPage() {
 
   const handleDownloadFile = () => {
     // Create and download the verification file
-    const content = mockSiteData.metaTag;
+    const content = emptySiteData.metaTag;
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = mockSiteData.verificationFile;
+    a.download = emptySiteData.verificationFile;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -109,7 +109,7 @@ export default function SiteVerificationPage() {
       <div className="max-w-4xl mx-auto space-y-6">
       <PageHeader 
         title="Verify Domain" 
-        description={`Verify ownership of ${mockSiteData.domain}`}
+        description={`Verify ownership of ${emptySiteData.domain}`}
       />
 
       {message && (
@@ -133,7 +133,7 @@ export default function SiteVerificationPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-600">Domain</p>
-              <p className="font-medium">{mockSiteData.domain}</p>
+              <p className="font-medium">{emptySiteData.domain}</p>
             </div>
             <Button 
               onClick={handleVerify}
@@ -167,7 +167,7 @@ export default function SiteVerificationPage() {
             <CardContent className="space-y-4">
               <div className="p-4 bg-slate-50 rounded-lg">
                 <code className="text-sm font-mono">
-                  &lt;meta name="coinads-verification" content="{mockSiteData.metaTag}" /&gt;
+                  &lt;meta name="coinads-verification" content="{emptySiteData.metaTag}" /&gt;
                 </code>
               </div>
               
@@ -208,8 +208,8 @@ export default function SiteVerificationPage() {
               <div className="p-4 bg-slate-50 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">File: {mockSiteData.verificationFile}</p>
-                    <p className="text-sm text-slate-600">Content: {mockSiteData.metaTag}</p>
+            <p className="font-medium">File: {emptySiteData.verificationFile}</p>
+            <p className="text-sm text-slate-600">Content: {emptySiteData.metaTag}</p>
                   </div>
                   <Button 
                     onClick={handleDownloadFile}
@@ -227,7 +227,7 @@ export default function SiteVerificationPage() {
                 <ol className="text-sm text-slate-600 space-y-1 list-decimal list-inside">
                   <li>Download the verification file</li>
                   <li>Upload it to your website's root directory</li>
-                  <li>Make sure it's accessible at: {mockSiteData.domain}/{mockSiteData.verificationFile}</li>
+                  <li>Make sure it's accessible at: {emptySiteData.domain}/{emptySiteData.verificationFile}</li>
                   <li>Click "Verify Now" to check</li>
                 </ol>
               </div>

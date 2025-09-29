@@ -1,5 +1,5 @@
 // Mock environment check for testing
-const mockServerEnv = {
+const testServerEnv = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   DATABASE_URL: process.env.DATABASE_URL,
@@ -97,7 +97,7 @@ export function printEnvMatrix(results: EnvCheckResult[]): void {
 }
 
 export function checkGoogleOAuthConfig(): boolean {
-  return !!(mockServerEnv.GOOGLE_CLIENT_ID && mockServerEnv.GOOGLE_CLIENT_SECRET);
+  return !!(testServerEnv.GOOGLE_CLIENT_ID && testServerEnv.GOOGLE_CLIENT_SECRET);
 }
 
 export function checkEmailConfig(): boolean {

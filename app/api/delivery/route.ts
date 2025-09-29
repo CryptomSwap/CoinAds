@@ -38,15 +38,15 @@ export async function GET(request: NextRequest) {
     // 3. Run ad selection algorithm
     // 4. Return the winning creative
 
-    // For MVP, return a simple mock ad
-    const mockCampaignId = 1; // Use integer ID for database
-    const mockCreativeId = 1; // Use integer ID for database
-    const mockSiteId = 1; // Use integer ID for database
+    // For MVP, return a simple placeholder ad
+    const campaignId = 1; // Use integer ID for database
+    const creativeId = 1; // Use integer ID for database
+    const siteId = 1; // Use integer ID for database
     const clickId = `click_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     const adHtml = `
       <div style="width: ${width}px; height: ${height}px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-family: Arial, sans-serif; cursor: pointer; position: relative; overflow: hidden;" 
-           onclick="window.open('https://coinads.com/c?cid=${mockCampaignId}&cr=${mockCreativeId}&pl=${placementId}&sid=&clid=${clickId}&u=${encodeURIComponent(url)}', '_blank')">
+           onclick="window.open('https://coinads.com/c?cid=${campaignId}&cr=${creativeId}&pl=${placementId}&sid=&clid=${clickId}&u=${encodeURIComponent(url)}', '_blank')">
         <div style="text-align: center;">
           <div style="font-size: 18px; font-weight: bold; margin-bottom: 4px;">🚀 Crypto Ads</div>
           <div style="font-size: 12px; opacity: 0.9;">Powered by CoinAds</div>
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
       // Find existing report for today
       const existingReport = await prisma.report.findFirst({
         where: {
-          campaignId: mockCampaignId,
+          campaignId: campaignId,
           date: {
             gte: today,
             lt: new Date(today.getTime() + 24 * 60 * 60 * 1000), // Next day
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
         // Create new report
         await prisma.report.create({
           data: {
-            campaignId: mockCampaignId,
+            campaignId: campaignId,
             date: today,
             impressions: 1,
             clicks: 0,
@@ -103,10 +103,10 @@ export async function GET(request: NextRequest) {
 
     const response = NextResponse.json({
       html: adHtml,
-      campaignId: mockCampaignId,
-      creativeId: mockCreativeId,
-      trackImpUrl: `/api/track/imp?campaignId=${mockCampaignId}&creativeId=${mockCreativeId}&placementId=${placementId}`,
-      clickUrl: `/c?cid=${mockCampaignId}&cr=${mockCreativeId}&pl=${placementId}&sid=&clid=${clickId}&u=${encodeURIComponent(url)}`,
+      campaignId: campaignId,
+        creativeId: creativeId,
+      trackImpUrl: `/api/track/imp?campaignId=${campaignId}&creativeId=${creativeId}&placementId=${placementId}`,
+      clickUrl: `/c?cid=${campaignId}&cr=${creativeId}&pl=${placementId}&sid=&clid=${clickId}&u=${encodeURIComponent(url)}`,
       impressionId: impressionId
     });
     return addSecurityHeaders(addCORSHeaders(response, request));

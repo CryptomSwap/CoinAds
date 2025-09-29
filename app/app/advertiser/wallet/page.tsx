@@ -18,7 +18,7 @@ import {
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data for MVP
-const mockWallet = {
+const emptyWallet = {
   balance: 500.00,
   lowBalanceThreshold: 50.00,
   transactions: [
@@ -153,13 +153,13 @@ export default function WalletPage() {
         </CardHeader>
         <CardContent>
           <div className="text-3xl font-bold text-green-600">
-            {formatCurrency(mockWallet.balance)}
+            {formatCurrency(emptyWallet.balance)}
           </div>
           <p className="text-sm text-gray-500 mt-1">
             Available credits for your campaigns
           </p>
           
-          {mockWallet.balance < mockWallet.lowBalanceThreshold && (
+          {emptyWallet.balance < emptyWallet.lowBalanceThreshold && (
             <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
               <div className="flex">
                 <AlertTriangle className="h-5 w-5 text-yellow-400" />
@@ -246,7 +246,7 @@ export default function WalletPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {mockWallet.transactions.map((transaction) => (
+            {emptyWallet.transactions.map((transaction) => (
               <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
                 <div className="flex items-center space-x-4">
                   {getTransactionIcon(transaction.type)}

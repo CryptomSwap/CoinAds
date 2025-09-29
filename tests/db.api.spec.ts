@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { seedTestUser, signin, TEST_USER } from './helpers/auth';
+import { createTestScenario, cleanupTestData } from './factories';
 import fs from 'fs';
 import path from 'path';
 
@@ -73,6 +74,11 @@ test.describe('Database API End-to-End Tests', () => {
     }
     
     await context.close();
+  });
+
+  test.afterAll(async () => {
+    // Clean up test data
+    await cleanupTestData();
   });
 
   test('Health Check', async ({ request }) => {

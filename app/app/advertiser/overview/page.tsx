@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { EmptyState } from "@/components/ui/empty-state";
 import { 
   TrendingUp, 
   MousePointer, 
@@ -56,51 +57,23 @@ interface DashboardData {
   balance: number;
 }
 
-// Mock data for client component
-const mockDashboardData: DashboardData = {
+// Empty dashboard data for initial state
+const emptyDashboardData: DashboardData = {
   campaignStats: {
-    total: 8,
-    active: 3,
-    paused: 2,
-    pending: 1,
-    completed: 2,
+    total: 0,
+    active: 0,
+    paused: 0,
+    pending: 0,
+    completed: 0,
   },
   performance: {
-    impressions: 45000,
-    clicks: 1200,
-    ctr: 2.67,
-    spend: 2250.50,
+    impressions: 0,
+    clicks: 0,
+    ctr: 0,
+    spend: 0,
   },
-  recentCampaigns: [
-    {
-      id: 1,
-      name: "Crypto Trading Platform",
-      status: "ACTIVE",
-      impressions: 15000,
-      clicks: 400,
-      spend: 750.25,
-      updatedAt: "2024-12-15",
-    },
-    {
-      id: 2,
-      name: "DeFi Yield Farming",
-      status: "PAUSED",
-      impressions: 12000,
-      clicks: 320,
-      spend: 600.00,
-      updatedAt: "2024-12-14",
-    },
-    {
-      id: 3,
-      name: "NFT Marketplace",
-      status: "ACTIVE",
-      impressions: 18000,
-      clicks: 480,
-      spend: 900.25,
-      updatedAt: "2024-12-15",
-    },
-  ],
-  balance: 2500.75,
+  recentCampaigns: [],
+  balance: 0,
 };
 
 // Loading skeleton component
@@ -183,7 +156,16 @@ function LoadingSkeleton() {
 export default function AdvertiserOverview() {
   const { success, error: showError } = useToast();
   const [isExporting, setIsExporting] = useState(false);
-  const dashboardData = mockDashboardData;
+  const [dashboardData, setDashboardData] = useState<DashboardData>(emptyDashboardData);
+  const [loading, setLoading] = useState(true);
+
+  // TODO: Replace with real API calls
+  useEffect(() => {
+    // Simulate loading
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -206,6 +188,10 @@ export default function AdvertiserOverview() {
       default: return 'bg-muted text-muted-foreground';
     }
   };
+
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
 
   const handleExportCSV = async () => {
     setIsExporting(true);
@@ -409,7 +395,8 @@ export default function AdvertiserOverview() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {dashboardData.recentCampaigns.map((campaign) => (
+            {dashboardData.recentCampaigns.length > 0 ? (
+              dashboardData.recentCampaigns.map((campaign) => (
               <div key={campaign.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3">
@@ -442,39 +429,32 @@ export default function AdvertiserOverview() {
                   </Button>
                 </div>
               </div>
-            ))}
+              ))
+            ) : (
+              <EmptyState
+                icon={<Megaphone className="h-12 w-12" />}
+                title="No campaigns yet"
+                description="Create your first campaign to start advertising and track performance."
+                action={{
+                  label: "Create Campaign",
+                  onClick: () => window.location.href = '/app/advertiser/campaigns/new'
+                }}
+              />
+            )}
           </div>
           
-          <div className="mt-4 text-center">
-            <Button variant="outline" asChild>
-              <Link href="/app/advertiser/campaigns">
-                View All Campaigns
-              </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Empty State for No Campaigns */}
-      {dashboardData.recentCampaigns.length === 0 && (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Megaphone className="h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-2 text-sm font-medium text-foreground">No campaigns yet — create your first campaign.</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Create your first campaign to start serving ads.
-            </p>
-            <div className="mt-6">
-              <Button asChild>
-                <Link href="/app/advertiser/campaigns/new">
-                  <Plus className="mr-2 h-4 w-4" />
-                  New Campaign
+          {dashboardData.recentCampaigns.length > 0 && (
+            <div className="mt-4 text-center">
+              <Button variant="outline" asChild>
+                <Link href="/app/advertiser/campaigns">
+                  View All Campaigns
                 </Link>
               </Button>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          )}
+        </CardContent>
+      </Card>
+
       </div>
     </RequireAuth>
   );

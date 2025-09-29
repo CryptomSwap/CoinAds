@@ -1,0 +1,80 @@
+[
+  {
+    "domain": "coinranking.com",
+    "displayName": "Coinranking",
+    "sites": [
+      {
+        "domain": "coinranking.com",
+        "placements": [
+          {
+            "size": "728x90",
+            "position": "HEADER",
+            "pricingType": "CPM",
+            "price": 6.0,
+            "description": "Header banner - above the fold"
+          },
+          {
+            "size": "728x90",
+            "position": "SIDEBAR_TOP",
+            "pricingType": "CPM",
+            "price": 5.0,
+            "description": "Sidebar top placement"
+          },
+          {
+            "size": "728x90",
+            "position": "SIDEBAR_MIDDLE",
+            "pricingType": "CPM",
+            "price": 5.0,
+            "description": "Sidebar middle placement"
+          },
+          {
+            "size": "300x250",
+            "position": "SIDEBAR_BOTTOM",
+            "pricingType": "CPM",
+            "price": 5.0,
+            "description": "Sidebar bottom placement"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "domain": "cryptodaily.co.uk",
+    "displayName": "CryptoDaily",
+    "sites": [
+      {
+        "domain": "cryptodaily.co.uk",
+        "placements": [
+          {
+            "size": "1920x82",
+            "position": "HEADER",
+            "pricingType": "CPM",
+            "price": 0.0,
+            "description": "Header banner - pricing TBD"
+          },
+          {
+            "size": "1920x82",
+            "position": "FOOTER",
+            "pricingType": "CPM",
+            "price": 0.0,
+            "description": "Footer banner - pricing TBD"
+          },
+          {
+            "size": "728x90",
+            "position": "SIDEBAR_TOP",
+            "pricingType": "CPM",
+            "price": 0.0,
+            "description": "Sidebar top - pricing TBD"
+          },
+          {
+            "size": "300x250",
+            "position": "SIDEBAR_MIDDLE",
+            "pricingType": "CPM",
+            "price": 0.0,
+            "description": "Sidebar middle - pricing TBD"
+          }
+        ]
+      }
+    ]
+  }
+]

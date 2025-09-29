@@ -5,10 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 
-// Demo mode - bypass database for development
-import { isDevelopment } from "@/lib/env/server";
-
-const DEMO_MODE = isDevelopment;
+// Removed demo mode - always use database
 
 const createSiteSchema = z.object({
   domain: z.string().min(1, "Domain is required"),
@@ -29,78 +26,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
 
-    // Demo mode - return mock data
-    if (DEMO_MODE) {
-      const mockSites = [
-        {
-          id: "demo-site-1",
-          domain: "example.com",
-          name: "Example News Site",
-          description: "A popular news website",
-          category: "News",
-          status: "APPROVED",
-          verificationToken: "demo-token-1",
-          createdAt: new Date("2024-01-15"),
-          updatedAt: new Date("2024-01-15"),
-          organizationId: "demo-org",
-          rejectedAt: null,
-          rejectionReason: null,
-          placements: [
-            {
-              id: "demo-placement-1",
-              name: "Header Banner",
-              type: "BANNER",
-              width: 728,
-              height: 90,
-              status: "ACTIVE",
-              floorCpmCents: 50,
-              caps: null,
-              siteId: "demo-site-1",
-              createdAt: new Date("2024-01-15"),
-              updatedAt: new Date("2024-01-15"),
-              _count: {
-                impressions: 1250
-              }
-            }
-          ],
-          _count: {
-            placements: 1
-          }
-        },
-        {
-          id: "demo-site-2",
-          domain: "techblog.com",
-          name: "Tech Blog",
-          description: "Technology news and reviews",
-          category: "Technology",
-          status: "PENDING",
-          verificationToken: "demo-token-2",
-          createdAt: new Date("2024-01-20"),
-          updatedAt: new Date("2024-01-20"),
-          organizationId: "demo-org",
-          rejectedAt: null,
-          rejectionReason: null,
-          placements: [],
-          _count: {
-            placements: 0
-          }
-        }
-      ];
-
-      const filteredSites = status ? mockSites.filter(site => site.status === status) : mockSites;
-      const total = filteredSites.length;
-      const paginatedSites = filteredSites.slice((page - 1) * limit, page * limit);
-
-      return NextResponse.json({
-        sites: paginatedSites,
-        pagination: {
-          page,
-          limit,
-          total,
-          pages: Math.ceil(total / limit),
-        },
-      });
-    }
+    // Always query database - no mock fallbacks
 
     const where: any = {
       organization: {
@@ -164,19 +90,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const data = createSiteSchema.parse(body);
 
-    // Demo mode - return mock created site
-    if (DEMO_MODE) {
-      const mockSite = {
-        id: `demo-site-${Date.now()}`,
-        domain: data.domain,
-        verified: false,
-        approved: false,
-        publisherId: parseInt(session.user.id),
-        placements: [],
-      };
-
-      return NextResponse.json({ site: mockSite }, { status: 201 });
-    }
+    // Always create in database - no mock responses
 
     // Check if site already exists for this publisher
     const existingSite = await prisma.site.findFirst({

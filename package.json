@@ -13,7 +13,8 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev --name init",
     "db:generate": "prisma generate",
-    "db:seed": "tsx scripts/dev-seed.ts",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:seed:prod": "NODE_ENV=production tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset",
     "type-check": "tsc --noEmit",
@@ -28,7 +29,8 @@
     "audit:db": "playwright test tests/db.api.spec.ts",
     "audit:ui": "playwright test tests/ui.screens-and-buttons.spec.ts",
     "audit:report": "tsx scripts/generate-db-and-ui-report.ts",
-    "audit:all": "npm run audit:routes && npm run audit:db && npm run audit:ui && npm run audit:report"
+    "audit:all": "npm run audit:routes && npm run audit:db && npm run audit:ui && npm run audit:report",
+    "ci:nomocks": "tsx scripts/check-no-mocks.ts"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",

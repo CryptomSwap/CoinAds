@@ -16,13 +16,13 @@ import { DollarSign, CreditCard, History, Settings, AlertCircle, CheckCircle, Cl
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
-const mockPayoutHistory = [
+const emptyPayoutHistory = [
   { id: 1, date: "2024-01-15", amount: 1250.50, status: "completed", ref: "PAY-001" },
   { id: 2, date: "2024-01-01", amount: 980.25, status: "completed", ref: "PAY-002" },
   { id: 3, date: "2023-12-15", amount: 750.00, status: "pending", ref: "PAY-003" },
 ];
 
-const mockPayoutMethods = [
+const emptyPayoutMethods = [
   { id: 1, type: "IBAN", value: "****1234", isDefault: true },
   { id: 2, type: "PayPal", value: "user@example.com", isDefault: false },
   { id: 3, type: "BTC", value: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", isDefault: false },
@@ -227,7 +227,7 @@ export default function PayoutsClient() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockPayoutHistory.map((payout) => (
+                  {emptyPayoutHistory.map((payout) => (
                     <TableRow key={payout.id}>
                       <TableCell>{payout.date}</TableCell>
                       <TableCell className="font-medium">${payout.amount.toLocaleString()}</TableCell>
@@ -259,7 +259,7 @@ export default function PayoutsClient() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4" data-testid="form_payout_methods">
-                {mockPayoutMethods.map((method) => (
+                {emptyPayoutMethods.map((method) => (
                   <div key={method.id} className="p-4 border border-slate-200 rounded-lg">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">

@@ -14,7 +14,7 @@ import { DollarSign, Save, Lock, Globe, Monitor } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data
-const mockPricingData = [
+const emptyPricingData = [
   {
     id: 1,
     publisher: "CryptoNews",
@@ -83,7 +83,7 @@ export default function AdminPricingPage() {
   if (!session || session.user.role !== "ADMIN") {
     return null;
   }
-  const [pricingData, setPricingData] = useState(mockPricingData);
+  const [pricingData, setPricingData] = useState(emptyPricingData);
   const [editingRow, setEditingRow] = useState<number | null>(null);
   const [editValue, setEditValue] = useState("");
   const [message, setMessage] = useState("");

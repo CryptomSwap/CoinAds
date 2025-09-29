@@ -56,45 +56,26 @@ interface AdminDashboardData {
   pendingApprovals: PendingApproval[];
 }
 
-// Mock data for client component
-const mockAdminDashboardData: AdminDashboardData = {
+// Empty data for initial state
+const emptyAdminDashboardData: AdminDashboardData = {
   kpis: {
     userCounts: {
-      advertisers: 45,
-      publishers: 23,
-      admins: 3,
-      total: 71,
+      advertisers: 0,
+      publishers: 0,
+      admins: 0,
+      total: 0,
     },
-    totalCampaigns: 156,
-    pendingCreatives: 8,
-    pendingPayouts: 12,
-    last24hImpressions: 125000,
-    last24hClicks: 3200,
+    totalCampaigns: 0,
+    pendingCreatives: 0,
+    pendingPayouts: 0,
+    last24hImpressions: 0,
+    last24hClicks: 0,
   },
-  pendingApprovals: [
-    {
-      id: 'campaign-1',
-      type: 'campaign',
-      title: 'Campaign: Crypto Trading Platform',
-      description: 'Budget: $5000 - Created 12/15/2024',
-      createdAt: '2024-12-15T10:30:00Z',
-      href: '/app/admin/approvals?type=campaign&id=1',
-      priority: 'high',
-    },
-    {
-      id: 'site-1',
-      type: 'site',
-      title: 'Site: cryptonews.com',
-      description: 'Publisher site awaiting verification',
-      createdAt: '2024-12-14T15:20:00Z',
-      href: '/app/admin/approvals?type=site&id=1',
-      priority: 'medium',
-    },
-  ],
+  pendingApprovals: [],
 };
 
 export default function AdminOverview() {
-  const [dashboardData, setDashboardData] = useState<AdminDashboardData | null>(null);
+  const [dashboardData, setDashboardData] = useState<AdminDashboardData>(emptyAdminDashboardData);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -131,7 +112,7 @@ export default function AdminOverview() {
     loadData();
   }, []);
 
-  if (loading || !dashboardData) {
+  if (loading) {
     return <div className="p-6">Loading...</div>;
   }
 

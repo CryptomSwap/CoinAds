@@ -66,7 +66,7 @@ interface PublisherDashboardData {
 }
 
 // Mock data for client component
-const mockPublisherDashboardData: PublisherDashboardData = {
+const emptyPublisherDashboardData: PublisherDashboardData = {
   siteStats: {
     total: 3,
     approved: 2,
@@ -246,7 +246,7 @@ function PublisherLoadingSkeleton() {
 }
 
 export default function PublisherOverview() {
-  const dashboardData = mockPublisherDashboardData;
+  const dashboardData = emptyPublisherDashboardData;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

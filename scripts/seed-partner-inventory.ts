@@ -22,36 +22,7 @@ async function seedPartnerInventory() {
   console.log('🌱 Seeding partner inventory...');
 
   try {
-    // Create demo users first
-    const demoAdvertiser = await prisma.user.upsert({
-      where: { email: 'demo@advertiser.com' },
-      update: {},
-      create: {
-        email: 'demo@advertiser.com',
-        name: 'Demo Advertiser',
-        role: toRole('ADVERTISER'),
-      }
-    });
-
-    const demoPublisher = await prisma.user.upsert({
-      where: { email: 'demo@publisher.com' },
-      update: {},
-      create: {
-        email: 'demo@publisher.com',
-        name: 'Demo Publisher',
-        role: toRole('PUBLISHER'),
-      }
-    });
-
-    const demoAdmin = await prisma.user.upsert({
-      where: { email: 'admin@coinads.com' },
-      update: {},
-      create: {
-        email: 'admin@coinads.com',
-        name: 'Admin User',
-        role: toRole('ADMIN'),
-      }
-    });
+    // Skip demo users - use main seed script for admin user
 
     // Create partner users
     const coinrankingUser = await prisma.user.upsert({
@@ -187,14 +158,10 @@ async function seedPartnerInventory() {
 
     console.log('✅ Created Cryptodaily placements');
 
-    console.log('✅ Created demo users');
-
     console.log('🎉 Partner inventory seeded successfully!');
-    console.log('\nDemo accounts:');
-    console.log('Advertiser: demo@advertiser.com');
-    console.log('Publisher: demo@publisher.com');
-    console.log('Admin: admin@coinads.com');
-    console.log('Password: any password (demo mode)');
+    console.log('\nPartner accounts:');
+    console.log('Coinranking: partner@coinranking.com');
+    console.log('CryptoDaily: partner@cryptodaily.co.uk');
 
   } catch (error) {
     console.error('❌ Error seeding partner inventory:', error);

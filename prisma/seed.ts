@@ -1,202 +1,109 @@
-import { PrismaClient, Role, CampaignStatus, PricingType, TransactionType, ApprovalStatus } from '@prisma/client';
+import { PrismaClient, Role, PricingType } from '@prisma/client';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import bcrypt from 'bcryptjs';
+
 const prisma = new PrismaClient();
 
+// Publishers catalog data structure
+interface PublisherCatalog {
+  domain: string;
+  displayName: string;
+  sites: {
+    domain: string;
+    placements: {
+      size: string;
+      position: string;
+      pricingType: string;
+      price: number;
+      description: string;
+    }[];
+  }[];
+}
+
 async function main() {
-  // Admin
+  console.log("🌱 Starting minimal database seed...");
+
+  // Create admin user from environment variables
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@coinads.com';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'admin123';
+  
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
+  
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@coinads.com' },
+    where: { email: adminEmail },
     update: {},
-    create: { email: 'admin@coinads.com', role: Role.ADMIN, name: 'Admin' }
-  });
-
-  // Advertiser + sample campaign
-  const advertiser = await prisma.user.upsert({
-    where: { email: 'adv@coinads.com' },
-    update: {},
-    create: { email: 'adv@coinads.com', role: Role.ADVERTISER, name: 'Advertiser One' }
-  });
-
-  const campaign = await prisma.campaign.create({
-    data: {
-      advertiserId: advertiser.id,
-      name: 'Launch Campaign',
-      budget: 500.0,
-      status: CampaignStatus.PENDING,
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    create: { 
+      email: adminEmail, 
+      role: Role.ADMIN, 
+      name: 'Admin User',
+      password: hashedPassword
     }
   });
 
-  await prisma.creative.create({
-    data: {
-      campaignId: campaign.id,
-      fileUrl: 'https://cdn.coinads.io/sample/728x90.jpg',
-      clickUrl: 'https://coinads.com',
-      altText: 'Sample Leaderboard'
+  console.log("✅ Created admin user:", admin.email);
+
+  // Load publishers catalog
+  const catalogPath = join(process.cwd(), 'data', 'publishers.json');
+  const catalogData: PublisherCatalog[] = JSON.parse(readFileSync(catalogPath, 'utf8'));
+
+  console.log("📚 Loading publishers catalog...");
+
+  // Create publisher users and sites from catalog
+  for (const publisher of catalogData) {
+    // Create publisher user
+    const publisherUser = await prisma.user.upsert({
+      where: { email: `partner@${publisher.domain}` },
+      update: {},
+      create: {
+        email: `partner@${publisher.domain}`,
+        name: `${publisher.displayName} Partner`,
+        role: Role.PUBLISHER,
+      }
+    });
+
+    console.log(`✅ Created publisher user: ${publisherUser.email}`);
+
+    // Create sites and placements
+    for (const siteData of publisher.sites) {
+      const site = await prisma.site.upsert({
+        where: { 
+          domain: siteData.domain 
+        },
+        update: {},
+        create: {
+          publisherId: publisherUser.id,
+          domain: siteData.domain,
+          verified: true,
+          approved: true,
+        }
+      });
+
+      console.log(`✅ Created site: ${site.domain}`);
+
+      // Create placements for this site
+      for (const placementData of siteData.placements) {
+        await prisma.placement.create({
+          data: {
+            siteId: site.id,
+            size: placementData.size,
+            pricing: placementData.pricingType as PricingType,
+            price: placementData.price,
+            approved: placementData.price > 0, // Only approve placements with pricing
+          }
+        });
+      }
+
+      console.log(`✅ Created ${siteData.placements.length} placements for ${site.domain}`);
     }
-  });
+  }
 
-  // Publisher + site + placement
-  const publisher = await prisma.user.upsert({
-    where: { email: 'pub@coinads.com' },
-    update: {},
-    create: { email: 'pub@coinads.com', role: Role.PUBLISHER, name: 'Publisher One' }
-  });
-
-  const site = await prisma.site.create({
-    data: {
-      publisherId: publisher.id,
-      domain: 'example-crypto-news.com',
-      verified: true,
-      approved: true
-    }
-  });
-
-  const placement = await prisma.placement.create({
-    data: {
-      siteId: site.id,
-      size: '728x90',
-      pricing: PricingType.CPM,
-      price: 6.0,
-      approved: true
-    }
-  });
-
-  // Link placement to campaign (optional for MVP if your UI assumes later selection)
-  await prisma.report.create({
-    data: {
-      campaignId: campaign.id,
-      date: new Date(),
-      impressions: 0,
-      clicks: 0,
-      spend: 0
-    }
-  });
-
-  await prisma.transaction.create({
-    data: {
-      userId: advertiser.id,
-      amount: 250.0,
-      type: TransactionType.DEPOSIT,
-      status: 'PAID'
-    }
-  });
-
-  // Create some sample admin logs
-  await prisma.adminLog.create({
-    data: {
-      userId: admin.id,
-      action: 'create',
-      entityType: 'campaign',
-      entityId: campaign.id
-    }
-  });
-
-  await prisma.adminLog.create({
-    data: {
-      userId: admin.id,
-      action: 'approve',
-      entityType: 'site',
-      entityId: site.id
-    }
-  });
-
-  // Create sample approvals
-  await prisma.approval.create({
-    data: {
-      entityType: 'campaign',
-      entityId: campaign.id,
-      status: ApprovalStatus.APPROVED,
-      adminUserId: admin.id
-    }
-  });
-
-  await prisma.approval.create({
-    data: {
-      entityType: 'site',
-      entityId: site.id,
-      status: ApprovalStatus.APPROVED,
-      adminUserId: admin.id
-    }
-  });
-
-  // Create additional demo data
-  const advertiser2 = await prisma.user.upsert({
-    where: { email: 'adv2@coinads.com' },
-    update: {},
-    create: { email: 'adv2@coinads.com', role: Role.ADVERTISER, name: 'Advertiser Two' }
-  });
-
-  const campaign2 = await prisma.campaign.create({
-    data: {
-      advertiserId: advertiser2.id,
-      name: 'DeFi Platform Campaign',
-      budget: 1000.0,
-      status: CampaignStatus.ACTIVE,
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    }
-  });
-
-  const publisher2 = await prisma.user.upsert({
-    where: { email: 'pub2@coinads.com' },
-    update: {},
-    create: { email: 'pub2@coinads.com', role: Role.PUBLISHER, name: 'Publisher Two' }
-  });
-
-  const site2 = await prisma.site.create({
-    data: {
-      publisherId: publisher2.id,
-      domain: 'crypto-daily-news.com',
-      verified: false,
-      approved: false
-    }
-  });
-
-  const placement2 = await prisma.placement.create({
-    data: {
-      siteId: site2.id,
-      size: '300x250',
-      pricing: PricingType.CPM,
-      price: 4.5,
-      approved: false
-    }
-  });
-
-  // Create additional sample reports for demo data
-  await prisma.report.create({
-    data: {
-      campaignId: campaign2.id,
-      date: new Date(),
-      impressions: 1500,
-      clicks: 45,
-      spend: 7.50
-    }
-  });
-
-  await prisma.report.create({
-    data: {
-      campaignId: campaign.id,
-      date: new Date(Date.now() - 24 * 60 * 60 * 1000), // Yesterday
-      impressions: 800,
-      clicks: 24,
-      spend: 4.00
-    }
-  });
-
-  console.log({ 
-    admin, 
-    advertiser, 
-    advertiser2,
-    campaign, 
-    campaign2,
-    publisher, 
-    publisher2,
-    site, 
-    site2,
-    placement, 
-    placement2 
-  });
+  console.log("🎉 Minimal seed completed successfully!");
+  console.log("\n📋 Summary:");
+  console.log(`- Admin user: ${adminEmail}`);
+  console.log(`- Publishers: ${catalogData.length}`);
+  console.log(`- Total sites: ${catalogData.reduce((sum, p) => sum + p.sites.length, 0)}`);
+  console.log(`- Total placements: ${catalogData.reduce((sum, p) => sum + p.sites.reduce((s, site) => s + site.placements.length, 0), 0)}`);
 }
 
 main().catch((e) => {
