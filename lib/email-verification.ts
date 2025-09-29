@@ -8,9 +8,14 @@ export async function sendVerificationEmail(userId: number, email: string) {
     const token = randomBytes(32).toString('hex');
     const expires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
 
-    // Note: verificationToken model doesn't exist in schema
-    // In a real implementation, you would need to add this model to Prisma schema
-    console.log(`Verification token for user ${userId}: ${token} (expires: ${expires})`);
+    // Store verification token in database
+    await prisma.verificationToken.create({
+      data: {
+        token,
+        expires,
+        userId,
+      },
+    });
 
     const verificationUrl = `${process.env.NEXTAUTH_URL}/auth/verify-email?token=${token}`;
 
@@ -58,12 +63,35 @@ export async function sendVerificationEmail(userId: number, email: string) {
 
 export async function verifyEmailToken(token: string) {
   try {
-    // Note: verificationToken model doesn't exist in schema
-    // In a real implementation, you would need to add this model to Prisma schema
-    console.log(`Email verification attempted with token: ${token}`);
-    
-    // For now, just return success since we can't verify without the model
-    return { success: false, error: 'Email verification not implemented - missing verificationToken model' };
+    // Find the verification token
+    const verificationToken = await prisma.verificationToken.findUnique({
+      where: { token },
+      include: { user: true },
+    });
+
+    if (!verificationToken) {
+      return { success: false, error: 'Invalid verification token' };
+    }
+
+    // Check if token has expired
+    if (verificationToken.expires < new Date()) {
+      // Clean up expired token
+      await prisma.verificationToken.delete({
+        where: { id: verificationToken.id },
+      });
+      return { success: false, error: 'Verification token has expired' };
+    }
+
+    // Mark user's email as verified
+    await prisma.user.update({
+      where: { id: verificationToken.userId },
+      data: { emailVerified: new Date() },
+    });
+
+    // Clean up the verification token
+    await prisma.verificationToken.delete({
+      where: { id: verificationToken.id },
+    });
 
     return { success: true };
   } catch (error) {
@@ -84,11 +112,15 @@ export async function resendVerificationEmail(email: string) {
       return { success: true };
     }
 
-    // Note: emailVerified field doesn't exist in User model
-    // In a real implementation, you would need to add this field to the User model
-    
-    // Note: verificationToken model doesn't exist in schema
-    // In a real implementation, you would need to add this model to Prisma schema
+    // Check if user is already verified
+    if (user.emailVerified) {
+      return { success: true };
+    }
+
+    // Clean up any existing verification tokens for this user
+    await prisma.verificationToken.deleteMany({
+      where: { userId: user.id },
+    });
 
     // Send new verification email
     await sendVerificationEmail(user.id, user.email);

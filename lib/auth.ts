@@ -50,8 +50,10 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // Note: emailVerified field doesn't exist in User model
-          // Email verification logic would need to be implemented separately
+          // Check if email is verified
+          if (!user.emailVerified) {
+            return null; // User must verify email before login
+          }
 
           return {
             id: user.id.toString(),
@@ -59,7 +61,7 @@ export const authOptions: NextAuthOptions = {
             name: user.name,
             image: null,
             role: user.role,
-            emailVerified: true, // Assume verified since field doesn't exist
+            emailVerified: user.emailVerified,
           };
         } catch (error) {
           const { log } = require('@/lib/logger');

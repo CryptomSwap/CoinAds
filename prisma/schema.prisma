@@ -14,11 +14,13 @@ model User {
   name         String?
   createdAt    DateTime      @default(now())
   password     String?
+  emailVerified DateTime?
   adminLogs    AdminLog[]
   approvals    Approval[]
   campaigns    Campaign[]
   sites        Site[]
   transactions Transaction[]
+  verificationTokens VerificationToken[]
 }
 
 model Campaign {
@@ -181,4 +183,13 @@ enum TransactionType {
 enum ApprovalStatus {
   APPROVED
   REJECTED
+}
+
+model VerificationToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expires   DateTime
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
