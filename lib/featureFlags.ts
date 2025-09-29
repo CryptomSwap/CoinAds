@@ -1,5 +1,8 @@
+import { clientEnv } from "@/lib/env/client";
+
 /**
  * Feature flags for the CoinAds platform
+ * This file is safe to import in both client and server components.
  */
 
 /**
@@ -9,5 +12,4 @@
  * 
  * Default: false (disabled for MVP until real email sender is connected)
  */
-export const REQUIRE_EMAIL_VERIFICATION =
-  process.env.NEXT_PUBLIC_REQUIRE_EMAIL_VERIFICATION === "true";
+export const REQUIRE_EMAIL_VERIFICATION = clientEnv.NEXT_PUBLIC_REQUIRE_EMAIL_VERIFICATION;

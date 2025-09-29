@@ -13,7 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Eye, EyeOff, UserPlus, ArrowRight, Sparkles, Mail } from "lucide-react";
 import TopBar from "@/components/TopBar";
-import { shouldShowEmailVerification } from "@/lib/guards";
+import { shouldShowEmailVerification } from "@/lib/guards-client";
 // Removed server-only import to fix build issue
 
 function SignInFormContent() {

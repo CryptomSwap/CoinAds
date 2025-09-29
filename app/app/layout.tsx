@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { TopBar } from "@/components/app/top-bar";
 import { Sidebar } from "@/components/app/sidebar";
 import { RoleProvider, useRole } from "@/contexts/RoleContext";
-import { mustBeVerified } from "@/lib/guards";
+import { mustBeVerified } from "@/lib/guards-client";
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { currentRole } = useRole();

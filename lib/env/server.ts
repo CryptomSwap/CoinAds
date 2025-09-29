@@ -1,9 +1,8 @@
-import 'server-only';
 import { z } from "zod";
 
 // Runtime guard to prevent client-side imports
 if (typeof window !== 'undefined') {
-  throw new Error('serverEnv imported by a client bundle. Use lib/env/client.');
+  throw new Error('lib/env/server.ts must only be imported on the server.');
 }
 
 // Server-side environment variables schema
