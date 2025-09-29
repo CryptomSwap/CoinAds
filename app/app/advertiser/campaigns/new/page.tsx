@@ -1058,7 +1058,7 @@ export default function NewCampaignPage() {
             <div className="space-y-4">
               <h3 className="text-lg font-medium text-foreground">Sites & Placements</h3>
               <div className="space-y-2">
-                {getSelectedPlacements().map((placement: Placement) => (
+                {getSelectedPlacements.map((placement: Placement) => (
                   <div key={placement.id} className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
                       <h5 className="font-medium text-foreground">{placement.name}</h5>
