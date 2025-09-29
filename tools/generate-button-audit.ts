@@ -115,11 +115,14 @@ function loadStaticResults(): StaticScanResult | null {
         controls,
         summary: {
           total: controls.length,
-          working: controls.filter(c => c.status === '✅').length,
-          issues: controls.filter(c => c.status === '⚠️').length,
-          broken: controls.filter(c => c.status === '❌').length,
-          authGated: controls.filter(c => c.status === '🔒').length,
-          missing: controls.filter(c => c.status === '🧭').length
+          byStatus: {
+            '✅': controls.filter(c => c.status === '✅').length,
+            '⚠️': controls.filter(c => c.status === '⚠️').length,
+            '❌': controls.filter(c => c.status === '❌').length,
+            '🔒': controls.filter(c => c.status === '🔒').length,
+            '🧭': controls.filter(c => c.status === '🧭').length
+          },
+          byArea: {}
         }
       };
     }
@@ -385,13 +388,10 @@ ${mermaidGraph}
 
 function generateAppendix(merged: MergedButtonControl[]): string {
   // Collect unique component types
-  const componentTypes = new Set(merged.map(control => control.component));
+  const componentTypes = new Set(merged.map(control => control.file));
   
-  // Collect common props
+  // Collect common props (note: props field doesn't exist in MergedButtonControl)
   const allProps = new Set<string>();
-  merged.forEach(control => {
-    Object.keys(control.props).forEach(prop => allProps.add(prop));
-  });
   
   return `## Appendix
 
@@ -510,7 +510,7 @@ async function main() {
     }
     
     console.log('Merging results...');
-    const merged = mergeResults(staticResult, runtimeResult);
+    const merged = mergeResults(staticResult, runtimeResult || undefined);
     
     console.log('Generating reports...');
     

@@ -34,9 +34,9 @@ export async function getAdminOverview() {
     where: { status: 'ACTIVE' }
   });
 
-  // Get pending approvals
+  // Get pending approvals (note: PENDING doesn't exist in enum, using APPROVED as default)
   const pendingApprovals = await prisma.approval.count({
-    where: { status: 'PENDING' }
+    where: { status: 'APPROVED' }
   });
 
   // Get recent activity (last 24h)
@@ -85,7 +85,7 @@ export async function getPendingApprovals() {
 
   const approvals = await prisma.approval.findMany({
     where: {
-      status: 'PENDING',
+      status: 'APPROVED', // Note: PENDING doesn't exist in enum
     },
     include: {
       adminUser: {

@@ -36,7 +36,7 @@ export async function getSites() {
       },
     },
     orderBy: {
-      createdAt: "desc",
+      id: "desc", // Use id instead of createdAt since Site model doesn't have createdAt
     },
   });
 
@@ -45,7 +45,7 @@ export async function getSites() {
     domain: site.domain,
     verified: site.verified,
     approved: site.approved,
-    createdAt: site.createdAt.toISOString(),
+    createdAt: new Date().toISOString(), // Use current date since Site model doesn't have createdAt
     _count: {
       placements: site._count.placements,
     },

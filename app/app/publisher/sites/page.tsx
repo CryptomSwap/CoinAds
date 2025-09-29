@@ -66,7 +66,12 @@ export default function SitesPage() {
   const fetchSites = async () => {
     try {
       const data = await getSites();
-      setSites(data);
+      setSites(data.map(site => ({
+        ...site,
+        name: site.domain, // Use domain as name
+        status: site.approved ? 'ACTIVE' : 'PENDING',
+        placements: [], // Initialize empty placements array
+      })));
     } catch (error) {
       setError("Error fetching sites");
     } finally {

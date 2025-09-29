@@ -6,17 +6,18 @@ import { z } from "zod";
 
 const createPlacementSchema = z.object({
   siteId: z.number().int().positive(),
-  name: z.string().min(1, "Name is required"),
   size: z.string().min(1, "Size is required"),
-  position: z.string().min(1, "Position is required"),
-  description: z.string().optional(),
+  pricing: z.enum(["CPM", "CPA", "CPI", "FIXED"]),
+  price: z.number().positive(),
+  campaignId: z.number().int().positive().optional(),
 });
 
 const updatePlacementSchema = z.object({
-  name: z.string().min(1, "Name is required").optional(),
   size: z.string().min(1, "Size is required").optional(),
-  position: z.string().min(1, "Position is required").optional(),
-  description: z.string().optional(),
+  pricing: z.enum(["CPM", "CPA", "CPI", "FIXED"]).optional(),
+  price: z.number().positive().optional(),
+  campaignId: z.number().int().positive().optional(),
+  approved: z.boolean().optional(),
 });
 
 // GET - List placements for the authenticated publisher
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { siteId, name, size, position, description } = createPlacementSchema.parse(body);
+    const { siteId, size, pricing, price, campaignId } = createPlacementSchema.parse(body);
 
     // Verify the site belongs to the publisher
     const site = await prisma.site.findFirst({
@@ -85,10 +86,10 @@ export async function POST(request: NextRequest) {
     const placement = await prisma.placement.create({
       data: {
         siteId,
-        name,
         size,
-        position,
-        description,
+        pricing,
+        price,
+        ...(campaignId && { campaignId }),
         approved: false, // Requires admin approval
       },
       include: {

@@ -64,7 +64,7 @@ interface PageTestResult {
   timestamp: number;
 }
 
-interface UI TestSummary {
+interface UITestSummary {
   totalPages: number;
   authSuccess: boolean;
   totalControlsFound: number;
@@ -109,7 +109,7 @@ function loadApiResults(): DbTestSummary | null {
   }
 }
 
-function loadUIResults(): UI TestSummary | null {
+function loadUIResults(): UITestSummary | null {
   const uiDir = path.join(process.cwd(), 'audit-artifacts', 'ui');
   if (!fs.existsSync(uiDir)) {
     return null;
@@ -132,7 +132,7 @@ function loadUIResults(): UI TestSummary | null {
   }
 }
 
-function generateReport(apiResults: DbTestSummary | null, uiResults: UI TestSummary | null): string {
+function generateReport(apiResults: DbTestSummary | null, uiResults: UITestSummary | null): string {
   const timestamp = new Date().toISOString();
   const baseURL = process.env.RUNTIME_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   

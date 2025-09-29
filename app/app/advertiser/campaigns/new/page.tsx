@@ -273,7 +273,7 @@ export default function NewCampaignPage() {
         },
         body: JSON.stringify({
           name: formData.name,
-          budget: formData.budget,
+          budget: formData.totalBudget,
           startDate: formData.startDate,
           endDate: formData.endDate,
           countries: formData.countries,

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { sendVerificationEmail } from "@/lib/email-verification";
-import { checkRateLimitRedis, getRateLimitHeaders } from "@/lib/rate-limit";
+import { rateLimit, createRateLimitHeaders, createRateLimitResponse } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -17,13 +17,16 @@ const registerSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // Check rate limit
-    const rateLimit = await checkRateLimitRedis(request, 'auth');
-    if (!rateLimit.allowed) {
-      const headers = getRateLimitHeaders(rateLimit.remaining, rateLimit.resetTime);
-      return NextResponse.json(
-        { error: 'Too many registration attempts. Please try again later.' },
-        { status: 429, headers }
-      );
+    const rateLimitResult = await rateLimit(request, {
+      key: 'auth',
+      limit: 5,
+      windowMs: 15 * 60 * 1000, // 15 minutes
+    });
+    if (!rateLimitResult.ok) {
+      return createRateLimitResponse({
+        ...rateLimitResult,
+        body: { error: 'Too many registration attempts. Please try again later.' }
+      });
     }
 
     const body = await request.json();

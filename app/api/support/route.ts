@@ -24,16 +24,10 @@ export async function POST(request: NextRequest) {
     // Create support ticket in AdminLog for internal tracking
     await prisma.adminLog.create({
       data: {
-        action: 'SUPPORT_TICKET',
-        details: JSON.stringify({
-          subject,
-          priority,
-          description,
-          userId: session.user.id,
-          userEmail: session.user.email,
-          timestamp: new Date().toISOString(),
-        }),
-        userId: session.user.id,
+        action: `SUPPORT_TICKET: ${subject}`,
+        entityType: 'SUPPORT',
+        entityId: null,
+        userId: parseInt(session.user.id),
       },
     });
 

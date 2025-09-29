@@ -18,8 +18,7 @@ export function initSentry() {
     // Setting this option to true will print useful information to the console while you're setting up Sentry.
     debug: process.env.NODE_ENV === 'development',
     
-    // Capture unhandled promise rejections
-    captureUnhandledRejections: true,
+    // Note: captureUnhandledRejections is not a valid option in current Sentry version
     
     // Set user context when available
     beforeSend(event, hint) {

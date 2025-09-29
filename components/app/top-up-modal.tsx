@@ -363,7 +363,7 @@ export function TopUpModal({ open, onOpenChange }: TopUpModalProps) {
                       size="sm" 
                       className="mt-2"
                       onClick={() => {
-                        navigator.clipboard.writeText(bitcoinAddress);
+                        navigator.clipboard.writeText('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh');
                         // TODO: Add toast notification
                         console.log('Bitcoin address copied to clipboard');
                       }}

@@ -19,8 +19,12 @@ export async function POST(request: NextRequest) {
   }
 
   // Apply rate limiting
-  const rateLimitResult = await rateLimit(request);
-  if (!rateLimitResult.allowed) {
+  const rateLimitResult = await rateLimit(request, {
+    key: 'track',
+    limit: 1000,
+    windowMs: 60 * 1000, // 1 minute
+  });
+  if (!rateLimitResult.ok) {
     return createRateLimitResponse(rateLimitResult);
   }
 

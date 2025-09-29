@@ -2,7 +2,6 @@
 
 // Force dynamic rendering for reports page
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";

@@ -33,8 +33,7 @@ export function initSentry() {
       }),
     ],
     
-    // Capture unhandled promise rejections
-    captureUnhandledRejections: true,
+    // Note: captureUnhandledRejections is not a valid option in current Sentry version
     
     // Set user context when available
     beforeSend(event, hint) {

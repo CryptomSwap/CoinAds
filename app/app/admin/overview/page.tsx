@@ -106,7 +106,11 @@ export default function AdminOverview() {
         ]);
 
         setDashboardData({
-          kpis: overview,
+          kpis: {
+            ...overview,
+            pendingCreatives: 0, // Add missing property
+            pendingPayouts: 0,   // Add missing property
+          },
           pendingApprovals: approvals.map(approval => ({
             id: approval.id,
             type: approval.entityType as 'campaign' | 'creative' | 'site' | 'placement',

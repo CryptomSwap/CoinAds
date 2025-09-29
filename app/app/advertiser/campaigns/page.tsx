@@ -56,7 +56,10 @@ export default function CampaignsPage() {
     try {
       setLoading(true);
       const data = await getCampaigns();
-      setCampaigns(data);
+      setCampaigns(data.map(campaign => ({
+        ...campaign,
+        updatedAt: campaign.createdAt, // Use createdAt as updatedAt fallback
+      })));
     } catch (error) {
       console.error('Error fetching campaigns:', error);
       showError('Failed to load campaigns');
@@ -148,7 +151,7 @@ export default function CampaignsPage() {
     }
   };
 
-  const filteredCampaigns = mockCampaigns.filter(campaign => {
+  const filteredCampaigns = campaigns.filter(campaign => {
     const matchesSearch = campaign.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "all" || campaign.status === statusFilter;
     return matchesSearch && matchesStatus;
