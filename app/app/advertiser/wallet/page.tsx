@@ -12,15 +12,13 @@ import {
   CreditCard,
   Wallet,
   TrendingUp,
-  TrendingDown,
-  AlertTriangle
+  TrendingDown
 } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
 
 // Mock data for MVP
 const emptyWallet = {
   balance: 500.00,
-  lowBalanceThreshold: 50.00,
   transactions: [
     {
       id: "1",
@@ -184,22 +182,6 @@ export default function WalletPage() {
           <p className="text-sm text-gray-500 mt-1">
             Available credits for your campaigns
           </p>
-          
-          {emptyWallet.balance < emptyWallet.lowBalanceThreshold && (
-            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <div className="flex">
-                <AlertTriangle className="h-5 w-5 text-yellow-400" />
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-yellow-800">
-                    Low balance alert
-                  </h3>
-                  <p className="text-sm text-yellow-700">
-                    Your balance is below the recommended threshold. Add credits to keep your campaigns running.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
         </CardContent>
       </Card>
 
