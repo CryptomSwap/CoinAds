@@ -1,5 +1,9 @@
 "use client";
 
+// Force dynamic rendering for reports page
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -45,6 +49,7 @@ async function fetchAdvertiserReportsData(userId: string, dateRange: string = '7
     headers: {
       'Content-Type': 'application/json',
     },
+    cache: 'no-store',
   });
 
   if (!response.ok) {

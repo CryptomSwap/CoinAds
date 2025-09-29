@@ -142,12 +142,14 @@ export async function GET(request: NextRequest) {
     const filename = `coinads_advertiser_report_${validatedParams.dateFrom}_to_${validatedParams.dateTo}.csv`;
 
     // Return CSV response
-    return new NextResponse(csvContent, {
+    return new Response(csvContent, {
       status: 200,
       headers: {
-        'Content-Type': 'text/csv',
+        'Content-Type': 'text/csv; charset=utf-8',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
     });
 

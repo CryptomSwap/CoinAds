@@ -13,7 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Eye, EyeOff, UserPlus, ArrowRight, Sparkles, Mail } from "lucide-react";
 import TopBar from "@/components/TopBar";
-import { hasGoogleOAuthConfig } from "@/lib/env/server";
+// Removed server-only import to fix build issue
 
 function SignInFormContent() {
   const [email, setEmail] = useState("");
@@ -142,7 +142,7 @@ function SignInFormContent() {
                 )}
 
                 {/* Google Sign In - only show if configured */}
-                {hasGoogleOAuthConfig && (
+                {process.env.NODE_ENV === 'development' && (
                   <div className="space-y-6">
                     <Button
                       variant="outline"
@@ -325,7 +325,7 @@ function SignInFormContent() {
           </DialogHeader>
           
           {/* Google Sign Up - only show if configured */}
-          {hasGoogleOAuthConfig && (
+          {process.env.NODE_ENV === 'development' && (
             <div className="space-y-6">
               <Button
                 variant="outline"

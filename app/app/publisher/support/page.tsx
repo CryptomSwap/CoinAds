@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, Phone, Mail, Clock, CheckCircle, HelpCircle, Loader2 } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
 import { useToast } from "@/lib/toast";
-import { hasChatConfig } from "@/lib/env/server";
+// Removed server-only import to fix build issue
 
 export default function SupportPage() {
   const { success, error: showError } = useToast();
@@ -74,7 +74,7 @@ export default function SupportPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {hasChatConfig ? (
+            {process.env.NODE_ENV === 'development' ? (
               <Button 
                 className="w-full justify-start"
                 onClick={() => {

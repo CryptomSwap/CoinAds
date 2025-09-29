@@ -4,6 +4,7 @@ import TopBar from "@/components/TopBar";
 import Hero from "@/components/Hero";
 import LogosBar from "@/components/LogosBar";
 import HowItWorks from "@/components/HowItWorks";
+import Testimonials from "@/components/Testimonials";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <Hero />
       <LogosBar />
       <HowItWorks />
+      <Testimonials />
     </div>
   );
 }

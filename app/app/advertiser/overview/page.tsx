@@ -225,6 +225,7 @@ export default function AdvertiserOverview() {
           headers: {
             'Content-Type': 'application/json',
           },
+          cache: 'no-store',
         }
       );
 
