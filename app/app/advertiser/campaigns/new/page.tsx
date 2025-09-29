@@ -273,13 +273,10 @@ export default function NewCampaignPage() {
         },
         body: JSON.stringify({
           name: formData.name,
-          budget: formData.totalBudget,
-          startDate: formData.startDate,
-          endDate: formData.endDate,
-          countries: formData.countries,
-          devices: formData.devices,
-          selectedPlacements: formData.selectedPlacements,
-          creatives: formData.creatives,
+          budgetCents: Math.round(parseFloat(formData.totalBudget) * 100), // Convert to cents
+          startAt: formData.startDate ? new Date(formData.startDate).toISOString() : undefined,
+          endAt: formData.endDate ? new Date(formData.endDate).toISOString() : undefined,
+          objective: "awareness", // Default objective for MVP
         }),
       });
 

@@ -64,7 +64,7 @@ const emptyWallet = {
 export default function WalletPage() {
   const [showAddCredits, setShowAddCredits] = useState(false);
   const [addAmount, setAddAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -117,12 +117,38 @@ export default function WalletPage() {
     }
   };
 
-  const handleAddCredits = () => {
+  const handleAddCredits = async () => {
     if (addAmount && parseFloat(addAmount) > 0) {
-      // In production, this would integrate with Stripe or other payment processor
-      console.log(`Adding ${addAmount} via ${paymentMethod}`);
-      setShowAddCredits(false);
-      setAddAmount("");
+      try {
+        const response = await fetch('/api/advertiser/wallet', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amountCents: Math.round(parseFloat(addAmount) * 100), // Convert to cents
+            method: paymentMethod.toUpperCase(), // Convert to uppercase to match API enum
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to add credits');
+        }
+
+        const result = await response.json();
+        console.log('Credits added successfully:', result);
+        
+        // Close modal and reset form
+        setShowAddCredits(false);
+        setAddAmount("");
+        
+        // TODO: Refresh wallet data or show success message
+        alert(`Successfully added $${addAmount} to your account!`);
+      } catch (error) {
+        console.error('Error adding credits:', error);
+        alert(`Failed to add credits: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
     }
   };
 
@@ -209,13 +235,13 @@ export default function WalletPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="card">
+                  <SelectItem value="stripe">
                     <div className="flex items-center space-x-2">
                       <CreditCard className="h-4 w-4" />
-                      <span>Credit Card</span>
+                      <span>Credit Card (Stripe)</span>
                     </div>
                   </SelectItem>
-                  <SelectItem value="crypto" disabled>
+                  <SelectItem value="coinbase" disabled>
                     <div className="flex items-center space-x-2">
                       <span className="text-gray-400">Crypto (Coming Soon)</span>
                     </div>
