@@ -110,8 +110,8 @@ export default function CampaignReviewPage() {
   };
 
   const calculateEstimatedCost = () => {
-  const totalImpressions = emptyCampaignData.placements.reduce((sum, placement) => {
-    return sum + (emptyCampaignData.budget / placement.cpm) * 1000;
+    const totalImpressions = emptyCampaignData.placements.reduce((sum, placement) => {
+      return sum + (emptyCampaignData.budget / placement.cpm) * 1000;
     }, 0);
     return totalImpressions;
   };
