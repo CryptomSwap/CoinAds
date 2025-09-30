@@ -7,11 +7,6 @@ import { Sidebar } from "@/components/app/sidebar";
 import { RoleProvider, useRole } from "@/contexts/RoleContext";
 import { mustBeVerified } from "@/lib/guards-client";
 
-// Disable SSG for authenticated app routes
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-export const fetchCache = "force-no-store";
-
 function AppContent({ children }: { children: React.ReactNode }) {
   const { currentRole } = useRole();
 
