@@ -74,21 +74,6 @@ export default function Testimonials() {
           ))}
         </div>
 
-        {/* Trust indicators */}
-        <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-sm text-slate-500 dark:text-slate-400">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>700+ Brands Trust Us</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>Avg CTR 0.35–0.8%</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>&lt;2% Invalid Traffic</span>
-          </div>
-        </div>
       </div>
     </section>
   );
