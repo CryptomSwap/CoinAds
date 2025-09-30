@@ -2,13 +2,12 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { Upload, Eye, Download, Trash2 } from "lucide-react";
+import { Upload } from "lucide-react";
 import CreativeActions from "@/components/wrappers/CreativeActions";
 import CreativeUploadButton from "@/components/wrappers/CreativeUploadButton";
 
 // Disable SSG for authenticated app routes
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default function CreativesPage() {
   return (

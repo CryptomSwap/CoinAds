@@ -239,6 +239,110 @@ The application uses a comprehensive PostgreSQL schema with the following key en
 
 ## 🚀 Deployment
 
+### Production Deployment on Vercel
+
+#### 1. Domain Configuration
+
+The platform supports two deployment strategies:
+
+**Single Domain (Default):**
+- Marketing site and dashboard on `https://coinads.com`
+- Set `NEXT_PUBLIC_APP_SUBDOMAIN=false` or omit
+
+**Subdomain Split:**
+- Marketing site on `https://coinads.com`
+- Dashboard on `https://app.coinads.com`
+- Set `NEXT_PUBLIC_APP_SUBDOMAIN=true`
+
+#### 2. Environment Variables
+
+Required for production:
+```env
+# Database (Neon PostgreSQL recommended)
+DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
+
+# NextAuth (generate with: openssl rand -base64 32)
+NEXTAUTH_SECRET="your-64-character-secret"
+NEXTAUTH_URL="https://coinads.com"  # or https://app.coinads.com
+
+# Feature Flags
+NEXT_PUBLIC_REQUIRE_EMAIL_VERIFICATION="false"
+NEXT_PUBLIC_APP_SUBDOMAIN="false"  # or "true" for subdomain split
+```
+
+Optional services:
+```env
+# Email (Gmail, SendGrid, etc.)
+EMAIL_SERVER_HOST="smtp.gmail.com"
+EMAIL_SERVER_PORT="587"
+EMAIL_SERVER_USER="your-email@gmail.com"
+EMAIL_SERVER_PASSWORD="your-app-password"
+EMAIL_FROM="noreply@coinads.com"
+
+# Stripe Payments
+STRIPE_PUBLIC_KEY="pk_live_..."
+STRIPE_SECRET_KEY="sk_live_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+
+# Google OAuth
+GOOGLE_CLIENT_ID="your-client-id"
+GOOGLE_CLIENT_SECRET="your-client-secret"
+
+# Analytics & Monitoring
+GOOGLE_ANALYTICS_ID="GA-XXXXXXXXX"
+SENTRY_DSN="your-sentry-dsn"
+```
+
+#### 3. Vercel Configuration
+
+1. **Connect Repository**: Link your GitHub repo to Vercel
+2. **Set Environment Variables**: Add all required env vars in Vercel dashboard
+3. **Domain Setup**: 
+   - Add `coinads.com` as primary domain
+   - If using subdomain split, add `app.coinads.com` as additional domain
+4. **Build Settings**: Vercel will auto-detect Next.js configuration
+
+#### 4. Pre-deployment Validation
+
+Run these commands before deploying:
+
+```bash
+# Validate environment configuration
+node scripts/check-env.ts --mode=prod --domain=coinads.com
+
+# Type check
+npm run type-check
+
+# Build test
+npm run build
+
+# Run smoke tests
+npx playwright test tests/e2e/launch-smoke.spec.ts
+
+# Check build logs for issues
+node scripts/build-log-guard.ts
+```
+
+#### 5. DNS Configuration
+
+For `coinads.com`:
+```
+A     @       76.76.19.61    # Vercel IP
+CNAME www     cname.vercel-dns.com
+```
+
+For subdomain split (`app.coinads.com`):
+```
+CNAME app     cname.vercel-dns.com
+```
+
+#### 6. SSL Certificates
+
+Vercel automatically provisions SSL certificates for your domains. Ensure:
+- DNS records are properly configured
+- Domains are verified in Vercel dashboard
+- Certificate status shows "Ready" before going live
+
 ### Docker Deployment
 ```bash
 # Build the Docker image

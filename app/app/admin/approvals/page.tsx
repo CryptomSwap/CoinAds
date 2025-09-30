@@ -9,8 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle, XCircle, Clock, Eye, User, Globe, Filter, Search, CheckSquare, Square, AlertCircle } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
@@ -19,6 +18,19 @@ import { useToast } from "@/lib/toast";
 export default function ApprovalsPage() {
   const { data: session, status } = useSession();
   const { success, error: showError } = useToast();
+  
+  // All hooks must be called at the top level
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [pendingApprovals, setPendingApprovals] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -45,22 +57,13 @@ export default function ApprovalsPage() {
   if (!session || session.user.role !== "ADMIN") {
     return null;
   }
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [showRejectModal, setShowRejectModal] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
-  const [pendingApprovals, setPendingApprovals] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Fetch pending approvals on component mount
   useEffect(() => {
-    fetchPendingApprovals();
-  }, []);
+    if (session && session.user.role === "ADMIN") {
+      fetchPendingApprovals();
+    }
+  }, [session]);
 
   const fetchPendingApprovals = async () => {
     try {

@@ -3,11 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function DebugOverlay() {
-  // Block in production - debug overlay should never be shown
-  if (process.env.NODE_ENV === 'production') {
-    return null;
-  }
-  
+  // All hooks must be called at the top level
   const on = process.env.NODE_ENV === 'development';
   const pathname = usePathname();
   const [errors, setErrors] = useState<string[]>([]);
@@ -34,6 +30,11 @@ export default function DebugOverlay() {
       window.removeEventListener('unhandledrejection', onUnhandled);
     };
   }, [on]);
+
+  // Block in production - debug overlay should never be shown
+  if (process.env.NODE_ENV === 'production') {
+    return null;
+  }
 
   if (!on) return null;
   return (

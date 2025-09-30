@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Menu, ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { appUrl } from "@/lib/url";
 
 export default function TopBar() {
   const { data: session } = useSession();
@@ -44,7 +45,7 @@ export default function TopBar() {
           <div className="hidden md:flex items-center space-x-3">
             <ThemeToggle />
             {session ? (
-              <Link href="/app">
+              <Link href={appUrl("/")}>
                 <Button 
                   className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
@@ -54,7 +55,7 @@ export default function TopBar() {
               </Link>
             ) : (
               <>
-                <Link href="/auth/signin">
+                <Link href={appUrl("/auth/signin")}>
                   <Button 
                     className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
@@ -62,7 +63,7 @@ export default function TopBar() {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/auth/signin">
+                <Link href={appUrl("/auth/signup")}>
                   <Button className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                     Sign Up
                   </Button>
@@ -110,7 +111,7 @@ export default function TopBar() {
                   </Link>
                   <div className="pt-4 border-t border-border space-y-3">
                     {session ? (
-                      <Link href="/app" className="block">
+                      <Link href={appUrl("/")} className="block">
                         <Button 
                           className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
@@ -120,7 +121,7 @@ export default function TopBar() {
                       </Link>
                     ) : (
                       <>
-                        <Link href="/auth/signin" className="block">
+                        <Link href={appUrl("/auth/signin")} className="block">
                           <Button 
                             className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           >
@@ -128,7 +129,7 @@ export default function TopBar() {
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </Link>
-                        <Link href="/auth/signin" className="block">
+                        <Link href={appUrl("/auth/signup")} className="block">
                           <Button 
                             className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           >

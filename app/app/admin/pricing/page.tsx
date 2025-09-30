@@ -57,6 +57,12 @@ const emptyPricingData = [
 
 export default function AdminPricingPage() {
   const { data: session, status } = useSession();
+  
+  // All hooks must be called at the top level
+  const [pricingData, setPricingData] = useState(emptyPricingData);
+  const [editingRow, setEditingRow] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (status === "loading") return;
@@ -83,10 +89,6 @@ export default function AdminPricingPage() {
   if (!session || session.user.role !== "ADMIN") {
     return null;
   }
-  const [pricingData, setPricingData] = useState(emptyPricingData);
-  const [editingRow, setEditingRow] = useState<number | null>(null);
-  const [editValue, setEditValue] = useState("");
-  const [message, setMessage] = useState("");
 
   const handleEditStart = (id: number, currentCpm: number) => {
     setEditingRow(id);

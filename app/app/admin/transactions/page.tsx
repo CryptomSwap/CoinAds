@@ -10,38 +10,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { DollarSign, TrendingUp, Download, Filter, Search, Eye, Calendar, CreditCard, Banknote } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DollarSign, TrendingUp, Download, Filter, Search, CreditCard, Banknote } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
 
 export default function TransactionsPage() {
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (status === "loading") return;
-    
-    if (!session) {
-      redirect("/auth/signin");
-      return;
-    }
-
-    if (session.user.role !== "ADMIN") {
-      redirect("/auth/signin");
-      return;
-    }
-  }, [session, status]);
-
-  if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
-
-  if (!session || session.user.role !== "ADMIN") {
-    return null;
-  }
+  
+  // All hooks must be called at the top level
   const [isExporting, setIsExporting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
@@ -118,6 +94,32 @@ export default function TransactionsPage() {
       siteName: "BlockchainInsights.net"
     }
   ]);
+
+  useEffect(() => {
+    if (status === "loading") return;
+    
+    if (!session) {
+      redirect("/auth/signin");
+      return;
+    }
+
+    if (session.user.role !== "ADMIN") {
+      redirect("/auth/signin");
+      return;
+    }
+  }, [session, status]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (!session || session.user.role !== "ADMIN") {
+    return null;
+  }
 
   const handleExport = async () => {
     setIsExporting(true);

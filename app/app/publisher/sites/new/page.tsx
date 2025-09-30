@@ -9,7 +9,6 @@ import SiteActions from "@/components/wrappers/SiteActions";
 
 // Disable SSG for authenticated app routes
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default function NewSitePage() {
   return (

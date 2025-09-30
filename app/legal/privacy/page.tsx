@@ -126,7 +126,7 @@ export default function PrivacyPolicyPage() {
                   </p>
                   <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg mt-3">
                     <p><strong>Email:</strong> privacy@coinads.com</p>
-                    <p><strong>Address:</strong> 123 Market Street, Suite 100, San Francisco, CA 94105</p>
+                    <p><strong>Address:</strong> Saadya Gaon 24, Tel Aviv, Israel</p>
                   </div>
                 </section>
               </div>

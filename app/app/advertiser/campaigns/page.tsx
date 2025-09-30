@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { 
   Plus,
   Search,
-  MoreHorizontal,
   Play,
   Pause,
   Copy,
@@ -100,7 +99,7 @@ export default function CampaignsPage() {
         throw new Error(errorData.error || 'Failed to copy campaign');
       }
 
-      const result = await response.json();
+      await response.json();
       success('Campaign copied successfully');
       fetchCampaigns(); // Refresh the list
     } catch (error) {

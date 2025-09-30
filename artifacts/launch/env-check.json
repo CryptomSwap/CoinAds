@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "errors": [
+    "DATABASE_URL: Required",
+    "NEXTAUTH_SECRET: Required",
+    "NEXTAUTH_URL: Required"
+  ],
+  "warnings": [],
+  "summary": {
+    "mode": "prod",
+    "domain": "coinads.com",
+    "nextAuthUrl": null,
+    "emailVerificationEnabled": false,
+    "subdomainSplitEnabled": false,
+    "requiredVarsPresent": false
+  }
+}

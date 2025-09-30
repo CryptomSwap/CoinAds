@@ -8,37 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Monitor, Activity, AlertTriangle, CheckCircle, Clock, TrendingUp, RefreshCw, Download, Filter } from "lucide-react";
+import { Monitor, Activity, AlertTriangle, CheckCircle, Clock, TrendingUp, RefreshCw, Download } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
 
 export default function DeliveryPage() {
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (status === "loading") return;
-    
-    if (!session) {
-      redirect("/auth/signin");
-      return;
-    }
-
-    if (session.user.role !== "ADMIN") {
-      redirect("/auth/signin");
-      return;
-    }
-  }, [session, status]);
-
-  if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
-
-  if (!session || session.user.role !== "ADMIN") {
-    return null;
-  }
+  
+  // All hooks must be called at the top level
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [timeRange, setTimeRange] = useState("1h");
@@ -119,6 +95,32 @@ export default function DeliveryPage() {
       { region: "Other", impressions: 5, clicks: 200, revenue: 678 }
     ]
   });
+
+  useEffect(() => {
+    if (status === "loading") return;
+    
+    if (!session) {
+      redirect("/auth/signin");
+      return;
+    }
+
+    if (session.user.role !== "ADMIN") {
+      redirect("/auth/signin");
+      return;
+    }
+  }, [session, status]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (!session || session.user.role !== "ADMIN") {
+    return null;
+  }
 
   const handleRefresh = async () => {
     setIsRefreshing(true);

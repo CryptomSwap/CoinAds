@@ -176,7 +176,11 @@ test.describe('Error Handling', () => {
       const buffer = Buffer.alloc(10 * 1024 * 1024); // 10MB
       const file = new File([buffer], 'test.txt', { type: 'text/plain' });
       
-      await fileInput.setInputFiles([file]);
+      await fileInput.setInputFiles([{
+        name: 'test.txt',
+        mimeType: 'text/plain',
+        buffer: buffer
+      }]);
       await page.click('button[type="submit"]');
       
       // Check for file upload error

@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { getAllowedOrigins } from '../config/domain';
+
 // CORS configuration - production-safe with allow-list
 const CORS_CONFIG = {
-  // Production: restrict to specific domains from ALLOWED_ORIGINS
-  // Development: allow localhost for development
-  allowedOrigins: process.env.NODE_ENV === 'production' 
-    ? (process.env.ALLOWED_ORIGINS?.split(',') || [])
-    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  // Use domain configuration for allowed origins
+  allowedOrigins: getAllowedOrigins(),
   allowedMethods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
@@ -29,12 +28,7 @@ function getOrigin(request: NextRequest): string | null {
 function isOriginAllowed(origin: string | null): boolean {
   if (!origin) return false;
   
-  // In production, require explicit allow-list
-  if (process.env.NODE_ENV === 'production') {
-    return CORS_CONFIG.allowedOrigins.includes(origin);
-  }
-  
-  // In development, allow localhost
+  // Check against configured allowed origins
   return CORS_CONFIG.allowedOrigins.includes(origin);
 }
 

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { appUrl, signUpUrl } from "@/lib/url";
 
 export default function HeroPublishers() {
   const { data: session } = useSession();
@@ -26,7 +27,7 @@ export default function HeroPublishers() {
         </motion.p>
         <div className="mt-8 flex items-center justify-center gap-3">
           <Button asChild size="lg">
-            <Link href={session ? "/app" : "/auth/signin"}>
+            <Link href={session ? appUrl("/") : signUpUrl("publisher")}>
               {session ? "Go to Dashboard" : "Start Monetizing"}
             </Link>
           </Button>

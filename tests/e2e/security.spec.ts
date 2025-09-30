@@ -176,9 +176,13 @@ test.describe('Security', () => {
     if (await fileInput.count() > 0) {
       // Create a malicious file
       const maliciousContent = '<script>alert("XSS")</script>';
-      const file = new File([maliciousContent], 'malicious.html', { type: 'text/html' });
+      const buffer = Buffer.from(maliciousContent, 'utf8');
       
-      await fileInput.setInputFiles([file]);
+      await fileInput.setInputFiles([{
+        name: 'malicious.html',
+        mimeType: 'text/html',
+        buffer: buffer
+      }]);
       await page.click('button[type="submit"]');
       
       // Should reject malicious file

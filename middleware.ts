@@ -6,6 +6,15 @@ export const config = {
 };
 
 export default function middleware(req: NextRequest) {
+  const { pathname, hostname } = req.nextUrl;
+  
+  // Split-domain redirect: redirect /app/* from root domain to app subdomain
+  if (hostname === 'coinads.com' && pathname.startsWith('/app')) {
+    const appUrl = new URL(req.url);
+    appUrl.hostname = 'app.coinads.com';
+    return NextResponse.redirect(appUrl, 308);
+  }
+  
   // IMPORTANT: do not use request headers, cookies, or any dynamic checks that force dynamic rendering.
   // Auth gating is handled in the client with RequireAuth (see below).
   
@@ -23,11 +32,7 @@ export default function middleware(req: NextRequest) {
       response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
     }
     
-    // Add basic CSP
-    response.headers.set(
-      'Content-Security-Policy',
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:;"
-    );
+    // CSP is now handled by next.config.js headers()
     
     return response;
   } catch {

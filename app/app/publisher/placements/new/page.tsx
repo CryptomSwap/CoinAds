@@ -9,7 +9,6 @@ import PlacementActions from "@/components/wrappers/PlacementActions";
 
 // Disable SSG for authenticated app routes
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default function NewPlacementPage() {
   return (

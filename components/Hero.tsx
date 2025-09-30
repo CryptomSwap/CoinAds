@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { appUrl } from "@/lib/url";
 
 /**
  * Hero component with three variants and customizable CTAs
@@ -31,19 +32,19 @@ export default function Hero({
     results: {
       headline: "Grow Your Reach With Premium Crypto Ad Placements",
       subline: "Access leading crypto publishers with transparent pricing, live dashboards, and brand-safe inventory.",
-      primaryCta: session ? { label: "Go to Dashboard", href: "/app" } : { label: "Start Advertising", href: "/auth/signin" },
+      primaryCta: session ? { label: "Go to Dashboard", href: appUrl("/") } : { label: "Start Advertising", href: appUrl("/auth/signin") },
       secondaryCta: { label: "Join as a publisher", href: "/publishers" }
     },
     network: {
       headline: "Advertise Where Crypto Communities Already Are",
       subline: "Tap into trusted publishers like Cointelegraph, CryptoDaily, and Coinranking — reaching engaged readers worldwide.",
-      primaryCta: session ? { label: "Go to Dashboard", href: "/app" } : { label: "Launch Your First Campaign", href: "/auth/signin" },
+      primaryCta: session ? { label: "Go to Dashboard", href: appUrl("/") } : { label: "Launch Your First Campaign", href: appUrl("/auth/signin") },
       secondaryCta: { label: "For Publishers", href: "/publishers" }
     },
     speed: {
       headline: "Run Crypto Ad Campaigns in Minutes",
       subline: "Set your budget, upload creatives, and go live across top publishers — all in one platform.",
-      primaryCta: session ? { label: "Go to Dashboard", href: "/app" } : { label: "Create Campaign", href: "/auth/signin" },
+      primaryCta: session ? { label: "Go to Dashboard", href: appUrl("/") } : { label: "Create Campaign", href: appUrl("/auth/signin") },
       secondaryCta: { label: "See How It Works", href: "/#how-it-works" }
     }
   };

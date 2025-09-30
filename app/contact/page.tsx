@@ -136,20 +136,6 @@ export default function ContactPage() {
     }
   ];
 
-  const offices = [
-    {
-      city: "San Francisco",
-      address: "123 Market Street, Suite 100",
-      phone: "+1 (555) 123-4567",
-      hours: "Mon-Fri 9AM-6PM PST"
-    },
-    {
-      city: "New York",
-      address: "456 Broadway, Floor 15",
-      phone: "+1 (555) 987-6543",
-      hours: "Mon-Fri 9AM-6PM EST"
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
@@ -389,44 +375,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Office Locations */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Our Offices
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300">
-            Visit us at one of our locations
-          </p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          {offices.map((office, index) => (
-            <Card key={index} className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-white flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-teal-400" />
-                  {office.city}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center text-slate-600 dark:text-slate-300">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  {office.address}
-                </div>
-                <div className="flex items-center text-slate-600 dark:text-slate-300">
-                  <Phone className="h-4 w-4 mr-2" />
-                  {office.phone}
-                </div>
-                <div className="flex items-center text-slate-600 dark:text-slate-300">
-                  <Clock className="h-4 w-4 mr-2" />
-                  {office.hours}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
 
       {/* FAQ Section */}
       <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">

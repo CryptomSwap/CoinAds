@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { serverEnv, isDevelopment, hasGoogleOAuthConfig, hasEmailConfig } from "./env/server";
 import { REQUIRE_EMAIL_VERIFICATION } from "./featureFlags";
+import { getCookieDomain, APP_BASE_URL } from "../config/domain";
 import * as bcrypt from "bcryptjs";
 
 // Demo mode removed for security - all authentication must go through database
@@ -124,4 +125,36 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   secret: serverEnv.NEXTAUTH_SECRET,
+  cookies: {
+    sessionToken: {
+      name: `${isDevelopment ? '' : '__Secure-'}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: !isDevelopment,
+        domain: getCookieDomain(),
+      },
+    },
+    callbackUrl: {
+      name: `${isDevelopment ? '' : '__Secure-'}next-auth.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: !isDevelopment,
+        domain: getCookieDomain(),
+      },
+    },
+    csrfToken: {
+      name: `${isDevelopment ? '' : '__Host-'}next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: !isDevelopment,
+      },
+    },
+  },
+  useSecureCookies: !isDevelopment,
 };

@@ -1,0 +1,91 @@
+/**
+ * Domain configuration for CoinAds platform
+ * Supports both single domain and subdomain split strategies
+ */
+
+export const DOMAIN_ROOT = "coinads.com";
+
+// Check if subdomain split is enabled
+export const USE_APP_SUBDOMAIN = process.env.NEXT_PUBLIC_APP_SUBDOMAIN === "true";
+
+// Determine app domain based on configuration
+export const DOMAIN_APP = USE_APP_SUBDOMAIN ? `app.${DOMAIN_ROOT}` : DOMAIN_ROOT;
+
+// Base URLs for different contexts
+export const PUBLIC_BASE_URL = `https://${DOMAIN_ROOT}`;
+export const APP_BASE_URL = `https://${DOMAIN_APP}`;
+
+// Helper functions for URL generation
+export function getAppUrl(path: string = ""): string {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${APP_BASE_URL}${cleanPath}`;
+}
+
+export function getPublicUrl(path: string = ""): string {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${PUBLIC_BASE_URL}${cleanPath}`;
+}
+
+// For marketing pages linking to dashboard
+export function getDashboardUrl(path: string = ""): string {
+  return getAppUrl(path);
+}
+
+// Cookie domain configuration
+export function getCookieDomain(): string | undefined {
+  // For split-domain: use app subdomain only (marketing pages don't need session cookies)
+  if (USE_APP_SUBDOMAIN) {
+    return undefined; // Let browser use app.coinads.com domain
+  }
+  // Default cookie domain (browser will use current domain)
+  return undefined;
+}
+
+// CORS allowed origins
+export function getAllowedOrigins(): string[] {
+  const origins = [PUBLIC_BASE_URL];
+  
+  if (USE_APP_SUBDOMAIN) {
+    origins.push(APP_BASE_URL);
+  }
+  
+  // Add localhost for development
+  if (process.env.NODE_ENV === "development") {
+    origins.push("http://localhost:3000", "http://127.0.0.1:3000");
+  }
+  
+  return origins;
+}
+
+// Validate NEXTAUTH_URL against domain configuration
+export function validateNextAuthUrl(nextAuthUrl: string): boolean {
+  try {
+    const url = new URL(nextAuthUrl);
+    
+    // Must be HTTPS in production
+    if (process.env.NODE_ENV === "production" && url.protocol !== "https:") {
+      return false;
+    }
+    
+    // Must match one of our configured domains
+    const allowedHosts = [DOMAIN_ROOT];
+    if (USE_APP_SUBDOMAIN) {
+      allowedHosts.push(DOMAIN_APP);
+    }
+    
+    return allowedHosts.includes(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+// Log domain configuration in development
+if (process.env.NODE_ENV === "development") {
+  console.log("🌐 Domain Configuration:");
+  console.log(`  Root Domain: ${DOMAIN_ROOT}`);
+  console.log(`  App Domain: ${DOMAIN_APP}`);
+  console.log(`  Subdomain Split: ${USE_APP_SUBDOMAIN ? "Enabled" : "Disabled"}`);
+  console.log(`  Public URL: ${PUBLIC_BASE_URL}`);
+  console.log(`  App URL: ${APP_BASE_URL}`);
+  console.log(`  Cookie Domain: ${getCookieDomain() || "default"}`);
+}

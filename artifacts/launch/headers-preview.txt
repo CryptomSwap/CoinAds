@@ -1,0 +1,69 @@
+Security Headers Preview for CoinAds Production Deployment
+================================================================
+
+Headers Applied to All Routes (source: '/(.*)')
+------------------------------------------------
+
+1. Strict-Transport-Security
+   Value: max-age=31536000; includeSubDomains; preload
+   Purpose: Enforce HTTPS for all connections for 1 year, including subdomains
+
+2. X-Content-Type-Options
+   Value: nosniff
+   Purpose: Prevent MIME-type sniffing attacks
+
+3. X-Frame-Options
+   Value: DENY
+   Purpose: Prevent clickjacking by disallowing iframe embedding
+
+4. Referrer-Policy
+   Value: strict-origin-when-cross-origin
+   Purpose: Control referrer information sent to other sites
+
+5. Permissions-Policy
+   Value: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
+   Purpose: Disable unnecessary browser features
+
+6. X-XSS-Protection
+   Value: 1; mode=block
+   Purpose: Enable browser XSS filter
+
+7. Content-Security-Policy
+   Value: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.coinads.com https://*.coinads.com https://vitals.vercel-insights.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+   Purpose: Comprehensive content security policy to prevent XSS and data injection attacks
+
+Additional Route-Specific Headers (from vercel.json)
+----------------------------------------------------
+
+Marketing Pages (source: '/(.*)')
+   X-Robots-Tag: index, follow
+   Purpose: Allow search engine indexing
+
+Dashboard Pages (source: '/app/(.*)')
+   X-Robots-Tag: noindex, nofollow
+   Purpose: Prevent search engine indexing of authenticated areas
+
+Redirects
+---------
+
+WWW to Non-WWW:
+   Source: '/:path*' with host: 'www.coinads.com'
+   Destination: https://coinads.com/:path*
+   Type: Permanent (301)
+   Purpose: Canonical URL enforcement
+
+Image Domains
+-------------
+
+Allowed domains for next/image:
+- localhost
+- coinads.com
+- app.coinads.com
+
+Notes:
+------
+1. All headers are configured in next.config.js
+2. Middleware adds additional headers for dynamic routes
+3. Headers are applied at build time and runtime
+4. CSP allows 'unsafe-inline' and 'unsafe-eval' for Next.js compatibility
+5. HSTS preload requires DNS configuration at https://hstspreload.org

@@ -8,7 +8,6 @@ import WalletActions from "@/components/wrappers/WalletActions";
 
 // Disable SSG for authenticated app routes
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default function WalletPage() {
   return (

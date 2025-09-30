@@ -1,0 +1,62 @@
+Content Security Policy for CoinAds Production
+==============================================
+
+Full CSP String:
+---------------
+default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.coinads.com https://*.coinads.com https://vitals.vercel-insights.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+
+Directive Breakdown:
+--------------------
+
+default-src 'self'
+  - Default policy for loading resources
+  - Only allows resources from same origin
+
+script-src 'self' 'unsafe-inline' 'unsafe-eval'
+  - Allows scripts from same origin
+  - 'unsafe-inline' required for Next.js inline scripts
+  - 'unsafe-eval' required for development and some Next.js features
+
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
+  - Allows styles from same origin
+  - 'unsafe-inline' required for Tailwind CSS and styled-jsx
+  - Google Fonts for typography
+
+font-src 'self' data: https://fonts.gstatic.com
+  - Allows fonts from same origin, data URIs, and Google Fonts CDN
+
+img-src 'self' data: https: blob:
+  - Allows images from same origin, data URIs, HTTPS URLs, and blob URLs
+  - Broad policy to support user-uploaded creatives
+
+connect-src 'self' https://api.coinads.com https://*.coinads.com https://vitals.vercel-insights.com
+  - Allows connections to same origin, API subdomain, all CoinAds subdomains
+  - Vercel Analytics for performance monitoring
+  - Add Neon database, Sentry, or other services as needed
+
+frame-src 'self'
+  - Only allows iframes from same origin
+  - Useful for creative preview in sandboxed iframes
+
+object-src 'none'
+  - Disallows plugins (Flash, Java, etc.)
+
+base-uri 'self'
+  - Restricts base tag to same origin only
+
+form-action 'self'
+  - Forms can only submit to same origin
+
+frame-ancestors 'none'
+  - Prevents site from being embedded in iframes (similar to X-Frame-Options: DENY)
+
+upgrade-insecure-requests
+  - Automatically upgrades HTTP requests to HTTPS
+
+Notes:
+------
+1. CSP is configured in next.config.js
+2. To add new external services, update the relevant directives
+3. For production, consider removing 'unsafe-eval' from script-src if not needed
+4. Monitor CSP violations using report-uri or report-to directives
+5. Test thoroughly before deploying stricter policies

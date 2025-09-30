@@ -50,6 +50,20 @@ interface LogsResponse {
 
 export default function AdminLogsPage() {
   const { data: session, status } = useSession();
+  
+  // All hooks must be called at the top level
+  const [logs, setLogs] = useState<AdminLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterAction, setFilterAction] = useState("all");
+  const [filterEntityType, setFilterEntityType] = useState("all");
+  const [pagination, setPagination] = useState({
+    total: 0,
+    limit: 50,
+    offset: 0,
+    hasMore: false,
+  });
 
   useEffect(() => {
     if (status === "loading") return;
@@ -65,6 +79,11 @@ export default function AdminLogsPage() {
     }
   }, [session, status]);
 
+  // Fetch logs on component mount and when filters change
+  useEffect(() => {
+    fetchLogs();
+  }, [searchTerm, filterAction, filterEntityType, pagination.offset]);
+
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -76,23 +95,6 @@ export default function AdminLogsPage() {
   if (!session || session.user.role !== "ADMIN") {
     return null;
   }
-  const [logs, setLogs] = useState<AdminLog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterAction, setFilterAction] = useState("all");
-  const [filterEntityType, setFilterEntityType] = useState("all");
-  const [pagination, setPagination] = useState({
-    total: 0,
-    limit: 50,
-    offset: 0,
-    hasMore: false,
-  });
-
-  // Fetch logs on component mount and when filters change
-  useEffect(() => {
-    fetchLogs();
-  }, [searchTerm, filterAction, filterEntityType, pagination.offset]);
 
   const fetchLogs = async () => {
     try {

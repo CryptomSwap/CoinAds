@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { PageHeader } from "@/components/ui/page-header";
@@ -62,7 +62,7 @@ export default function CampaignReviewPage() {
       });
       
       if (response.ok) {
-        const result = await response.json();
+        await response.json();
         setMessage("Campaign submitted for review successfully!");
         
         // Redirect to campaigns list after a short delay

@@ -14,7 +14,6 @@ import {
   CheckCircle,
   DollarSign,
   Monitor,
-  Bell,
   DollarSign as DollarSignIcon,
   FileText,
   TrendingUp
@@ -169,19 +168,6 @@ export function Sidebar({ role }: SidebarProps) {
       {/* Footer */}
       <div className="border-t p-4">
         <div className="space-y-2">
-          <Link
-            href="/app/notifications"
-            className={cn(
-              "flex items-center space-x-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              pathname === "/app/notifications"
-                ? "!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            <Bell className="h-4 w-4" />
-            <span>Notifications</span>
-          </Link>
-          
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
             <Monitor className="h-4 w-4" />
             <span>CoinAds Platform</span>

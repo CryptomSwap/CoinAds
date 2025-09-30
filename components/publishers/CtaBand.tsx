@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { appUrl, signUpUrl } from "@/lib/url";
 
 export default function CtaBand(){
   const { data: session } = useSession();
@@ -12,7 +13,7 @@ export default function CtaBand(){
         <h3 className="text-2xl md:text-3xl font-semibold text-foreground">Ready to start earning?</h3>
         <div className="mt-6 flex items-center justify-center gap-3">
           <Button asChild size="lg">
-            <Link href={session ? "/app" : "/auth/signin"}>
+            <Link href={session ? appUrl("/") : signUpUrl("publisher")}>
               {session ? "Go to Dashboard" : "Start Monetizing"}
             </Link>
           </Button>

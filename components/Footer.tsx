@@ -42,7 +42,7 @@ export function Footer({ className }: FooterProps) {
           </div>
         </div>
         <div className="border-t border-border mt-8 pt-8 text-center text-slate-500 dark:text-slate-400">
-          <p>&copy; 2024 CoinAds. All rights reserved.</p>
+          <p>&copy; 2025 CoinAds. All rights reserved.</p>
         </div>
       </div>
     </footer>

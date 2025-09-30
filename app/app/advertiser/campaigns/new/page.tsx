@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { 
@@ -16,10 +15,8 @@ import {
   AlertTriangle,
   Upload,
   X,
-  ExternalLink,
   ChevronRight,
-  Wallet,
-  Bell
+  Wallet
 } from "lucide-react";
 
 // Mock data for partner sites and placements
@@ -152,23 +149,6 @@ const steps = [
   { id: 5, title: "Review", description: "Review and activate" }
 ];
 
-// Design tokens - now using CSS variables for theme compatibility
-const DESIGN_TOKENS = {
-  spacing: {
-    xs: '4px',
-    sm: '8px',
-    md: '12px',
-    lg: '16px',
-    xl: '20px',
-    '2xl': '24px',
-    '3xl': '32px',
-  },
-  radius: {
-    sm: '8px',
-    md: '12px',
-    lg: '16px',
-  },
-};
 
 export default function NewCampaignPage() {
   const router = useRouter();

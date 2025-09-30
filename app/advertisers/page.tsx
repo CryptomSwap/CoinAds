@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Logo } from "@/components/ui/logo";
 import { useState } from "react";
+import { signUpUrl, signInUrl } from "@/lib/url";
 import { 
   ArrowRight, 
   BarChart3, 
@@ -136,7 +137,7 @@ export default function AdvertisersPage() {
               >
                 For Publishers
               </Link>
-              <Link href="/auth/signin">
+              <Link href={signUpUrl("advertiser")}>
                 <Button>
                   Sign In
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -156,7 +157,7 @@ export default function AdvertisersPage() {
           Launch targeted campaigns on premium crypto and blockchain websites.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <Link href="/auth/signin">
+          <Link href={signUpUrl("advertiser")}>
             <Button size="lg">
               Start Advertising
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -397,7 +398,7 @@ export default function AdvertisersPage() {
             Join hundreds of crypto companies already advertising on CoinAds
           </p>
           <div className="flex justify-center space-x-4">
-            <Link href="/auth/signin">
+            <Link href={signUpUrl("advertiser")}>
               <Button size="lg" variant="secondary">
                 Get Started Free
               </Button>

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { EmptyState } from "@/components/ui/empty-state";
 import { 
   TrendingUp, 
@@ -16,7 +15,6 @@ import {
   Download,
   AlertTriangle,
   Megaphone,
-  AlertCircle,
   Loader2
 } from "lucide-react";
 import Link from "next/link";
@@ -156,7 +154,7 @@ function LoadingSkeleton() {
 export default function AdvertiserOverview() {
   const { success, error: showError } = useToast();
   const [isExporting, setIsExporting] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData>(emptyDashboardData);
+  const [dashboardData] = useState<DashboardData>(emptyDashboardData);
   const [loading, setLoading] = useState(true);
 
   // TODO: Replace with real API calls
