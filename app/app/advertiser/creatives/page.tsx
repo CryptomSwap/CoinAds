@@ -2,7 +2,13 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowLeft, Upload, Eye, Download, Trash2 } from "lucide-react";
+import { Upload, Eye, Download, Trash2 } from "lucide-react";
+import CreativeActions from "@/components/wrappers/CreativeActions";
+import CreativeUploadButton from "@/components/wrappers/CreativeUploadButton";
+
+// Disable SSG for authenticated app routes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function CreativesPage() {
   return (
@@ -15,25 +21,7 @@ export default function CreativesPage() {
           <span>/</span>
           <span>Creative Assets</span>
         </div>
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Creative Assets</h1>
-            <p className="text-muted-foreground mt-2">
-              Manage your advertising creatives and assets
-            </p>
-          </div>
-          <Button 
-            size="lg" 
-            data-testid="upload-creative"
-            onClick={() => {
-              // TODO: Implement creative upload logic
-              console.log('Opening creative upload dialog...');
-            }}
-          >
-            <Upload className="mr-2 h-4 w-4" />
-            Upload Creative
-          </Button>
-        </div>
+        <CreativeActions />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -49,16 +37,7 @@ export default function CreativesPage() {
                 <p className="text-sm mb-4">
                   Upload your first creative asset to get started with advertising
                 </p>
-                <Button 
-                  data-testid="upload-first-creative"
-                  onClick={() => {
-                    // TODO: Implement creative upload logic
-                    console.log('Opening creative upload dialog...');
-                  }}
-                >
-                  <Upload className="mr-2 h-4 w-4" />
-                  Upload Your First Creative
-                </Button>
+                <CreativeUploadButton />
               </div>
 
               <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg mt-6">
@@ -123,14 +102,6 @@ export default function CreativesPage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-8">
-        <Button asChild variant="outline">
-          <Link href="/app/advertiser">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Link>
-        </Button>
-      </div>
     </div>
   );
 }

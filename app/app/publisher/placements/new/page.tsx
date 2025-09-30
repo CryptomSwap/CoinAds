@@ -1,11 +1,15 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowLeft, Target, Code, DollarSign } from "lucide-react";
+import { Target, Code, DollarSign } from "lucide-react";
+import PlacementActions from "@/components/wrappers/PlacementActions";
+
+// Disable SSG for authenticated app routes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function NewPlacementPage() {
   return (
@@ -214,24 +218,7 @@ export default function NewPlacementPage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-8">
-        <Button asChild variant="outline">
-          <Link href="/app/publisher/placements">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Placements
-          </Link>
-        </Button>
-        <Button 
-          size="lg" 
-          data-testid="create-placement"
-          onClick={() => {
-            // TODO: Implement placement creation logic
-            console.log('Creating placement...');
-          }}
-        >
-          Create Placement
-        </Button>
-      </div>
+      <PlacementActions />
     </div>
   );
 }

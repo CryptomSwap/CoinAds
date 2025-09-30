@@ -2,7 +2,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowLeft, Code, Copy, ExternalLink, Book } from "lucide-react";
+import { ArrowLeft, Code, ExternalLink, Book } from "lucide-react";
+import CopyCodeActions from "@/components/wrappers/CopyCodeActions";
 
 export default function PublisherIntegrationPage() {
   return (
@@ -102,18 +103,16 @@ export default function PublisherIntegrationPage() {
 </div>`}
                   </pre>
                 </div>
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="mt-2"
-                  onClick={() => {
-                    // TODO: Implement copy to clipboard functionality
-                    console.log('Copying code to clipboard...');
-                  }}
-                >
-                  <Copy className="mr-2 h-4 w-4" />
-                  Copy Code
-                </Button>
+                <CopyCodeActions code={`<!-- CoinAds Ad Tag -->
+<div id="coinads-placement-123">
+  <script async src="https://coinads.com/adtag.js"></script>
+  <script>
+    coinads.displayAd({
+      placementId: "123",
+      containerId: "coinads-placement-123"
+    });
+  </script>
+</div>`} />
               </div>
 
               <div>
@@ -138,18 +137,22 @@ export default function PublisherIntegrationPage() {
 </div>`}
                   </pre>
                 </div>
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="mt-2"
-                  onClick={() => {
-                    // TODO: Implement copy to clipboard functionality
-                    console.log('Copying code to clipboard...');
-                  }}
-                >
-                  <Copy className="mr-2 h-4 w-4" />
-                  Copy Code
-                </Button>
+                <CopyCodeActions code={`<!-- Responsive Ad Tag -->
+<div class="coinads-responsive" id="coinads-placement-456">
+  <script async src="https://coinads.com/adtag.js"></script>
+  <script>
+    coinads.displayAd({
+      placementId: "456",
+      containerId: "coinads-placement-456",
+      responsive: true,
+      breakpoints: {
+        mobile: "320x50",
+        tablet: "728x90",
+        desktop: "970x250"
+      }
+    });
+  </script>
+</div>`} />
               </div>
 
               <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg">

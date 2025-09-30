@@ -1,10 +1,14 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowLeft, Plus, CreditCard, TrendingUp, DollarSign } from "lucide-react";
+import { Plus, TrendingUp, DollarSign, CreditCard } from "lucide-react";
+import WalletActions from "@/components/wrappers/WalletActions";
+
+// Disable SSG for authenticated app routes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function WalletPage() {
   return (
@@ -88,32 +92,8 @@ export default function WalletPage() {
             
             <div className="space-y-2">
               <Label>Payment Method</Label>
-              <div className="space-y-2">
-                <Button 
-                  variant="outline" 
-                  className="w-full justify-start" 
-                  data-testid="add-credit-card"
-                  onClick={() => {
-                    // TODO: Implement credit card setup logic
-                    console.log('Setting up credit card...');
-                  }}
-                >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  Credit/Debit Card
-                </Button>
-              </div>
+              <WalletActions />
             </div>
-
-            <Button 
-              className="w-full" 
-              data-testid="top-up-wallet"
-              onClick={() => {
-                // TODO: Implement wallet top-up logic
-                console.log('Opening wallet top-up dialog...');
-              }}
-            >
-              Add Funds to Wallet
-            </Button>
 
             <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg">
               <h4 className="font-medium mb-2">TODO: Payment Integration</h4>
@@ -153,19 +133,6 @@ export default function WalletPage() {
         </Card>
       </div>
 
-      <div className="flex items-center gap-4 mt-8">
-        <Button asChild variant="outline">
-          <Link href="/app/advertiser">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Link>
-        </Button>
-        <Button variant="outline" asChild data-testid="view-billing">
-          <Link href="/app/billing">
-            View Billing History
-          </Link>
-        </Button>
-      </div>
     </div>
   );
 }

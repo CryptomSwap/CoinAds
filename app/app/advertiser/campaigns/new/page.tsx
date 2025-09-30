@@ -4,7 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-import { ArrowLeft, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
+import CampaignActions from "@/components/wrappers/CampaignActions";
+
+// Disable SSG for authenticated app routes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function NewCampaignPage() {
   return (
@@ -113,24 +118,7 @@ export default function NewCampaignPage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-8">
-        <Button asChild variant="outline">
-          <Link href="/app/advertiser/campaigns">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Campaigns
-          </Link>
-        </Button>
-        <Button 
-          size="lg" 
-          data-testid="create-campaign"
-          onClick={() => {
-            // TODO: Implement campaign creation logic
-            console.log('Creating campaign...');
-          }}
-        >
-          Create Campaign
-        </Button>
-      </div>
+      <CampaignActions />
     </div>
   );
 }

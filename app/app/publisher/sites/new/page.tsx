@@ -1,11 +1,15 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Link from "next/link";
-import { ArrowLeft, Globe, Shield } from "lucide-react";
+import { Globe, Shield } from "lucide-react";
+import SiteActions from "@/components/wrappers/SiteActions";
+
+// Disable SSG for authenticated app routes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function NewSitePage() {
   return (
@@ -201,24 +205,7 @@ export default function NewSitePage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-8">
-        <Button asChild variant="outline">
-          <Link href="/app/publisher/sites">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Sites
-          </Link>
-        </Button>
-        <Button 
-          size="lg" 
-          data-testid="submit-site"
-          onClick={() => {
-            // TODO: Implement site submission logic
-            console.log('Submitting site for review...');
-          }}
-        >
-          Submit for Review
-        </Button>
-      </div>
+      <SiteActions />
     </div>
   );
 }
