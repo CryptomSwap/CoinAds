@@ -56,11 +56,8 @@ export default function CampaignReviewPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: emptyCampaignData.name,
-          budgetCents: Math.round(emptyCampaignData.budget * 100), // Convert to cents
-          startAt: emptyCampaignData.startDate ? new Date(emptyCampaignData.startDate).toISOString() : undefined,
-          endAt: emptyCampaignData.endDate ? new Date(emptyCampaignData.endDate).toISOString() : undefined,
-          objective: "awareness", // Default objective for MVP
+          ...emptyCampaignData,
+          status: 'PENDING', // Submit for admin approval
         }),
       });
       
@@ -93,11 +90,8 @@ export default function CampaignReviewPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: emptyCampaignData.name,
-          budgetCents: Math.round(emptyCampaignData.budget * 100), // Convert to cents
-          startAt: emptyCampaignData.startDate ? new Date(emptyCampaignData.startDate).toISOString() : undefined,
-          endAt: emptyCampaignData.endDate ? new Date(emptyCampaignData.endDate).toISOString() : undefined,
-          objective: "awareness", // Default objective for MVP
+          ...emptyCampaignData,
+          status: 'DRAFT',
         }),
       });
       
