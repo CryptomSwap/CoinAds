@@ -1,34 +1,43 @@
 /**
  * URL utility helpers for split-domain deployment
  * Provides consistent URL generation for marketing and app domains
+ * Preview-safe: returns relative paths in preview/dev mode
  */
 
-import { PUBLIC_BASE_URL, APP_BASE_URL } from "@/config/domain";
+import { PUBLIC_BASE_URL, APP_BASE_URL, IS_PROD, USE_APP_SUBDOMAIN } from "@/config/domain";
 
 /**
  * Generate public URL for marketing pages
  * @param path - Path to append (e.g., "/about", "contact")
- * @returns Full URL for marketing domain
+ * @returns Full URL for marketing domain in prod, relative path in preview
  */
 export function publicUrl(path: string = ""): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  // In preview/dev mode, return relative paths
+  if (!IS_PROD || !USE_APP_SUBDOMAIN) {
+    return cleanPath;
+  }
   return `${PUBLIC_BASE_URL}${cleanPath}`;
 }
 
 /**
  * Generate app URL for dashboard/authenticated pages
  * @param path - Path to append (e.g., "/auth/signin", "advertiser/overview")
- * @returns Full URL for app subdomain
+ * @returns Full URL for app subdomain in prod, relative path in preview
  */
 export function appUrl(path: string = ""): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  // In preview/dev mode, return relative paths
+  if (!IS_PROD || !USE_APP_SUBDOMAIN) {
+    return cleanPath;
+  }
   return `${APP_BASE_URL}${cleanPath}`;
 }
 
 /**
  * Generate sign-in URL with optional redirect
  * @param redirectTo - Optional redirect path after sign-in
- * @returns Full sign-in URL
+ * @returns Sign-in URL (relative in preview, absolute in prod)
  */
 export function signInUrl(redirectTo?: string): string {
   const baseUrl = appUrl("/auth/signin");
@@ -42,7 +51,7 @@ export function signInUrl(redirectTo?: string): string {
 /**
  * Generate sign-up URL with role
  * @param role - User role (advertiser, publisher)
- * @returns Full sign-up URL with role parameter
+ * @returns Sign-up URL with role parameter (relative in preview, absolute in prod)
  */
 export function signUpUrl(role: "advertiser" | "publisher"): string {
   return appUrl(`/auth/signup?role=${role}`);
@@ -51,7 +60,7 @@ export function signUpUrl(role: "advertiser" | "publisher"): string {
 /**
  * Generate dashboard URL for specific role
  * @param role - User role (advertiser, publisher, admin)
- * @returns Full dashboard URL
+ * @returns Dashboard URL (relative in preview, absolute in prod)
  */
 export function dashboardUrl(role: "advertiser" | "publisher" | "admin"): string {
   return appUrl(`/${role}/overview`);

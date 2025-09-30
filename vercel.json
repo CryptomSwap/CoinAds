@@ -2,13 +2,15 @@
   "buildCommand": "npx prisma generate && npx prisma migrate deploy && next build",
   "redirects": [
     {
-      "source": "http://www.coinads.com/(.*)",
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.coinads.com" }],
       "destination": "https://coinads.com/$1",
       "permanent": true
     },
     {
-      "source": "https://www.coinads.com/(.*)",
-      "destination": "https://coinads.com/$1",
+      "source": "/app/(.*)",
+      "has": [{ "type": "host", "value": "coinads.com" }],
+      "destination": "https://app.coinads.com/app/$1",
       "permanent": true
     }
   ],

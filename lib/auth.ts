@@ -9,6 +9,11 @@ import { REQUIRE_EMAIL_VERIFICATION } from "./featureFlags";
 import { getCookieDomain, APP_BASE_URL } from "../config/domain";
 import * as bcrypt from "bcryptjs";
 
+// Compute NEXTAUTH_URL default from VERCEL_URL when missing
+const inferredUrl =
+  process.env.NEXTAUTH_URL
+  ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
 // Demo mode removed for security - all authentication must go through database
 
 export const authOptions: NextAuthOptions = {

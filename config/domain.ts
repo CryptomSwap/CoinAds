@@ -1,19 +1,51 @@
 /**
  * Domain configuration for CoinAds platform
  * Supports both single domain and subdomain split strategies
+ * Runtime-aware, preview-safe configuration
  */
 
-export const DOMAIN_ROOT = "coinads.com";
+const PROD_DOMAIN_ROOT = "coinads.com";
 
-// Check if subdomain split is enabled
-export const USE_APP_SUBDOMAIN = process.env.NEXT_PUBLIC_APP_SUBDOMAIN === "true";
+export const VERCEL_ENV = process.env.VERCEL_ENV || process.env.NODE_ENV; // "production" | "preview" | "development"
+export const IS_PROD    = VERCEL_ENV === "production";
+export const USE_APP_SUBDOMAIN =
+  IS_PROD && process.env.NEXT_PUBLIC_APP_SUBDOMAIN === "true";
 
-// Determine app domain based on configuration
-export const DOMAIN_APP = USE_APP_SUBDOMAIN ? `app.${DOMAIN_ROOT}` : DOMAIN_ROOT;
+/**
+ * Compute base URLs at runtime.
+ * - In production + split: marketing=coinads.com, app=app.coinads.com
+ * - In preview/dev: both use the current origin (no subdomain split)
+ */
+export function resolveBaseUrls(hostFromRequest?: string) {
+  if (USE_APP_SUBDOMAIN) {
+    return {
+      PUBLIC_BASE_URL: `https://${PROD_DOMAIN_ROOT}`,
+      APP_BASE_URL:    `https://app.${PROD_DOMAIN_ROOT}`,
+    };
+  }
+  const host = hostFromRequest
+    || process.env.VERCEL_URL
+    || "localhost:3000";
+  const origin =
+    host.startsWith("http") ? host : `https://${host}`;
+  return {
+    PUBLIC_BASE_URL: origin,
+    APP_BASE_URL:    origin,
+  };
+}
 
-// Base URLs for different contexts
-export const PUBLIC_BASE_URL = `https://${DOMAIN_ROOT}`;
-export const APP_BASE_URL = `https://${DOMAIN_APP}`;
+/** Helpers for building links safely (relative by default) */
+export function publicUrl(path = "") { return path || "/"; }
+export function appUrl(path = "")   { return path || "/"; }
+
+// Legacy exports for backward compatibility
+export const DOMAIN_ROOT = PROD_DOMAIN_ROOT;
+export const DOMAIN_APP = USE_APP_SUBDOMAIN ? `app.${PROD_DOMAIN_ROOT}` : PROD_DOMAIN_ROOT;
+
+// Base URLs for different contexts (runtime resolved)
+const baseUrls = resolveBaseUrls();
+export const PUBLIC_BASE_URL = baseUrls.PUBLIC_BASE_URL;
+export const APP_BASE_URL = baseUrls.APP_BASE_URL;
 
 // Helper functions for URL generation
 export function getAppUrl(path: string = ""): string {

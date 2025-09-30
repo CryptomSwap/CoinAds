@@ -8,12 +8,19 @@ export const config = {
 export default function middleware(req: NextRequest) {
   const { pathname, hostname } = req.nextUrl;
   
+  const host = req.headers.get("host") || "";
+  const isProdApex = host === "coinads.com" || host === "www.coinads.com";
+  const isProdApp  = host === "app.coinads.com";
+  
   // Split-domain redirect: redirect /app/* from root domain to app subdomain
-  if (hostname === 'coinads.com' && pathname.startsWith('/app')) {
+  // Only in production when on the apex domain
+  if (isProdApex && pathname.startsWith('/app')) {
     const appUrl = new URL(req.url);
     appUrl.hostname = 'app.coinads.com';
     return NextResponse.redirect(appUrl, 308);
   }
+  
+  // In previews (host ends with .vercel.app) do nothing special; allow /app/* locally
   
   // IMPORTANT: do not use request headers, cookies, or any dynamic checks that force dynamic rendering.
   // Auth gating is handled in the client with RequireAuth (see below).
