@@ -358,8 +358,15 @@ export default function AdvertiserOverview() {
               </div>
               <div className="mt-4">
                 <div className="-mx-2 -my-1.5 flex">
-                  <Button variant="outline" size="sm" className="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400 hover:bg-yellow-200 dark:hover:bg-yellow-900/30">
-                    Add Credits
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400 hover:bg-yellow-200 dark:hover:bg-yellow-900/30"
+                    asChild
+                  >
+                    <Link href="/app/advertiser/billing">
+                      Add Credits
+                    </Link>
                   </Button>
                 </div>
               </div>
