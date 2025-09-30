@@ -3,8 +3,9 @@
 import TopBar from "@/components/TopBar";
 import Hero from "@/components/Hero";
 import LogosBar from "@/components/LogosBar";
-import HowItWorks from "@/components/HowItWorks";
+import HowItWorks from "@/components/marketing/HowItWorks";
 import Testimonials from "@/components/Testimonials";
+import { Footer } from "@/components/Footer";
 
 export default function HomePage() {
   return (
@@ -12,8 +13,9 @@ export default function HomePage() {
       <TopBar />
       <Hero />
       <LogosBar />
-      <HowItWorks />
+      <HowItWorks className="bg-gradient-to-b from-background to-muted/20" variant="advertiser" />
       <Testimonials />
+      <Footer />
     </div>
   );
 }

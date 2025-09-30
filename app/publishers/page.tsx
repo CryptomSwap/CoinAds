@@ -1,7 +1,7 @@
 import TopBar from "@/components/TopBar";
 import HeroPublishers from "@/components/publishers/HeroPublishers";
 import BenefitsPublishers from "@/components/publishers/BenefitsPublishers";
-import HowItWorksPublishers from "@/components/publishers/HowItWorksPublishers";
+import HowItWorks from "@/components/marketing/HowItWorks";
 import CtaBand from "@/components/publishers/CtaBand";
 
 export default function PublishersPage() {
@@ -10,7 +10,7 @@ export default function PublishersPage() {
       <TopBar />
       <HeroPublishers />
       <BenefitsPublishers />
-      <HowItWorksPublishers />
+      <HowItWorks variant="publisher" className="bg-gradient-to-b from-background to-muted/15" />
       <CtaBand />
     </div>
   );
