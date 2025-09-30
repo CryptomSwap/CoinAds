@@ -10,7 +10,7 @@ export default function PublishersPage() {
       <TopBar />
       <HeroPublishers />
       <BenefitsPublishers />
-      <HowItWorks variant="publisher" className="bg-gradient-to-b from-background to-muted/15" />
+      <HowItWorks variant="publisher" />
       <CtaBand />
     </div>
   );

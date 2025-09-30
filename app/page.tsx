@@ -13,7 +13,7 @@ export default function HomePage() {
       <TopBar />
       <Hero />
       <LogosBar />
-      <HowItWorks className="bg-gradient-to-b from-background to-muted/20" variant="advertiser" />
+      <HowItWorks variant="advertiser" />
       <Testimonials />
       <Footer />
     </div>
