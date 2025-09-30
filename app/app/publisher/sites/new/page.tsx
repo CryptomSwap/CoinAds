@@ -1,273 +1,224 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, ArrowLeft, Globe } from "lucide-react";
-import RequireAuth from "@/components/RequireAuth";
+import Link from "next/link";
+import { ArrowLeft, Globe, Shield } from "lucide-react";
 
-const categories = [
-  { value: "news", label: "News & Media" },
-  { value: "technology", label: "Technology" },
-  { value: "finance", label: "Finance & Crypto" },
-  { value: "entertainment", label: "Entertainment" },
-  { value: "education", label: "Education" },
-  { value: "lifestyle", label: "Lifestyle" },
-  { value: "business", label: "Business" },
-  { value: "other", label: "Other" },
-];
-
-export default function CreateSitePage() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    domain: "",
-    name: "",
-    description: "",
-    category: "",
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    try {
-      const response = await fetch("/api/publisher/sites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create site");
-      }
-
-      router.push(`/app/publisher/sites/${data.site.id}`);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to create site");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const validateDomain = (domain: string) => {
-    const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/;
-    return domainRegex.test(domain);
-  };
-
-  const isValidForm = formData.domain && formData.name && validateDomain(formData.domain);
-
+export default function NewSitePage() {
   return (
-    <RequireAuth>
-      <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            onClick={() => router.back()}
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold">Add New Site</h1>
-            <p className="text-muted-foreground">
-              Register a new website to start earning
-            </p>
-          </div>
+    <div className="container mx-auto px-6 py-8">
+      <div className="mb-6">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <Link href="/app/publisher" className="hover:text-foreground transition-colors">
+            Dashboard
+          </Link>
+          <span>/</span>
+          <Link href="/app/publisher/sites" className="hover:text-foreground transition-colors">
+            Sites
+          </Link>
+          <span>/</span>
+          <span>Add New Site</span>
+        </div>
+        <h1 className="text-3xl font-bold tracking-tight">Add New Website</h1>
+        <p className="text-muted-foreground mt-2">
+          Register your website to start displaying ads and earning revenue
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-5 w-5" />
+                Website Information
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="site-url">Website URL</Label>
+                <Input 
+                  id="site-url" 
+                  type="url" 
+                  placeholder="https://yourwebsite.com"
+                  className="border-2 focus:border-primary transition-colors"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="site-name">Website Name</Label>
+                <Input 
+                  id="site-name" 
+                  placeholder="Your Website Name"
+                  className="border-2 focus:border-primary transition-colors"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="site-description">Description</Label>
+                <Textarea 
+                  id="site-description"
+                  placeholder="Describe your website content and audience"
+                  rows={4}
+                  className="border-2 focus:border-primary transition-colors"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="site-category">Category</Label>
+                  <Select>
+                    <SelectTrigger className="border-2 focus:border-primary transition-colors">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="news">Crypto News</SelectItem>
+                      <SelectItem value="trading">Trading & Investment</SelectItem>
+                      <SelectItem value="blockchain">Blockchain Technology</SelectItem>
+                      <SelectItem value="defi">DeFi & Finance</SelectItem>
+                      <SelectItem value="nft">NFT & Gaming</SelectItem>
+                      <SelectItem value="education">Education</SelectItem>
+                      <SelectItem value="community">Community</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="monthly-pageviews">Monthly Pageviews</Label>
+                  <Select>
+                    <SelectTrigger className="border-2 focus:border-primary transition-colors">
+                      <SelectValue placeholder="Select range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1k-10k">1K - 10K</SelectItem>
+                      <SelectItem value="10k-50k">10K - 50K</SelectItem>
+                      <SelectItem value="50k-100k">50K - 100K</SelectItem>
+                      <SelectItem value="100k-500k">100K - 500K</SelectItem>
+                      <SelectItem value="500k-1m">500K - 1M</SelectItem>
+                      <SelectItem value="1m+">1M+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg">
+                <h4 className="font-medium mb-2">TODO: Site Verification Process</h4>
+                <ul className="space-y-1 text-xs">
+                  <li>• Domain ownership verification</li>
+                  <li>• Content quality review</li>
+                  <li>• Traffic analytics integration</li>
+                  <li>• Ad placement guidelines</li>
+                  <li>• Revenue sharing terms</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-6">
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Verification Steps
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium">
+                  1
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm">Submit Site Details</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Provide basic information about your website
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
+                  2
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm">Domain Verification</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Verify ownership via DNS or file upload
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
+                  3
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm">Content Review</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Manual review for quality and compliance
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
+                  4
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm">Start Earning</h4>
+                  <p className="text-xs text-muted-foreground">
+                    Generate ad tags and place on your site
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle>Requirements</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>Original, high-quality content</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>Minimum 1,000 monthly visitors</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>Crypto/blockchain related content</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>No adult, gambling, or illegal content</span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
-      {/* Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Globe className="h-5 w-5" />
-            <span>Site Information</span>
-          </CardTitle>
-          <CardDescription>
-            Provide details about your website
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="domain">Domain *</Label>
-                <Input
-                  id="domain"
-                  type="text"
-                  required
-                  value={formData.domain}
-                  onChange={(e) => handleInputChange("domain", e.target.value)}
-                  placeholder="example.com"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Enter your website domain without http:// or https://
-                </p>
-                {formData.domain && !validateDomain(formData.domain) && (
-                  <p className="text-xs text-red-600">
-                    Please enter a valid domain name
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="name">Site Name *</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  placeholder="My Awesome Website"
-                />
-                <p className="text-xs text-muted-foreground">
-                  A friendly name for your website
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => handleInputChange("description", e.target.value)}
-                placeholder="Describe your website content and audience..."
-                rows={3}
-              />
-              <p className="text-xs text-muted-foreground">
-                Help advertisers understand your site better
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Select
-                value={formData.category}
-                onValueChange={(value) => handleInputChange("category", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.value} value={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">
-                Choose the category that best describes your website
-              </p>
-            </div>
-
-            <div className="flex justify-end space-x-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-              >
-                Cancel
-              </Button>
-              <Button 
-                type="submit" 
-                disabled={isLoading || !isValidForm}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating Site...
-                  </>
-                ) : (
-                  "Create Site"
-                )}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-
-      {/* Information Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>What happens next?</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 text-sm font-medium">1</span>
-              </div>
-              <div>
-                <h4 className="font-medium">Site Registration</h4>
-                <p className="text-sm text-muted-foreground">
-                  Your site will be registered and a verification token will be generated.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 text-sm font-medium">2</span>
-              </div>
-              <div>
-                <h4 className="font-medium">Verification</h4>
-                <p className="text-sm text-muted-foreground">
-                  Add the verification token to your website's HTML head section.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 text-sm font-medium">3</span>
-              </div>
-              <div>
-                <h4 className="font-medium">Approval</h4>
-                <p className="text-sm text-muted-foreground">
-                  Once verified, your site will be reviewed and approved for ad serving.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 text-sm font-medium">4</span>
-              </div>
-              <div>
-                <h4 className="font-medium">Start Earning</h4>
-                <p className="text-sm text-muted-foreground">
-                  Create ad placements and start earning from your website traffic.
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex items-center gap-4 mt-8">
+        <Button asChild variant="outline">
+          <Link href="/app/publisher/sites">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Sites
+          </Link>
+        </Button>
+        <Button 
+          size="lg" 
+          data-testid="submit-site"
+          onClick={() => {
+            // TODO: Implement site submission logic
+            console.log('Submitting site for review...');
+          }}
+        >
+          Submit for Review
+        </Button>
       </div>
-    </RequireAuth>
+    </div>
   );
 }

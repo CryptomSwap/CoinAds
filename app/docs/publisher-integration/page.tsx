@@ -1,205 +1,300 @@
-"use client";
-
-import TopBar from "@/components/TopBar";
-import Link from "next/link";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code, FileText, Settings, Zap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { ArrowLeft, Code, Copy, ExternalLink, Book } from "lucide-react";
 
 export default function PublisherIntegrationPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white/90 to-blue-600/20 dark:from-slate-900 dark:to-blue-900/40">
-      <TopBar />
-      {/* Header */}
-      <div className="bg-gradient-to-br from-background to-muted">
-        <div className="mx-auto max-w-6xl px-6 py-20 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-tight">
-            Publisher Integration Guide
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get your site monetized in minutes with our simple integration process.
-          </p>
+    <div className="container mx-auto px-6 py-8">
+      <div className="mb-6">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <Link href="/docs" className="hover:text-foreground transition-colors">
+            Documentation
+          </Link>
+          <span>/</span>
+          <span>Publisher Integration</span>
+        </div>
+        <h1 className="text-3xl font-bold tracking-tight">Publisher Integration Guide</h1>
+        <p className="text-muted-foreground mt-2">
+          Learn how to integrate CoinAds with your website and start earning revenue
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Book className="h-5 w-5" />
+                Getting Started
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-4">
+                <div className="border-l-4 border-primary pl-4">
+                  <h3 className="font-semibold text-lg mb-2">1. Create Publisher Account</h3>
+                  <p className="text-muted-foreground mb-3">
+                    Sign up for a CoinAds publisher account and verify your email address.
+                  </p>
+                  <Button asChild size="sm">
+                    <Link href="/auth/signup?role=publisher">
+                      Create Account
+                    </Link>
+                  </Button>
+                </div>
+
+                <div className="border-l-4 border-muted pl-4">
+                  <h3 className="font-semibold text-lg mb-2">2. Add Your Website</h3>
+                  <p className="text-muted-foreground mb-3">
+                    Submit your website for review. We'll verify domain ownership and content quality.
+                  </p>
+                  <Button asChild size="sm" variant="outline">
+                    <Link href="/app/publisher/sites/new">
+                      Add Website
+                    </Link>
+                  </Button>
+                </div>
+
+                <div className="border-l-4 border-muted pl-4">
+                  <h3 className="font-semibold text-lg mb-2">3. Create Ad Placements</h3>
+                  <p className="text-muted-foreground mb-3">
+                    Define where ads will appear on your site and generate ad tags.
+                  </p>
+                  <Button asChild size="sm" variant="outline">
+                    <Link href="/app/publisher/placements/new">
+                      Create Placement
+                    </Link>
+                  </Button>
+                </div>
+
+                <div className="border-l-4 border-muted pl-4">
+                  <h3 className="font-semibold text-lg mb-2">4. Implement Ad Tags</h3>
+                  <p className="text-muted-foreground">
+                    Add the generated ad tags to your website and start earning revenue.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Code className="h-5 w-5" />
+                Implementation Examples
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <h3 className="font-semibold mb-3">Basic Ad Tag Implementation</h3>
+                <div className="bg-muted p-4 rounded-lg">
+                  <pre className="text-sm text-muted-foreground overflow-x-auto">
+{`<!-- CoinAds Ad Tag -->
+<div id="coinads-placement-123">
+  <script async src="https://coinads.com/adtag.js"></script>
+  <script>
+    coinads.displayAd({
+      placementId: "123",
+      containerId: "coinads-placement-123"
+    });
+  </script>
+</div>`}
+                  </pre>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="mt-2"
+                  onClick={() => {
+                    // TODO: Implement copy to clipboard functionality
+                    console.log('Copying code to clipboard...');
+                  }}
+                >
+                  <Copy className="mr-2 h-4 w-4" />
+                  Copy Code
+                </Button>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-3">Responsive Implementation</h3>
+                <div className="bg-muted p-4 rounded-lg">
+                  <pre className="text-sm text-muted-foreground overflow-x-auto">
+{`<!-- Responsive Ad Tag -->
+<div class="coinads-responsive" id="coinads-placement-456">
+  <script async src="https://coinads.com/adtag.js"></script>
+  <script>
+    coinads.displayAd({
+      placementId: "456",
+      containerId: "coinads-placement-456",
+      responsive: true,
+      breakpoints: {
+        mobile: "320x50",
+        tablet: "728x90",
+        desktop: "970x250"
+      }
+    });
+  </script>
+</div>`}
+                  </pre>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="mt-2"
+                  onClick={() => {
+                    // TODO: Implement copy to clipboard functionality
+                    console.log('Copying code to clipboard...');
+                  }}
+                >
+                  <Copy className="mr-2 h-4 w-4" />
+                  Copy Code
+                </Button>
+              </div>
+
+              <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg">
+                <h4 className="font-medium mb-2">TODO: Advanced Integration Features</h4>
+                <ul className="space-y-1 text-xs">
+                  <li>• Header bidding integration</li>
+                  <li>• Lazy loading for better performance</li>
+                  <li>• A/B testing framework</li>
+                  <li>• Real-time analytics SDK</li>
+                  <li>• GDPR compliance helpers</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle>Best Practices</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <h4 className="font-medium text-primary">✓ Do</h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Place ads above the fold for better visibility</li>
+                    <li>• Use responsive ad units for mobile optimization</li>
+                    <li>• Implement lazy loading for page speed</li>
+                    <li>• Test ad placements for optimal performance</li>
+                    <li>• Keep content-to-ad ratio balanced</li>
+                  </ul>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-medium text-destructive">✗ Don't</h4>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Click on your own ads</li>
+                    <li>• Place too many ads per page</li>
+                    <li>• Use misleading ad labels</li>
+                    <li>• Modify ad code without permission</li>
+                    <li>• Place ads on prohibited content</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-6">
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle>Quick Links</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link href="/docs/ad-formats">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Ad Format Specs
+                </Link>
+              </Button>
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link href="/docs/revenue-optimization">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Revenue Optimization
+                </Link>
+              </Button>
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link href="/docs/analytics">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Analytics Guide
+                </Link>
+              </Button>
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link href="/contact">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Get Support
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle>Supported Formats</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Badge variant="outline">728x90</Badge>
+                <span className="text-xs text-muted-foreground">Leaderboard</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline">300x250</Badge>
+                <span className="text-xs text-muted-foreground">Medium Rectangle</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline">320x50</Badge>
+                <span className="text-xs text-muted-foreground">Mobile Banner</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline">Native</Badge>
+                <span className="text-xs text-muted-foreground">Content Native</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline">Video</Badge>
+                <span className="text-xs text-muted-foreground">Pre/Mid/Post Roll</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader>
+              <CardTitle>Requirements</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>Minimum 1,000 monthly page views</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>Crypto/blockchain related content</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>Original, high-quality content</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                <span>No adult or illegal content</span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16">
-        <div className="prose prose-slate dark:prose-invert max-w-none">
-          <h2 className="text-3xl font-bold text-foreground mb-6">Quick Start</h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Follow these simple steps to start earning from your crypto traffic:
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="border border-border rounded-lg p-6">
-              <div className="flex items-center mb-4">
-                <div className="p-2 bg-primary/10 rounded-lg mr-3">
-                  <Code className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground">1. Add the Tag</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Copy and paste our async JavaScript tag into your site's header:
-              </p>
-              <div className="bg-muted p-4 rounded-lg font-mono text-sm">
-                <code>
-                  {`<script async src="https://fuseads.com/tag.js"></script>`}
-                </code>
-              </div>
-            </div>
-
-            <div className="border border-border rounded-lg p-6">
-              <div className="flex items-center mb-4">
-                <div className="p-2 bg-primary/10 rounded-lg mr-3">
-                  <Settings className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground">2. Configure Placements</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Set up ad placements in your dashboard and customize targeting:
-              </p>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Banner sizes (728x90, 300x250, etc.)</li>
-                <li>• Native ad formats</li>
-                <li>• Category restrictions</li>
-                <li>• Floor pricing</li>
-              </ul>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-foreground mb-6">Advanced Configuration</h2>
-          
-          <div className="space-y-8 mb-12">
-            <div className="border border-border rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Ad Placement Options</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold text-foreground mb-2">Banner Ads</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• Leaderboard (728x90)</li>
-                    <li>• Medium Rectangle (300x250)</li>
-                    <li>• Skyscraper (160x600)</li>
-                    <li>• Mobile Banner (320x50)</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-2">Native Ads</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• In-feed content</li>
-                    <li>• In-article placements</li>
-                    <li>• Sidebar widgets</li>
-                    <li>• Custom formats</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-border rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Revenue Optimization</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div>
-                  <h4 className="font-semibold text-foreground mb-2">Floor Pricing</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Set minimum CPM rates to ensure quality advertisers.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-2">Category Control</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Block unwanted ad categories to maintain brand safety.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-2">Frequency Caps</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Limit ad frequency to improve user experience.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-foreground mb-6">Payouts & Reporting</h2>
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">Payment Methods</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• USDT (Tether)</li>
-                <li>• USDC (USD Coin)</li>
-                <li>• Bank transfer (USD)</li>
-                <li>• Weekly automatic payouts</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-foreground mb-4">Real-time Analytics</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• Live impression tracking</li>
-                <li>• Click-through rates</li>
-                <li>• Revenue per placement</li>
-                <li>• Geographic breakdown</li>
-              </ul>
-            </div>
-          </div>
-
-          <h2 className="text-3xl font-bold text-foreground mb-6">Get Started Today</h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Ready to start monetizing your crypto traffic? Join thousands of publishers 
-            already earning with CoinAds.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/auth/signup?role=publisher">
-              <Button>
-                Start Publishing
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button variant="outline">
-                Contact Support
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-muted">
-        <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Platform</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/advertisers">For Advertisers</Link></li>
-                <li><Link href="/publishers">For Publishers</Link></li>
-                <li><Link href="/ad-formats">Ad Formats</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Company</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/legal/privacy">Privacy</Link></li>
-                <li><Link href="/legal/advertiser-terms">Advertiser Terms</Link></li>
-                <li><Link href="/legal/publisher-terms">Publisher Terms</Link></li>
-                <li><Link href="/legal/cookies">Cookie Policy</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-foreground mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/contact">Contact Support</Link></li>
-                <li><Link href="/auth/signin">Sign In</Link></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <div className="flex items-center gap-4 mt-8">
+        <Button asChild variant="outline">
+          <Link href="/docs">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Docs
+          </Link>
+        </Button>
+        <Button asChild>
+          <Link href="/auth/signup?role=publisher">
+            Get Started as Publisher
+          </Link>
+        </Button>
       </div>
     </div>
   );

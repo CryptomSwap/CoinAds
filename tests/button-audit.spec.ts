@@ -370,6 +370,26 @@ test.describe('Button Audit Runtime Probe', () => {
     });
   }
   
+  test('should enforce zero no-op buttons in codebase', async () => {
+    // Run the static analysis tool to check for no-op buttons in source code
+    const { execSync } = require('child_process');
+    
+    try {
+      const result = execSync('npx tsx tools/no-noop-buttons.ts', { 
+        encoding: 'utf-8',
+        cwd: process.cwd(),
+        timeout: 30000
+      });
+      
+      // If the tool exits successfully, no issues were found
+      expect(result).toContain('No no-op buttons found');
+    } catch (error: any) {
+      // If the tool exits with error, it found issues
+      console.error('No-op buttons found in codebase:', error.stdout || error.message);
+      throw new Error(`Static analysis found no-op buttons. Run 'npx tsx tools/no-noop-buttons.ts' for details.`);
+    }
+  });
+
   test.afterAll(async () => {
     // Generate summary
     const summary = {

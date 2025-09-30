@@ -1,315 +1,171 @@
-"use client";
-
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Plus,
-  CreditCard,
-  Wallet,
-  TrendingUp,
-  TrendingDown
-} from "lucide-react";
-import RequireAuth from "@/components/RequireAuth";
-
-// Mock data for MVP
-const emptyWallet = {
-  balance: 500.00,
-  transactions: [
-    {
-      id: "1",
-      date: "2024-01-15",
-      type: "TOPUP",
-      method: "CARD",
-      amount: 1000.00,
-      status: "SUCCEEDED",
-      reference: "txn_123456789"
-    },
-    {
-      id: "2",
-      date: "2024-01-14",
-      type: "SPEND",
-      method: "SYSTEM",
-      amount: -450.25,
-      status: "SUCCEEDED",
-      reference: "campaign_spend_001"
-    },
-    {
-      id: "3",
-      date: "2024-01-13",
-      type: "SPEND",
-      method: "SYSTEM",
-      amount: -320.10,
-      status: "SUCCEEDED",
-      reference: "campaign_spend_002"
-    },
-    {
-      id: "4",
-      date: "2024-01-10",
-      type: "TOPUP",
-      method: "CARD",
-      amount: 500.00,
-      status: "SUCCEEDED",
-      reference: "txn_987654321"
-    }
-  ]
-};
+import Link from "next/link";
+import { ArrowLeft, Plus, CreditCard, TrendingUp, DollarSign } from "lucide-react";
 
 export default function WalletPage() {
-  const [showAddCredits, setShowAddCredits] = useState(false);
-  const [addAmount, setAddAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("stripe");
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
-    }).format(amount);
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
-
-  const getTransactionIcon = (type: string) => {
-    switch (type) {
-      case "TOPUP":
-        return <TrendingUp className="h-4 w-4 text-green-600" />;
-      case "SPEND":
-        return <TrendingDown className="h-4 w-4 text-red-600" />;
-      default:
-        return <Wallet className="h-4 w-4 text-gray-600" />;
-    }
-  };
-
-  const getTransactionColor = (type: string) => {
-    switch (type) {
-      case "TOPUP":
-        return "text-green-600";
-      case "SPEND":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "SUCCEEDED":
-        return "bg-green-100 text-green-800";
-      case "PENDING":
-        return "bg-yellow-100 text-yellow-800";
-      case "FAILED":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const handleAddCredits = async () => {
-    if (addAmount && parseFloat(addAmount) > 0) {
-      try {
-        const response = await fetch('/api/advertiser/wallet', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amountCents: Math.round(parseFloat(addAmount) * 100), // Convert to cents
-            method: paymentMethod.toUpperCase(), // Convert to uppercase to match API enum
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to add credits');
-        }
-
-        const result = await response.json();
-        console.log('Credits added successfully:', result);
-        
-        // Close modal and reset form
-        setShowAddCredits(false);
-        setAddAmount("");
-        
-        // TODO: Refresh wallet data or show success message
-        alert(`Successfully added $${addAmount} to your account!`);
-      } catch (error) {
-        console.error('Error adding credits:', error);
-        alert(`Failed to add credits: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      }
-    }
-  };
-
   return (
-    <RequireAuth>
-      <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Wallet</h1>
-          <p className="text-muted-foreground">
-            Manage your account balance and transactions
-          </p>
+    <div className="container mx-auto px-6 py-8">
+      <div className="mb-6">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <Link href="/app/advertiser" className="hover:text-foreground transition-colors">
+            Dashboard
+          </Link>
+          <span>/</span>
+          <span>Wallet</span>
         </div>
-        <Button onClick={() => setShowAddCredits(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Credits
-        </Button>
+        <h1 className="text-3xl font-bold tracking-tight">Advertising Wallet</h1>
+        <p className="text-muted-foreground mt-2">
+          Manage your advertising budget and payments
+        </p>
       </div>
 
-      {/* Balance Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Wallet className="h-5 w-5" />
-            <span>Current Balance</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-green-600">
-            {formatCurrency(emptyWallet.balance)}
-          </div>
-          <p className="text-sm text-gray-500 mt-1">
-            Available credits for your campaigns
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Add Credits Modal */}
-      {showAddCredits && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Add Credits</CardTitle>
-            <CardDescription>
-              Add funds to your account to run campaigns
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="amount">Amount</Label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                <Input
-                  id="amount"
-                  type="number"
-                  placeholder="0.00"
-                  className="pl-8"
-                  value={addAmount}
-                  onChange={(e) => setAddAmount(e.target.value)}
-                />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <Card className="rounded-2xl shadow-sm bg-gradient-to-br from-primary/5 to-primary/10">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Available Balance</p>
+                <p className="text-3xl font-bold">$0.00</p>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="method">Payment Method</Label>
-              <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="stripe">
-                    <div className="flex items-center space-x-2">
-                      <CreditCard className="h-4 w-4" />
-                      <span>Credit Card (Stripe)</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="coinbase" disabled>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-gray-400">Crypto (Coming Soon)</span>
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-center justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowAddCredits(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleAddCredits}>
-                Add Credits
-              </Button>
+              <div className="p-3 bg-primary/10 rounded-xl">
+                <DollarSign className="h-6 w-6 text-primary" />
+              </div>
             </div>
           </CardContent>
         </Card>
-      )}
 
-      {/* Transactions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Transaction History</CardTitle>
-          <CardDescription>
-            All your account transactions
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {emptyWallet.transactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center space-x-4">
-                  {getTransactionIcon(transaction.type)}
-                  <div>
-                    <h3 className="text-sm font-medium">
-                      {transaction.type === "TOPUP" ? "Top-up" : "Campaign Spend"}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {formatDate(transaction.date)} • {transaction.reference}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="text-right">
-                    <p className={`text-sm font-medium ${getTransactionColor(transaction.type)}`}>
-                      {transaction.amount > 0 ? "+" : ""}{formatCurrency(transaction.amount)}
-                    </p>
-                    <Badge className={getStatusColor(transaction.status)}>
-                      {transaction.status}
-                    </Badge>
-                  </div>
-                </div>
+        <Card className="rounded-2xl shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">This Month Spent</p>
+                <p className="text-3xl font-bold">$0.00</p>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              <div className="p-3 bg-muted rounded-xl">
+                <TrendingUp className="h-6 w-6 text-muted-foreground" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Quick Add Amounts */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Add</CardTitle>
-          <CardDescription>
-            Add common amounts quickly
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[50, 100, 250, 500].map((amount) => (
-              <Button
-                key={amount}
-                variant="outline"
-                className="h-12"
-                onClick={() => {
-                  setAddAmount(amount.toString());
-                  setShowAddCredits(true);
-                }}
-              >
-                ${amount}
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        <Card className="rounded-2xl shadow-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Active Campaigns</p>
+                <p className="text-3xl font-bold">0</p>
+              </div>
+              <div className="p-3 bg-muted rounded-xl">
+                <Badge variant="secondary">0 Running</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </RequireAuth>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="rounded-2xl shadow-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Plus className="h-5 w-5" />
+              Add Funds
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="amount">Amount (USD)</Label>
+              <Input 
+                id="amount" 
+                type="number" 
+                placeholder="100.00"
+                className="border-2 focus:border-primary transition-colors"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Payment Method</Label>
+              <div className="space-y-2">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  data-testid="add-credit-card"
+                  onClick={() => {
+                    // TODO: Implement credit card setup logic
+                    console.log('Setting up credit card...');
+                  }}
+                >
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Credit/Debit Card
+                </Button>
+              </div>
+            </div>
+
+            <Button 
+              className="w-full" 
+              data-testid="top-up-wallet"
+              onClick={() => {
+                // TODO: Implement wallet top-up logic
+                console.log('Opening wallet top-up dialog...');
+              }}
+            >
+              Add Funds to Wallet
+            </Button>
+
+            <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg">
+              <h4 className="font-medium mb-2">TODO: Payment Integration</h4>
+              <ul className="space-y-1 text-xs">
+                <li>• Stripe payment processing</li>
+                <li>• Multiple payment methods (card, bank transfer)</li>
+                <li>• Auto top-up when balance is low</li>
+                <li>• Spending limits and controls</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-2xl shadow-sm">
+          <CardHeader>
+            <CardTitle>Recent Transactions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8 text-muted-foreground">
+              <CreditCard className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <h3 className="text-lg font-medium mb-2">No transactions yet</h3>
+              <p className="text-sm">
+                Your payment history will appear here
+              </p>
+            </div>
+
+            <div className="text-sm text-muted-foreground bg-muted/50 p-4 rounded-lg">
+              <h4 className="font-medium mb-2">TODO: Transaction History</h4>
+              <ul className="space-y-1 text-xs">
+                <li>• Transaction list with filters</li>
+                <li>• Export to CSV/PDF</li>
+                <li>• Invoice generation</li>
+                <li>• Refund requests</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="flex items-center gap-4 mt-8">
+        <Button asChild variant="outline">
+          <Link href="/app/advertiser">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Dashboard
+          </Link>
+        </Button>
+        <Button variant="outline" asChild data-testid="view-billing">
+          <Link href="/app/billing">
+            View Billing History
+          </Link>
+        </Button>
+      </div>
+    </div>
   );
 }

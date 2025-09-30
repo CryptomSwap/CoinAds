@@ -1,25 +1,25 @@
 # CoinAds Button Audit Report
 
-**Generated**: 2025-09-28
-**Total Controls**: 539
+**Generated**: 2025-09-29
+**Total Controls**: 537
 
 ## Summary
 
-**Total Controls Found**: 539
+**Total Controls Found**: 537
 
 ### By Status
-- ⚠️: 88
-- ✅: 130
-- 🔒: 321
+- ⚠️: 87
+- ✅: 131
+- 🔒: 319
 
 ### By Area
 - Marketing: 20
-- Other: 168
+- Other: 170
 - Admin: 93
-- Advertiser: 97
+- Advertiser: 95
 - App: 10
 - Publisher: 73
-- Auth: 47
+- Auth: 45
 - Legal: 31
 
 ## Top 10 Fixes (by Impact)
@@ -228,18 +228,18 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\admin\overview\page.tsx:315 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\admin\overview\page.tsx:316 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\admin\overview\page.tsx:329 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\admin\overview\page.tsx:330 | Authenticated | unknown | unknown | /app/admin/approvals | 🔒 |  |
-| Unknown | Button | app\app\admin\overview\page.tsx:368 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\admin\overview\page.tsx:369 | Authenticated | unknown | unknown | /app/admin/approvals | 🔒 |  |
-| Unknown | Button | app\app\admin\overview\page.tsx:374 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\admin\overview\page.tsx:375 | Authenticated | unknown | unknown | /app/admin/delivery | 🔒 |  |
-| Unknown | Button | app\app\admin\overview\page.tsx:380 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\admin\overview\page.tsx:381 | Authenticated | unknown | unknown | /app/admin/transactions | 🔒 |  |
-| Unknown | Button | app\app\admin\overview\page.tsx:386 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\admin\overview\page.tsx:387 | Authenticated | unknown | unknown | /app/admin/users | 🔒 |  |
+| Unknown | Button | app\app\admin\overview\page.tsx:300 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\admin\overview\page.tsx:301 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\admin\overview\page.tsx:314 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\admin\overview\page.tsx:315 | Authenticated | unknown | unknown | /app/admin/approvals | 🔒 |  |
+| Unknown | Button | app\app\admin\overview\page.tsx:353 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\admin\overview\page.tsx:354 | Authenticated | unknown | unknown | /app/admin/approvals | 🔒 |  |
+| Unknown | Button | app\app\admin\overview\page.tsx:359 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\admin\overview\page.tsx:360 | Authenticated | unknown | unknown | /app/admin/delivery | 🔒 |  |
+| Unknown | Button | app\app\admin\overview\page.tsx:365 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\admin\overview\page.tsx:366 | Authenticated | unknown | unknown | /app/admin/transactions | 🔒 |  |
+| Unknown | Button | app\app\admin\overview\page.tsx:371 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\admin\overview\page.tsx:372 | Authenticated | unknown | unknown | /app/admin/users | 🔒 |  |
 
 ### /app/admin/pricing
 
@@ -277,22 +277,22 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:178 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\advertiser\campaigns\page.tsx:179 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:206 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:210 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:256 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\advertiser\campaigns\page.tsx:257 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:262 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:265 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:270 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:273 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:278 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:281 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:285 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:288 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\page.tsx:310 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\advertiser\campaigns\page.tsx:311 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:181 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\advertiser\campaigns\page.tsx:182 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:209 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:213 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:259 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\advertiser\campaigns\page.tsx:260 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:265 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:268 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:273 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:276 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:281 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:284 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:288 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\page.tsx:291 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\page.tsx:313 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\advertiser\campaigns\page.tsx:314 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
 
 ### /app/advertiser/campaigns/[id]
 
@@ -316,42 +316,42 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:467 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:469 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:478 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:481 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:511 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:512 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:519 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:520 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:548 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:550 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:555 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:558 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:700 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:704 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:723 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:727 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:770 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:913 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:915 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:976 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:979 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1089 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1093 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1132 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:1134 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:493 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:495 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:504 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:507 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:537 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:538 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:545 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:546 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:574 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:576 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:581 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:584 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:726 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:730 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:749 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:753 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:796 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:939 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:941 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1002 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:1005 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1115 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1119 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\page.tsx:1159 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\page.tsx:1161 | Authenticated | unknown | unknown | - | 🔒 |  |
 
 ### /app/advertiser/campaigns/new/review
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\advertiser\campaigns\new\review\page.tsx:297 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\review\page.tsx:299 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\review\page.tsx:306 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\review\page.tsx:308 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\campaigns\new\review\page.tsx:315 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\campaigns\new\review\page.tsx:316 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\review\page.tsx:303 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\review\page.tsx:305 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\review\page.tsx:312 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\review\page.tsx:314 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\campaigns\new\review\page.tsx:321 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\campaigns\new\review\page.tsx:322 | Authenticated | unknown | unknown | - | 🔒 |  |
 
 ### /app/advertiser/creatives
 
@@ -374,25 +374,23 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\advertiser\overview\page.tsx:271 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\overview\page.tsx:274 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\overview\page.tsx:289 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\advertiser\overview\page.tsx:290 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
-| Unknown | Button | app\app\advertiser\overview\page.tsx:374 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\overview\page.tsx:436 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\overview\page.tsx:439 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\overview\page.tsx:258 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\overview\page.tsx:261 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\overview\page.tsx:276 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\advertiser\overview\page.tsx:277 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
+| Unknown | Button | app\app\advertiser\overview\page.tsx:361 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\overview\page.tsx:424 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\overview\page.tsx:427 | Authenticated | unknown | unknown | - | 🔒 |  |
 | Unknown | Button | app\app\advertiser\overview\page.tsx:448 | Authenticated | unknown | unknown | - | 🔒 |  |
 | Unknown | Link | app\app\advertiser\overview\page.tsx:449 | Authenticated | unknown | unknown | /app/advertiser/campaigns | 🔒 |  |
-| Unknown | Button | app\app\advertiser\overview\page.tsx:467 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\advertiser\overview\page.tsx:468 | Authenticated | unknown | unknown | /app/advertiser/campaigns/new | 🔒 |  |
 
 ### /app/advertiser/reports
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\advertiser\reports\page.tsx:235 | Authenticated | unknown | unknown | - | 🔒 |  |
 | Unknown | Button | app\app\advertiser\reports\page.tsx:239 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\reports\page.tsx:240 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\reports\page.tsx:243 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\reports\page.tsx:244 | Authenticated | unknown | unknown | - | 🔒 |  |
 
 ### /app/advertiser/support
 
@@ -407,11 +405,11 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\app\advertiser\wallet\page.tsx:140 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\wallet\page.tsx:228 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\wallet\page.tsx:231 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\advertiser\wallet\page.tsx:289 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\advertiser\wallet\page.tsx:293 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\wallet\page.tsx:164 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\wallet\page.tsx:236 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\wallet\page.tsx:239 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\advertiser\wallet\page.tsx:297 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\advertiser\wallet\page.tsx:301 | Authenticated | unknown | unknown | - | 🔒 |  |
 
 ### /app/notifications
 
@@ -496,17 +494,17 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Link | app\app\publisher\sites\page.tsx:152 | Authenticated | unknown | unknown | /app/publisher/sites/new | 🔒 |  |
-| Unknown | Button | app\app\publisher\sites\page.tsx:153 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\publisher\sites\page.tsx:221 | Authenticated | unknown | unknown | /app/publisher/sites/new | 🔒 |  |
-| Unknown | Button | app\app\publisher\sites\page.tsx:222 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\publisher\sites\page.tsx:277 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\publisher\sites\page.tsx:278 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Button | app\app\publisher\sites\page.tsx:286 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Link | app\app\publisher\sites\page.tsx:292 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\publisher\sites\page.tsx:298 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\publisher\sites\page.tsx:304 | Authenticated | unknown | unknown | - | 🔒 |  |
-| Unknown | Unknown | app\app\publisher\sites\page.tsx:311 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\publisher\sites\page.tsx:157 | Authenticated | unknown | unknown | /app/publisher/sites/new | 🔒 |  |
+| Unknown | Button | app\app\publisher\sites\page.tsx:158 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\publisher\sites\page.tsx:226 | Authenticated | unknown | unknown | /app/publisher/sites/new | 🔒 |  |
+| Unknown | Button | app\app\publisher\sites\page.tsx:227 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\publisher\sites\page.tsx:282 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\publisher\sites\page.tsx:283 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Button | app\app\publisher\sites\page.tsx:291 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Link | app\app\publisher\sites\page.tsx:297 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\publisher\sites\page.tsx:303 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\publisher\sites\page.tsx:309 | Authenticated | unknown | unknown | - | 🔒 |  |
+| Unknown | Unknown | app\app\publisher\sites\page.tsx:316 | Authenticated | unknown | unknown | - | 🔒 |  |
 
 ### /app/publisher/sites/[id]/verify
 
@@ -594,28 +592,28 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\auth\signin\page.tsx:147 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:151 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:193 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:196 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:242 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:247 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:258 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Button | app\auth\signin\page.tsx:282 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:285 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:291 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:294 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Link | app\auth\signin\page.tsx:302 | Authenticated | navigate | navigate | / | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:330 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:334 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:528 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:533 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:556 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:561 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\signin\page.tsx:573 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Button | app\auth\signin\page.tsx:661 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Button | app\auth\signin\page.tsx:681 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\signin\page.tsx:684 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:148 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:152 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:194 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:197 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:243 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:248 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:259 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Button | app\auth\signin\page.tsx:283 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:286 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:292 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:295 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Link | app\auth\signin\page.tsx:303 | Authenticated | navigate | navigate | / | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:331 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:335 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:529 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:534 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:557 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:562 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\signin\page.tsx:574 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Button | app\auth\signin\page.tsx:662 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Button | app\auth\signin\page.tsx:682 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | app\auth\signin\page.tsx:685 | Authenticated | navigate | navigate | - | ✅ |  |
 
 ### /auth/signup
 
@@ -637,11 +635,16 @@
 
 | Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
 |------------|------|-----------|-----------|----------|--------|--------|--------|-------|
-| Unknown | Button | app\auth\verify-email\page.tsx:81 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Unknown | app\auth\verify-email\page.tsx:82 | Authenticated | navigate | navigate | - | ✅ |  |
-| Unknown | Button | app\auth\verify-email\page.tsx:99 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
-| Unknown | Link | app\auth\verify-email\page.tsx:105 | Authenticated | navigate | navigate | /auth/signin | ✅ |  |
-| Unknown | Link | app\auth\verify-email\page.tsx:115 | Authenticated | navigate | navigate | /contact | ✅ |  |
+| Unknown | Button | app\auth\verify-email\page.tsx:83 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\verify-email\page.tsx:90 | Authenticated | navigate | navigate | - | ✅ |  |
+| Unknown | Button | app\auth\verify-email\page.tsx:93 | Authenticated | navigate | navigate | - | ✅ |  |
+
+### /components/ErrorBoundary.tsx
+
+| Label/Text | Type | File:Line | Auth/Role | Expected | Actual | Target | Status | Notes |
+|------------|------|-----------|-----------|----------|--------|--------|--------|-------|
+| Unknown | button | components\ErrorBoundary.tsx:56 | Authenticated | unknown | no handler | - | ⚠️ | No onClick or href |
+| Unknown | Unknown | components\ErrorBoundary.tsx:57 | Authenticated | navigate | navigate | - | ✅ |  |
 
 ### /components/Footer.tsx
 
@@ -1236,7 +1239,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:147
+// app\auth\signin\page.tsx:148
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1247,7 +1250,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:193
+// app\auth\signin\page.tsx:194
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1258,7 +1261,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:242
+// app\auth\signin\page.tsx:243
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1269,7 +1272,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:258
+// app\auth\signin\page.tsx:259
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1280,7 +1283,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:282
+// app\auth\signin\page.tsx:283
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1291,7 +1294,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:291
+// app\auth\signin\page.tsx:292
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1302,7 +1305,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:330
+// app\auth\signin\page.tsx:331
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1313,7 +1316,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:528
+// app\auth\signin\page.tsx:529
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1324,7 +1327,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:556
+// app\auth\signin\page.tsx:557
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1335,7 +1338,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:573
+// app\auth\signin\page.tsx:574
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1346,7 +1349,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:661
+// app\auth\signin\page.tsx:662
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1357,7 +1360,7 @@
 ### Unknown (/auth/signin)
 
 ```typescript
-// app\auth\signin\page.tsx:681
+// app\auth\signin\page.tsx:682
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1391,28 +1394,6 @@
 
 ```typescript
 // app\auth\verified\page.tsx:43
-// Unknown (Button)
-// Status: ⚠️
-// Notes: No onClick or href
-```
-
-**Recommendation**: Implement the missing functionality or remove the placeholder.
-
-### Unknown (/auth/verify-email)
-
-```typescript
-// app\auth\verify-email\page.tsx:81
-// Unknown (Button)
-// Status: ⚠️
-// Notes: No onClick or href
-```
-
-**Recommendation**: Implement the missing functionality or remove the placeholder.
-
-### Unknown (/auth/verify-email)
-
-```typescript
-// app\auth\verify-email\page.tsx:99
 // Unknown (Button)
 // Status: ⚠️
 // Notes: No onClick or href
@@ -1794,6 +1775,17 @@
 
 **Recommendation**: Implement the missing functionality or remove the placeholder.
 
+### Unknown (/components/ErrorBoundary.tsx)
+
+```typescript
+// components\ErrorBoundary.tsx:56
+// Unknown (button)
+// Status: ⚠️
+// Notes: No onClick or href
+```
+
+**Recommendation**: Implement the missing functionality or remove the placeholder.
+
 ### Unknown (/components/FormatsTeaser.tsx)
 
 ```typescript
@@ -1955,8 +1947,6 @@ graph TD
 /auth/link-expired --> /contact
 /auth/signin --> /
 /auth/signup --> /auth/signin
-/auth/verify-email --> /auth/signin
-/auth/verify-email --> /contact
 /contact --> /auth/signin
 /contact --> /advertisers
 /contact --> /publishers
@@ -2069,6 +2059,7 @@ graph TD
 - components\app\top-up-modal.tsx
 - components\app\wallet-drawer.tsx
 - components\cookie\CookiePreferences.tsx
+- components\ErrorBoundary.tsx
 - components\Footer.tsx
 - components\FormatsTeaser.tsx
 - components\Hero.tsx

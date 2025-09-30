@@ -885,28 +885,43 @@
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 300,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 301,
+    "text": "Unknown",
+    "type": "Link",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
+    "line": 314,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\admin\\overview\\page.tsx",
     "line": 315,
     "text": "Unknown",
-    "type": "Button",
-    "status": "AUTH-GATED"
-  },
-  {
-    "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 316,
-    "text": "Unknown",
     "type": "Link",
+    "href": "/app/admin/approvals",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 329,
+    "line": 353,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 330,
+    "line": 354,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/admin/approvals",
@@ -914,29 +929,14 @@
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 368,
+    "line": 359,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 369,
-    "text": "Unknown",
-    "type": "Link",
-    "href": "/app/admin/approvals",
-    "status": "AUTH-GATED"
-  },
-  {
-    "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 374,
-    "text": "Unknown",
-    "type": "Button",
-    "status": "AUTH-GATED"
-  },
-  {
-    "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 375,
+    "line": 360,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/admin/delivery",
@@ -944,14 +944,14 @@
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 380,
+    "line": 365,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 381,
+    "line": 366,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/admin/transactions",
@@ -959,14 +959,14 @@
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 386,
+    "line": 371,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\admin\\overview\\page.tsx",
-    "line": 387,
+    "line": 372,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/admin/users",
@@ -1065,14 +1065,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 467,
+    "line": 493,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 469,
+    "line": 495,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "prevStep",
@@ -1080,28 +1080,28 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 478,
+    "line": 504,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 481,
+    "line": 507,
     "text": "Unknown",
     "type": "Unknown",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 511,
+    "line": 537,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 512,
+    "line": 538,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "nextStep",
@@ -1109,14 +1109,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 519,
+    "line": 545,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 520,
+    "line": 546,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "handleSubmit",
@@ -1124,14 +1124,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 548,
+    "line": 574,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 550,
+    "line": 576,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => router.push('/app/advertiser/wallet')",
@@ -1139,14 +1139,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 555,
+    "line": 581,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 558,
+    "line": 584,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setShowLowBalanceBanner(false)",
@@ -1154,49 +1154,49 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 700,
+    "line": 726,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 704,
+    "line": 730,
     "text": "Unknown",
     "type": "Unknown",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 723,
+    "line": 749,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 727,
+    "line": 753,
     "text": "Unknown",
     "type": "Unknown",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 770,
+    "line": 796,
     "text": "Unknown",
     "type": "Unknown",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 913,
+    "line": 939,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 915,
+    "line": 941,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "openFileDialog",
@@ -1204,14 +1204,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 976,
+    "line": 1002,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 979,
+    "line": 1005,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => removeCreative(creative.id)",
@@ -1219,7 +1219,7 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 1089,
+    "line": 1115,
     "text": "Unknown",
     "type": "Button",
     "onClick": "handleSubmit",
@@ -1227,7 +1227,7 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 1093,
+    "line": 1119,
     "text": "Unknown",
     "type": "Button",
     "onClick": "handleSubmit",
@@ -1235,14 +1235,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 1132,
+    "line": 1159,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\page.tsx",
-    "line": 1134,
+    "line": 1161,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => router.back()",
@@ -1250,14 +1250,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
-    "line": 297,
+    "line": 303,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
-    "line": 299,
+    "line": 305,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => router.back()",
@@ -1265,14 +1265,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
-    "line": 306,
+    "line": 312,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
-    "line": 308,
+    "line": 314,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "handleSaveDraft",
@@ -1280,14 +1280,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
-    "line": 315,
+    "line": 321,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\new\\review\\page.tsx",
-    "line": 316,
+    "line": 322,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "handleSubmit",
@@ -1295,14 +1295,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 178,
+    "line": 181,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 179,
+    "line": 182,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/advertiser/campaigns/new",
@@ -1310,14 +1310,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 206,
+    "line": 209,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 210,
+    "line": 213,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setStatusFilter(filter.value)",
@@ -1325,28 +1325,28 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 256,
+    "line": 259,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 257,
+    "line": 260,
     "text": "Unknown",
     "type": "Link",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 262,
+    "line": 265,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 265,
+    "line": 268,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => handleStatusChange(campaign.id, \"PAUSED\")",
@@ -1354,14 +1354,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 270,
+    "line": 273,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 273,
+    "line": 276,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => handleStatusChange(campaign.id, \"ACTIVE\")",
@@ -1369,14 +1369,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 278,
+    "line": 281,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 281,
+    "line": 284,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => handleCopyCampaign(campaign.id)",
@@ -1384,14 +1384,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 285,
+    "line": 288,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 288,
+    "line": 291,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => openDeleteDialog(campaign)",
@@ -1399,14 +1399,14 @@
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 310,
+    "line": 313,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\campaigns\\page.tsx",
-    "line": 311,
+    "line": 314,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/advertiser/campaigns/new",
@@ -1600,14 +1600,14 @@
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 271,
+    "line": 258,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 274,
+    "line": 261,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "handleExportCSV",
@@ -1615,14 +1615,14 @@
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 289,
+    "line": 276,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 290,
+    "line": 277,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/advertiser/campaigns/new",
@@ -1630,21 +1630,21 @@
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 374,
+    "line": 361,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 436,
+    "line": 424,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 439,
+    "line": 427,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
@@ -1665,28 +1665,6 @@
     "status": "AUTH-GATED"
   },
   {
-    "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 467,
-    "text": "Unknown",
-    "type": "Button",
-    "status": "AUTH-GATED"
-  },
-  {
-    "file": "app\\app\\advertiser\\overview\\page.tsx",
-    "line": 468,
-    "text": "Unknown",
-    "type": "Link",
-    "href": "/app/advertiser/campaigns/new",
-    "status": "AUTH-GATED"
-  },
-  {
-    "file": "app\\app\\advertiser\\reports\\page.tsx",
-    "line": 235,
-    "text": "Unknown",
-    "type": "Button",
-    "status": "AUTH-GATED"
-  },
-  {
     "file": "app\\app\\advertiser\\reports\\page.tsx",
     "line": 239,
     "text": "Unknown",
@@ -1695,7 +1673,14 @@
   },
   {
     "file": "app\\app\\advertiser\\reports\\page.tsx",
-    "line": 240,
+    "line": 243,
+    "text": "Unknown",
+    "type": "Button",
+    "status": "AUTH-GATED"
+  },
+  {
+    "file": "app\\app\\advertiser\\reports\\page.tsx",
+    "line": 244,
     "text": "Unknown",
     "type": "Unknown",
     "status": "AUTH-GATED"
@@ -1730,7 +1715,7 @@
   },
   {
     "file": "app\\app\\advertiser\\wallet\\page.tsx",
-    "line": 140,
+    "line": 164,
     "text": "Unknown",
     "type": "Button",
     "onClick": "() => setShowAddCredits(true)",
@@ -1738,7 +1723,7 @@
   },
   {
     "file": "app\\app\\advertiser\\wallet\\page.tsx",
-    "line": 228,
+    "line": 236,
     "text": "Unknown",
     "type": "Button",
     "onClick": "() => setShowAddCredits(false)",
@@ -1746,7 +1731,7 @@
   },
   {
     "file": "app\\app\\advertiser\\wallet\\page.tsx",
-    "line": 231,
+    "line": 239,
     "text": "Unknown",
     "type": "Button",
     "onClick": "handleAddCredits",
@@ -1754,14 +1739,14 @@
   },
   {
     "file": "app\\app\\advertiser\\wallet\\page.tsx",
-    "line": 289,
+    "line": 297,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\advertiser\\wallet\\page.tsx",
-    "line": 293,
+    "line": 301,
     "text": "Unknown",
     "type": "Unknown",
     "status": "AUTH-GATED"
@@ -2096,7 +2081,7 @@
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 152,
+    "line": 157,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/publisher/sites/new",
@@ -2104,14 +2089,14 @@
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 153,
+    "line": 158,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 221,
+    "line": 226,
     "text": "Unknown",
     "type": "Link",
     "href": "/app/publisher/sites/new",
@@ -2119,42 +2104,42 @@
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 222,
+    "line": 227,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 277,
+    "line": 282,
     "text": "Unknown",
     "type": "Link",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 278,
+    "line": 283,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 286,
+    "line": 291,
     "text": "Unknown",
     "type": "Button",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 292,
+    "line": 297,
     "text": "Unknown",
     "type": "Link",
     "status": "AUTH-GATED"
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 298,
+    "line": 303,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => copyVerificationToken(site.verificationToken!)",
@@ -2162,7 +2147,7 @@
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 304,
+    "line": 309,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => handleVerifySite(site.id)",
@@ -2170,7 +2155,7 @@
   },
   {
     "file": "app\\app\\publisher\\sites\\page.tsx",
-    "line": 311,
+    "line": 316,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => handleDeleteSite(site.id)",
@@ -2488,14 +2473,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 147,
+    "line": 148,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 151,
+    "line": 152,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => signIn(\"google\", { callbackUrl: \"/app\" ",
@@ -2503,14 +2488,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 193,
+    "line": 194,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 196,
+    "line": 197,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "handleResendVerification",
@@ -2518,14 +2503,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 242,
+    "line": 243,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 247,
+    "line": 248,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setShowPassword(!showPassword)",
@@ -2533,21 +2518,21 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 258,
+    "line": 259,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 282,
+    "line": 283,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 285,
+    "line": 286,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setIsSignupOpen(true)",
@@ -2555,14 +2540,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 291,
+    "line": 292,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 294,
+    "line": 295,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setIsForgotPasswordOpen(true)",
@@ -2570,7 +2555,7 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 302,
+    "line": 303,
     "text": "Unknown",
     "type": "Link",
     "href": "/",
@@ -2578,14 +2563,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 330,
+    "line": 331,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 334,
+    "line": 335,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => signIn(\"google\", { callbackUrl: \"/app\" ",
@@ -2593,14 +2578,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 528,
+    "line": 529,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 533,
+    "line": 534,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setShowPassword(!showPassword)",
@@ -2608,14 +2593,14 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 556,
+    "line": 557,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 561,
+    "line": 562,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => setShowConfirmPassword(!showConfirmPassword)",
@@ -2623,28 +2608,28 @@
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 573,
+    "line": 574,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 661,
+    "line": 662,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 681,
+    "line": 682,
     "text": "Unknown",
     "type": "Button",
     "status": "NO-OP"
   },
   {
     "file": "app\\auth\\signin\\page.tsx",
-    "line": 684,
+    "line": 685,
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "() => onSuccess()",
@@ -2697,40 +2682,26 @@
   },
   {
     "file": "app\\auth\\verify-email\\page.tsx",
-    "line": 81,
+    "line": 83,
     "text": "Unknown",
     "type": "Button",
-    "status": "NO-OP"
-  },
-  {
-    "file": "app\\auth\\verify-email\\page.tsx",
-    "line": 82,
-    "text": "Unknown",
-    "type": "Unknown",
-    "onClick": "handleResend",
+    "onClick": "handleSignIn",
     "status": "WORKING"
   },
   {
     "file": "app\\auth\\verify-email\\page.tsx",
-    "line": 99,
+    "line": 90,
     "text": "Unknown",
     "type": "Button",
-    "status": "NO-OP"
-  },
-  {
-    "file": "app\\auth\\verify-email\\page.tsx",
-    "line": 105,
-    "text": "Unknown",
-    "type": "Link",
-    "href": "/auth/signin",
+    "onClick": "() => router.push('/auth/signin')",
     "status": "WORKING"
   },
   {
     "file": "app\\auth\\verify-email\\page.tsx",
-    "line": 115,
+    "line": 93,
     "text": "Unknown",
-    "type": "Link",
-    "href": "/contact",
+    "type": "Button",
+    "onClick": "() => router.push('/auth/signup')",
     "status": "WORKING"
   },
   {
@@ -3610,6 +3581,21 @@
     "text": "Unknown",
     "type": "Unknown",
     "onClick": "handleAcceptAll",
+    "status": "WORKING"
+  },
+  {
+    "file": "components\\ErrorBoundary.tsx",
+    "line": 56,
+    "text": "Unknown",
+    "type": "button",
+    "status": "NO-OP"
+  },
+  {
+    "file": "components\\ErrorBoundary.tsx",
+    "line": 57,
+    "text": "Unknown",
+    "type": "Unknown",
+    "onClick": "() => window.location.reload()",
     "status": "WORKING"
   },
   {
