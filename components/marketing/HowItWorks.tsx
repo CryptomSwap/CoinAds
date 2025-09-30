@@ -96,7 +96,7 @@ function StepCard({ index, step }: { index: number; step: Step }) {
   const Icon = step.icon;
   return (
     <motion.article
-      className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-primary"
+      className="group relative rounded-2xl border border-border/50 bg-background/30 backdrop-blur-sm p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-background/50 focus-within:ring-2 focus-within:ring-primary"
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
