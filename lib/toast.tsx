@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { toast } from "sonner";
+import { toast as sonnerToast } from "sonner";
 
 interface ToastContextType {
   success: (message: string) => void;
@@ -13,10 +13,10 @@ interface ToastContextType {
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const success = (message: string) => toast.success(message);
-  const error = (message: string) => toast.error(message);
-  const info = (message: string) => toast.info(message);
-  const warning = (message: string) => toast.warning(message);
+  const success = (message: string) => sonnerToast.success(message);
+  const error = (message: string) => sonnerToast.error(message);
+  const info = (message: string) => sonnerToast.info(message);
+  const warning = (message: string) => sonnerToast.warning(message);
 
   return (
     <ToastContext.Provider value={{ success, error, info, warning }}>
@@ -32,3 +32,11 @@ export function useToast() {
   }
   return context;
 }
+
+// Export toast object for direct usage
+export const toast = {
+  success: (message: string) => sonnerToast.success(message),
+  error: (message: string) => sonnerToast.error(message),
+  info: (message: string) => sonnerToast.info(message),
+  warning: (message: string) => sonnerToast.warning(message),
+};

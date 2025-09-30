@@ -184,6 +184,11 @@ const actionRegistry: Record<string, ActionHandler> = {
     window.history.back();
   },
 
+  // Test action for ButtonBinder testing
+  "test-error-action": async () => {
+    throw new Error("Test error for ButtonBinder toast functionality");
+  },
+
   // Advertiser Actions
   "export-campaigns": async () => {
     // TODO: Implement export campaigns action
