@@ -64,12 +64,16 @@ const prodDirectives = {
     ...baseDirectives['script-src'].filter(src => src !== "'unsafe-eval'"),
     "https://vercel-insights.com",
     "https://*.vercel-insights.com",
+    "https://vercel.live", // Vercel live feedback
+    "https://*.vercel.live", // Vercel live feedback subdomains
   ],
   'connect-src': [
     ...baseDirectives['connect-src'],
     "https://*.neon.tech", // Database connections
     "https://api.stripe.com", // Stripe API
     "https://js.stripe.com", // Stripe JS
+    "https://vercel.live", // Vercel live feedback
+    "https://*.vercel.live", // Vercel live feedback subdomains
   ],
 };
 
