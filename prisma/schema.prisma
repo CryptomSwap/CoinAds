@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -204,13 +204,13 @@ enum OrderStatus {
 }
 
 model Order {
-  id                Int         @id @default(autoincrement())
+  id                String      @id @default(cuid())
   advertiserId      Int
   advertiser        User        @relation(fields: [advertiserId], references: [id], onDelete: Cascade)
   campaignId        Int?        // Optional link to an existing campaign
   campaign          Campaign?   @relation(fields: [campaignId], references: [id])
   title             String
-  notes             String?     // SQLite doesn't have Text type
+  notes             String?     @db.Text
   totalAmountMicros BigInt      @default(0) // store as micros to avoid float
   currency          String      @default("USD")
   status            OrderStatus @default(PENDING)
