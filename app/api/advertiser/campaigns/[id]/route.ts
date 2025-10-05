@@ -52,7 +52,17 @@ export async function GET(
 
     return NextResponse.json({
       campaign: {
-        ...campaign,
+        id: campaign.id.toString(),
+        name: campaign.name,
+        description: null, // Not in current schema
+        status: campaign.status,
+        budgetCents: Math.round(campaign.budget * 100), // Convert to cents
+        spentCents: Math.round(totalSpend * 100), // Convert to cents
+        startAt: campaign.startDate?.toISOString(),
+        endAt: campaign.endDate?.toISOString(),
+        objective: "Brand Awareness", // Default value
+        createdAt: campaign.createdAt.toISOString(),
+        lineItems: [], // Empty for now - not implemented yet
         stats: {
           impressions: totalImpressions,
           clicks: totalClicks,
@@ -71,8 +81,8 @@ export async function GET(
   }
 }
 
-// PUT /api/advertiser/campaigns/[id] - Update campaign
-export async function PUT(
+// PATCH /api/advertiser/campaigns/[id] - Update campaign
+export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -121,7 +131,34 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json({ campaign });
+    // Calculate campaign statistics from reports
+    const totalImpressions = campaign.reports.reduce((sum, report) => sum + report.impressions, 0);
+    const totalClicks = campaign.reports.reduce((sum, report) => sum + report.clicks, 0);
+    const totalSpend = campaign.reports.reduce((sum, report) => sum + report.spend, 0);
+    const ctr = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
+
+    return NextResponse.json({
+      campaign: {
+        id: campaign.id.toString(),
+        name: campaign.name,
+        description: null, // Not in current schema
+        status: campaign.status,
+        budgetCents: Math.round(campaign.budget * 100), // Convert to cents
+        spentCents: Math.round(totalSpend * 100), // Convert to cents
+        startAt: campaign.startDate?.toISOString(),
+        endAt: campaign.endDate?.toISOString(),
+        objective: "Brand Awareness", // Default value
+        createdAt: campaign.createdAt.toISOString(),
+        lineItems: [], // Empty for now - not implemented yet
+        stats: {
+          impressions: totalImpressions,
+          clicks: totalClicks,
+          conversions: 0, // No conversions in current schema
+          ctr: Number(ctr.toFixed(2)),
+          spentCents: Math.round(totalSpend * 100), // Convert to cents
+        },
+      },
+    });
   } catch (error) {
     console.error("Update campaign error:", error);
     
