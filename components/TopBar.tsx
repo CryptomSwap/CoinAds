@@ -44,16 +44,16 @@ export default function TopBar() {
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center space-x-3">
             <ThemeToggle />
-            {session ? (
-              <Link href={dashboardUrl(session.user.role.toLowerCase() as "advertiser" | "publisher" | "admin")}>
-                <Button 
-                  className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  Dashboard
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            ) : (
+              {session && session.user?.role ? (
+                <Link href={dashboardUrl(session.user.role.toLowerCase() as "advertiser" | "publisher" | "admin")}>
+                  <Button 
+                    className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              ) : (
               <>
                 <Link href={appUrl("/auth/signin")}>
                   <Button 
@@ -109,17 +109,17 @@ export default function TopBar() {
                   >
                     Ad Formats
                   </Link>
-                  <div className="pt-4 border-t border-border space-y-3">
-                    {session ? (
-                      <Link href={dashboardUrl(session.user.role.toLowerCase() as "advertiser" | "publisher" | "admin")} className="block">
-                        <Button 
-                          className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        >
-                          Dashboard
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    ) : (
+                      <div className="pt-4 border-t border-border space-y-3">
+                        {session && session.user?.role ? (
+                          <Link href={dashboardUrl(session.user.role.toLowerCase() as "advertiser" | "publisher" | "admin")} className="block">
+                            <Button 
+                              className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                              Dashboard
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </Link>
+                        ) : (
                       <>
                         <Link href={appUrl("/auth/signin")} className="block">
                           <Button 
