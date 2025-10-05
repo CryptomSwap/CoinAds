@@ -18,7 +18,7 @@ import Link from "next/link";
 import RequireAuth from "@/components/RequireAuth";
 import { useToast } from "@/lib/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { getCampaigns, updateCampaignStatus, deleteCampaign } from "@/lib/server-actions/campaigns";
+import { updateCampaignStatus, deleteCampaign } from "@/lib/server-actions/campaigns";
 
 const statusFilters = [
   { label: "All", value: "all" },
@@ -54,9 +54,24 @@ export default function CampaignsPage() {
   const fetchCampaigns = async () => {
     try {
       setLoading(true);
-      const data = await getCampaigns();
-      setCampaigns(data.map(campaign => ({
-        ...campaign,
+      const response = await fetch('/api/advertiser/campaigns');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setCampaigns(data.campaigns.map((campaign: any) => ({
+        id: campaign.id.toString(),
+        name: campaign.name,
+        status: campaign.status,
+        budget: campaign.budget,
+        startDate: campaign.startDate,
+        endDate: campaign.endDate,
+        createdAt: campaign.createdAt,
+        impressions: 0, // TODO: Calculate from campaign data
+        clicks: 0, // TODO: Calculate from campaign data
+        spend: 0, // TODO: Calculate from campaign data
         updatedAt: campaign.createdAt, // Use createdAt as updatedAt fallback
       })));
     } catch (error) {
