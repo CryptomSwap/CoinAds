@@ -26,8 +26,13 @@ export function resolveBaseUrls(hostFromRequest?: string) {
   const host = hostFromRequest
     || process.env.VERCEL_URL
     || "localhost:3000";
-  const origin =
-    host.startsWith("http") ? host : `https://${host}`;
+  
+  // Use HTTP for localhost in development, HTTPS otherwise
+  const protocol = host.includes("localhost") || host.includes("127.0.0.1") 
+    ? "http" 
+    : "https";
+  const origin = host.startsWith("http") ? host : `${protocol}://${host}`;
+  
   return {
     PUBLIC_BASE_URL: origin,
     APP_BASE_URL:    origin,
