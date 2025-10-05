@@ -7,11 +7,33 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Shield, Mail, Phone, Calendar, Search, Filter } from "lucide-react";
+import { User, Shield, Mail, Phone, Calendar, Search, Filter, Loader2 } from "lucide-react";
 import RequireAuth from "@/components/RequireAuth";
+
+interface UserData {
+  id: number;
+  email: string;
+  name: string;
+  role: string;
+  emailVerified: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface UserStats {
+  total: number;
+  advertisers: number;
+  publishers: number;
+  admins: number;
+}
 
 export default function UsersPage() {
   const { data: session, status } = useSession();
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [stats, setStats] = useState<UserStats>({ total: 0, advertisers: 0, publishers: 0, admins: 0 });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
     if (status === "loading") return;
@@ -25,7 +47,53 @@ export default function UsersPage() {
       redirect("/auth/signin");
       return;
     }
-  }, [session, status]);
+
+    fetchUsers();
+  }, [session, status, activeTab]);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const role = activeTab === "all" ? "" : activeTab;
+      const response = await fetch(`/api/admin/users?role=${role}`);
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch users");
+      }
+      
+      const data = await response.json();
+      setUsers(data.users);
+      setStats(data.stats);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setError(error instanceof Error ? error.message : "Failed to fetch users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case "ADMIN":
+        return "bg-red-100 text-red-800";
+      case "ADVERTISER":
+        return "bg-blue-100 text-blue-800";
+      case "PUBLISHER":
+        return "bg-green-100 text-green-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   if (status === "loading") {
     return (
@@ -38,6 +106,7 @@ export default function UsersPage() {
   if (!session || session.user.role !== "ADMIN") {
     return null;
   }
+
   const handleFilter = () => {
     alert("User filter functionality would be implemented here");
   };
@@ -76,9 +145,9 @@ export default function UsersPage() {
             <User className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,247</div>
+            <div className="text-2xl font-bold">{stats.total}</div>
             <p className="text-xs text-muted-foreground">
-              +23 from last week
+              Registered users
             </p>
           </CardContent>
         </Card>
@@ -88,9 +157,9 @@ export default function UsersPage() {
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">456</div>
+            <div className="text-2xl font-bold">{stats.advertisers}</div>
             <p className="text-xs text-muted-foreground">
-              +12 from last week
+              Advertiser accounts
             </p>
           </CardContent>
         </Card>
@@ -100,9 +169,9 @@ export default function UsersPage() {
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">678</div>
+            <div className="text-2xl font-bold">{stats.publishers}</div>
             <p className="text-xs text-muted-foreground">
-              +8 from last week
+              Publisher accounts
             </p>
           </CardContent>
         </Card>
@@ -112,15 +181,15 @@ export default function UsersPage() {
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">13</div>
+            <div className="text-2xl font-bold">{stats.admins}</div>
             <p className="text-xs text-muted-foreground">
-              No change
+              Admin accounts
             </p>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="all" className="space-y-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
           <TabsTrigger value="all">All Users</TabsTrigger>
           <TabsTrigger value="advertisers">Advertisers</TabsTrigger>
@@ -128,115 +197,64 @@ export default function UsersPage() {
           <TabsTrigger value="admins">Admins</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="all" className="space-y-4">
+        <TabsContent value={activeTab} className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>All Users</CardTitle>
+              <CardTitle>
+                {activeTab === "all" ? "All Users" : 
+                 activeTab === "advertisers" ? "Advertisers" :
+                 activeTab === "publishers" ? "Publishers" : "Administrators"}
+              </CardTitle>
               <CardDescription>
-                Complete user directory
+                {activeTab === "all" ? "Complete user directory" :
+                 activeTab === "advertisers" ? "Users with advertiser accounts" :
+                 activeTab === "publishers" ? "Users with publisher accounts" : "Platform administrators"}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <User className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium">John Smith</h3>
-                      <p className="text-sm text-muted-foreground">john.smith@email.com</p>
-                      <p className="text-sm text-muted-foreground">Joined: Jan 15, 2024</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <Badge variant="secondary">Advertiser</Badge>
-                    <div className="text-sm text-muted-foreground mt-1">Active</div>
-                  </div>
+              {loading ? (
+                <div className="flex items-center justify-center h-32">
+                  <Loader2 className="h-6 w-6 animate-spin" />
                 </div>
-                
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <User className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium">Sarah Johnson</h3>
-                      <p className="text-sm text-muted-foreground">sarah.johnson@email.com</p>
-                      <p className="text-sm text-muted-foreground">Joined: Feb 1, 2024</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <Badge variant="secondary">Advertiser</Badge>
-                    <div className="text-sm text-muted-foreground mt-1">Active</div>
-                  </div>
+              ) : error ? (
+                <div className="text-center text-red-600 py-8">
+                  <p>Error: {error}</p>
+                  <Button onClick={fetchUsers} className="mt-2">
+                    Retry
+                  </Button>
                 </div>
-                
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                      <User className="h-5 w-5 text-teal-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium">Alex Rodriguez</h3>
-                      <p className="text-sm text-muted-foreground">alex.rodriguez@email.com</p>
-                      <p className="text-sm text-muted-foreground">Joined: Jan 20, 2024</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <Badge variant="secondary">Publisher</Badge>
-                    <div className="text-sm text-muted-foreground mt-1">Active</div>
-                  </div>
+              ) : users.length === 0 ? (
+                <div className="text-center text-gray-500 py-8">
+                  <p>No users found</p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="advertisers" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Advertisers</CardTitle>
-              <CardDescription>
-                Users with advertiser accounts
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] bg-gray-100 rounded-md flex items-center justify-center">
-                <span className="text-gray-500">Chart placeholder - Advertiser users</span>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="publishers" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Publishers</CardTitle>
-              <CardDescription>
-                Users with publisher accounts
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] bg-gray-100 rounded-md flex items-center justify-center">
-                <span className="text-gray-500">Chart placeholder - Publisher users</span>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="admins" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Administrators</CardTitle>
-              <CardDescription>
-                Platform administrators
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] bg-gray-100 rounded-md flex items-center justify-center">
-                <span className="text-gray-500">Chart placeholder - Admin users</span>
-              </div>
+              ) : (
+                <div className="space-y-4">
+                  {users.map((user) => (
+                    <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                          <User className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium">{user.name || "No name"}</h3>
+                          <p className="text-sm text-muted-foreground">{user.email}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Joined: {formatDate(user.createdAt)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <Badge className={getRoleColor(user.role)}>
+                          {user.role}
+                        </Badge>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          {user.emailVerified ? "Verified" : "Unverified"}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
