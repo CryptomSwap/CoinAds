@@ -32,8 +32,13 @@ export async function GET(request: NextRequest) {
 
     // Always query database - no mock fallbacks
 
+    const advertiserId = parseInt(session.user.id);
+    if (isNaN(advertiserId)) {
+      return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
+    }
+
     const where: any = {
-      advertiserId: parseInt(session.user.id),
+      advertiserId: advertiserId,
     };
 
     if (status) {
@@ -89,11 +94,16 @@ export async function POST(request: NextRequest) {
     // For MVP, skip balance checking
     // In production, you'd check the user's transaction balance
 
+    const advertiserId = parseInt(session.user.id);
+    if (isNaN(advertiserId)) {
+      return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
+    }
+
     const campaign = await prisma.campaign.create({
       data: {
         name: data.name,
         budget: data.budgetCents / 100, // Convert cents to dollars
-        advertiserId: parseInt(session.user.id),
+        advertiserId: advertiserId,
         startDate: data.startAt ? new Date(data.startAt) : null,
         endDate: data.endAt ? new Date(data.endAt) : null,
         status: "PENDING",

@@ -24,9 +24,14 @@ export async function getCampaigns() {
     throw new Error("Only advertisers can view campaigns");
   }
 
+  const advertiserId = parseInt(session.user.id);
+  if (isNaN(advertiserId)) {
+    throw new Error("Invalid user ID");
+  }
+
   const campaigns = await prisma.campaign.findMany({
     where: {
-      advertiserId: parseInt(session.user.id),
+      advertiserId: advertiserId,
     },
     include: {
       _count: {
@@ -68,11 +73,16 @@ export async function createCampaign(data: z.infer<typeof createCampaignSchema>)
 
   const validated = createCampaignSchema.parse(data);
 
+  const advertiserId = parseInt(session.user.id);
+  if (isNaN(advertiserId)) {
+    throw new Error("Invalid user ID");
+  }
+
   const campaign = await prisma.campaign.create({
     data: {
       name: validated.name,
       budget: validated.budget,
-      advertiserId: parseInt(session.user.id),
+      advertiserId: advertiserId,
       startDate: validated.startDate ? new Date(validated.startDate) : null,
       endDate: validated.endDate ? new Date(validated.endDate) : null,
       status: "PENDING",
@@ -100,11 +110,21 @@ export async function updateCampaignStatus(campaignId: string, status: "ACTIVE" 
     throw new Error("Only advertisers can update campaigns");
   }
 
+  const advertiserId = parseInt(session.user.id);
+  if (isNaN(advertiserId)) {
+    throw new Error("Invalid user ID");
+  }
+
+  const campaignIdInt = parseInt(campaignId);
+  if (isNaN(campaignIdInt)) {
+    throw new Error("Invalid campaign ID");
+  }
+
   // Verify ownership
   const campaign = await prisma.campaign.findFirst({
     where: {
-      id: parseInt(campaignId),
-      advertiserId: parseInt(session.user.id),
+      id: campaignIdInt,
+      advertiserId: advertiserId,
     },
   });
 
@@ -113,7 +133,7 @@ export async function updateCampaignStatus(campaignId: string, status: "ACTIVE" 
   }
 
   await prisma.campaign.update({
-    where: { id: parseInt(campaignId) },
+    where: { id: campaignIdInt },
     data: { status },
   });
 
@@ -133,11 +153,21 @@ export async function deleteCampaign(campaignId: string) {
     throw new Error("Only advertisers can delete campaigns");
   }
 
+  const advertiserId = parseInt(session.user.id);
+  if (isNaN(advertiserId)) {
+    throw new Error("Invalid user ID");
+  }
+
+  const campaignIdInt = parseInt(campaignId);
+  if (isNaN(campaignIdInt)) {
+    throw new Error("Invalid campaign ID");
+  }
+
   // Verify ownership
   const campaign = await prisma.campaign.findFirst({
     where: {
-      id: parseInt(campaignId),
-      advertiserId: parseInt(session.user.id),
+      id: campaignIdInt,
+      advertiserId: advertiserId,
     },
   });
 
@@ -151,7 +181,7 @@ export async function deleteCampaign(campaignId: string) {
   }
 
   await prisma.campaign.delete({
-    where: { id: parseInt(campaignId) },
+    where: { id: campaignIdInt },
   });
 
   revalidatePath("/app/advertiser/campaigns");
