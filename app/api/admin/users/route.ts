@@ -31,7 +31,6 @@ export async function GET(request: NextRequest) {
         role: true,
         emailVerified: true,
         createdAt: true,
-        updatedAt: true,
         // Don't include password
       },
       orderBy: {

@@ -17,7 +17,6 @@ interface UserData {
   role: string;
   emailVerified: string | null;
   createdAt: string;
-  updatedAt: string;
 }
 
 interface UserStats {
