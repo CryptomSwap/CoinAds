@@ -1,0 +1,195 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e5]:
+        - link "CoinAds" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8] [cursor=pointer]:
+            - generic [ref=e9] [cursor=pointer]: Coin
+            - generic [ref=e10] [cursor=pointer]: Ads
+        - generic [ref=e11]:
+          - link "For Advertisers" [ref=e12] [cursor=pointer]:
+            - /url: /advertisers
+          - link "For Publishers" [ref=e13] [cursor=pointer]:
+            - /url: /publishers
+          - link "Ad Formats" [ref=e14] [cursor=pointer]:
+            - /url: /ad-formats
+        - generic [ref=e15]:
+          - button "Toggle theme" [disabled]:
+            - img
+            - generic: Toggle theme
+          - link "Sign In" [ref=e16] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e17] [cursor=pointer]:
+              - text: Sign In
+              - img [ref=e18] [cursor=pointer]
+          - link "Sign Up" [ref=e20] [cursor=pointer]:
+            - /url: /auth/signup
+            - button "Sign Up" [ref=e21] [cursor=pointer]
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - heading "Grow Your Reach With Premium Crypto Ad Placements" [level=1] [ref=e24]
+        - paragraph [ref=e25]: Access leading crypto publishers with transparent pricing, live dashboards, and brand-safe inventory.
+        - generic [ref=e26]:
+          - link "Start Advertising" [ref=e27] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Start Advertising" [ref=e28] [cursor=pointer]
+          - link "Join as a publisher" [ref=e29] [cursor=pointer]:
+            - /url: /publishers
+            - button "Join as a publisher" [ref=e30] [cursor=pointer]
+      - generic [ref=e31]: ↓
+    - paragraph [ref=e34]: Trusted by leading crypto publishers worldwide
+    - region "How It Works" [ref=e57]:
+      - generic [ref=e58]:
+        - heading "How It Works" [level=2] [ref=e59]
+        - paragraph [ref=e60]: Get started in minutes with our simple 4-step process
+      - generic [ref=e62]:
+        - article "Create account" [ref=e63]:
+          - generic [ref=e64]: "1"
+          - img [ref=e66]
+          - heading "Create account" [level=3] [ref=e69]
+          - paragraph [ref=e70]: Sign up as an advertiser in minutes.
+        - article "Add credits" [ref=e71]:
+          - generic [ref=e72]: "2"
+          - img [ref=e74]
+          - heading "Add credits" [level=3] [ref=e76]
+          - paragraph [ref=e77]: Fund your account with flexible options.
+        - article "Upload creatives" [ref=e78]:
+          - generic [ref=e79]: "3"
+          - img [ref=e81]
+          - heading "Upload creatives" [level=3] [ref=e84]
+          - paragraph [ref=e85]: Banners or native; pass validation instantly.
+        - article "Go live" [ref=e86]:
+          - generic [ref=e87]: "4"
+          - img [ref=e89]
+          - heading "Go live" [level=3] [ref=e92]
+          - paragraph [ref=e93]: Target by geo/device/site and launch.
+    - generic [ref=e95]:
+      - generic [ref=e96]:
+        - heading "What Our Community Says" [level=2] [ref=e97]
+        - paragraph [ref=e98]: Join thousands of advertisers and publishers who trust CoinAds
+      - generic [ref=e99]:
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - img [ref=e103]
+            - img [ref=e105]
+            - img [ref=e107]
+            - img [ref=e109]
+            - img [ref=e111]
+          - paragraph [ref=e113]: "\"CoinAds helped us reach our target crypto audience with 40% better CTR than other platforms. The fraud protection gives us confidence in our ad spend.\""
+          - generic [ref=e114]:
+            - generic [ref=e115]: Sarah Chen
+            - generic [ref=e116]: DeFi Protocol
+        - generic [ref=e118]:
+          - generic [ref=e119]:
+            - img [ref=e120]
+            - img [ref=e122]
+            - img [ref=e124]
+            - img [ref=e126]
+            - img [ref=e128]
+          - paragraph [ref=e130]: "\"The real-time reporting and precise targeting features have revolutionized our campaigns. Easy to use platform with excellent support.\""
+          - generic [ref=e131]:
+            - generic [ref=e132]: Mike Rodriguez
+            - generic [ref=e133]: Crypto Exchange
+        - generic [ref=e135]:
+          - generic [ref=e136]:
+            - img [ref=e137]
+            - img [ref=e139]
+            - img [ref=e141]
+            - img [ref=e143]
+            - img [ref=e145]
+          - paragraph [ref=e147]: "\"Our campaigns launched in minutes thanks to CoinAds' intuitive interface. ROI improved significantly compared to traditional ad networks.\""
+          - generic [ref=e148]:
+            - generic [ref=e149]: Alex Kim
+            - generic [ref=e150]: NFT Marketplace
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - img [ref=e154]
+            - img [ref=e156]
+            - img [ref=e158]
+            - img [ref=e160]
+            - img [ref=e162]
+          - paragraph [ref=e164]: "\"As a content creator, CoinAds provides transparent reporting and fair monetization. We've seen great revenue growth on our crypto news site.\""
+          - generic [ref=e165]:
+            - generic [ref=e166]: Emma Thompson
+            - generic [ref=e167]: Crypto Publisher
+        - generic [ref=e169]:
+          - generic [ref=e170]:
+            - img [ref=e171]
+            - img [ref=e173]
+            - img [ref=e175]
+            - img [ref=e177]
+            - img [ref=e179]
+          - paragraph [ref=e181]: "\"The audience targeting and fraud detection capabilities are outstanding. Perfect solution for our Web3 project promotion needs.\""
+          - generic [ref=e182]:
+            - generic [ref=e183]: David Park
+            - generic [ref=e184]: Blockchain Startup
+        - generic [ref=e186]:
+          - generic [ref=e187]:
+            - img [ref=e188]
+            - img [ref=e190]
+            - img [ref=e192]
+            - img [ref=e194]
+            - img [ref=e196]
+          - paragraph [ref=e198]: "\"CoinAds delivers quality traffic with genuine crypto enthusiasts. Our trading platform sign-ups increased by 60% in the first month.\""
+          - generic [ref=e199]:
+            - generic [ref=e200]: Lisa Zhang
+            - generic [ref=e201]: Crypto Trader
+    - contentinfo [ref=e202]:
+      - generic [ref=e203]:
+        - generic [ref=e204]:
+          - generic [ref=e205]:
+            - heading "CoinAds" [level=3] [ref=e206]
+            - paragraph [ref=e207]: The leading self-serve advertising platform for crypto companies.
+          - generic [ref=e208]:
+            - heading "Product" [level=4] [ref=e209]
+            - list [ref=e210]:
+              - listitem [ref=e211]:
+                - link "For Advertisers" [ref=e212] [cursor=pointer]:
+                  - /url: /advertisers
+              - listitem [ref=e213]:
+                - link "For Publishers" [ref=e214] [cursor=pointer]:
+                  - /url: /publishers
+              - listitem [ref=e215]:
+                - link "Ad Formats" [ref=e216] [cursor=pointer]:
+                  - /url: /ad-formats
+          - generic [ref=e217]:
+            - heading "Company" [level=4] [ref=e218]
+            - list [ref=e219]:
+              - listitem [ref=e220]:
+                - link "About" [ref=e221] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e222]:
+                - link "Contact" [ref=e223] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e224]:
+                - link "Privacy" [ref=e225] [cursor=pointer]:
+                  - /url: /legal/privacy
+          - generic [ref=e226]:
+            - heading "Legal" [level=4] [ref=e227]
+            - list [ref=e228]:
+              - listitem [ref=e229]:
+                - link "Advertiser Terms" [ref=e230] [cursor=pointer]:
+                  - /url: /legal/advertiser-terms
+              - listitem [ref=e231]:
+                - link "Publisher Terms" [ref=e232] [cursor=pointer]:
+                  - /url: /legal/publisher-terms
+              - listitem [ref=e233]:
+                - link "Cookie Policy" [ref=e234] [cursor=pointer]:
+                  - /url: /legal/cookies
+              - listitem [ref=e235]:
+                - link "Cookie Preferences" [ref=e236] [cursor=pointer]:
+                  - /url: /legal/cookie-preferences
+        - paragraph [ref=e238]: © 2025 CoinAds. All rights reserved.
+  - region "Notifications alt+T"
+  - generic [ref=e239]:
+    - generic [ref=e240]:
+      - generic [ref=e241]: "Path:"
+      - text: /
+    - generic [ref=e242]:
+      - generic [ref=e243]: "Environment:"
+      - text: development
+```

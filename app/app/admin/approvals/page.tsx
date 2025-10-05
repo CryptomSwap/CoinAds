@@ -54,16 +54,16 @@ export default function ApprovalsPage() {
     );
   }
 
-  if (!session || session.user.role !== "ADMIN") {
-    return null;
-  }
-
   // Fetch pending approvals on component mount
   useEffect(() => {
     if (session && session.user.role === "ADMIN") {
       fetchPendingApprovals();
     }
   }, [session]);
+
+  if (!session || session.user.role !== "ADMIN") {
+    return null;
+  }
 
   const fetchPendingApprovals = async () => {
     try {

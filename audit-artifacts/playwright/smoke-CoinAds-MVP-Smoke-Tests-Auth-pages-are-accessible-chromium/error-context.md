@@ -1,0 +1,76 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e5]:
+        - link "CoinAds" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8] [cursor=pointer]:
+            - generic [ref=e9] [cursor=pointer]: Coin
+            - generic [ref=e10] [cursor=pointer]: Ads
+        - generic [ref=e11]:
+          - link "For Advertisers" [ref=e12] [cursor=pointer]:
+            - /url: /advertisers
+          - link "For Publishers" [ref=e13] [cursor=pointer]:
+            - /url: /publishers
+          - link "Ad Formats" [ref=e14] [cursor=pointer]:
+            - /url: /ad-formats
+        - generic [ref=e15]:
+          - button "Toggle theme" [disabled]:
+            - img
+            - generic: Toggle theme
+          - link "Sign In" [ref=e16] [cursor=pointer]:
+            - /url: /auth/signin
+            - button "Sign In" [ref=e17] [cursor=pointer]:
+              - text: Sign In
+              - img [ref=e18] [cursor=pointer]
+          - link "Sign Up" [ref=e20] [cursor=pointer]:
+            - /url: /auth/signup
+            - button "Sign Up" [ref=e21] [cursor=pointer]
+    - generic [ref=e26]:
+      - generic [ref=e28]:
+        - img [ref=e30]
+        - heading "Welcome Back" [level=1] [ref=e32]
+        - paragraph [ref=e33]: Sign in to continue building your crypto advertising campaigns
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - button "Continue with Google" [ref=e38] [cursor=pointer]:
+            - generic [ref=e39] [cursor=pointer]:
+              - img [ref=e40] [cursor=pointer]
+              - text: Continue with Google
+          - generic [ref=e49]: Or continue with email
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]: Email address
+            - textbox "Email address" [ref=e53]
+          - generic [ref=e54]:
+            - generic [ref=e55]: Password
+            - generic [ref=e56]:
+              - textbox "Password" [ref=e57]
+              - button [ref=e58] [cursor=pointer]:
+                - img [ref=e59] [cursor=pointer]
+          - button "Sign In" [ref=e62] [cursor=pointer]:
+            - text: Sign In
+            - img [ref=e63] [cursor=pointer]
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - paragraph [ref=e67]:
+              - text: Don't have an account?
+              - button "Create account" [ref=e68] [cursor=pointer]
+            - paragraph [ref=e69]:
+              - button "Forgot your password?" [ref=e70] [cursor=pointer]
+          - link "Back to home" [ref=e72] [cursor=pointer]:
+            - /url: /
+            - img [ref=e73] [cursor=pointer]
+            - text: Back to home
+  - region "Notifications alt+T"
+  - generic [ref=e75]:
+    - generic [ref=e76]:
+      - generic [ref=e77]: "Path:"
+      - text: /auth/signin
+    - generic [ref=e78]:
+      - generic [ref=e79]: "Environment:"
+      - text: development
+```
