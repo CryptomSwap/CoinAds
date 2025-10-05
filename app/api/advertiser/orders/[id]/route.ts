@@ -10,10 +10,7 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const orderId = parseInt(params.id);
-  if (isNaN(orderId)) {
-    return NextResponse.json({ error: "Invalid order ID" }, { status: 400 });
-  }
+  const orderId = params.id;
 
   const order = await prisma.order.findFirst({
     where: { id: orderId, advertiserId: parseInt(session.user.id) },
@@ -40,10 +37,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const orderId = parseInt(params.id);
-  if (isNaN(orderId)) {
-    return NextResponse.json({ error: "Invalid order ID" }, { status: 400 });
-  }
+  const orderId = params.id;
 
   try {
     const existing = await prisma.order.findFirst({

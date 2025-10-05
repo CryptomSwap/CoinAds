@@ -10,10 +10,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const orderId = parseInt(params.id);
-  if (isNaN(orderId)) {
-    return NextResponse.json({ error: "Invalid order ID" }, { status: 400 });
-  }
+  const orderId = params.id;
 
   try {
     const json = await req.json();
