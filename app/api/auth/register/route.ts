@@ -11,7 +11,7 @@ const registerSchema = z.object({
   password: z.string()
     .min(8, "Password must be at least 8 characters")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one lowercase letter, one uppercase letter, and one number"),
-  role: z.enum(["ADVERTISER", "PUBLISHER"]),
+  role: z.enum(["ADVERTISER", "PUBLISHER", "ADMIN"]), // Temporarily allow ADMIN
 });
 
 export async function POST(request: NextRequest) {
