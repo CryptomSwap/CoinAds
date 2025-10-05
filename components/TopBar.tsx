@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Menu, ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { appUrl } from "@/lib/url";
+import { appUrl, dashboardUrl } from "@/lib/url";
 
 export default function TopBar() {
   const { data: session } = useSession();
@@ -45,7 +45,7 @@ export default function TopBar() {
           <div className="hidden md:flex items-center space-x-3">
             <ThemeToggle />
             {session ? (
-              <Link href={appUrl("/")}>
+              <Link href={dashboardUrl(session.user.role.toLowerCase() as "advertiser" | "publisher" | "admin")}>
                 <Button 
                   className="!bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
@@ -111,7 +111,7 @@ export default function TopBar() {
                   </Link>
                   <div className="pt-4 border-t border-border space-y-3">
                     {session ? (
-                      <Link href={appUrl("/")} className="block">
+                      <Link href={dashboardUrl(session.user.role.toLowerCase() as "advertiser" | "publisher" | "admin")} className="block">
                         <Button 
                           className="w-full justify-start !bg-gradient-brand hover:!bg-gradient-brand-hover !text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
