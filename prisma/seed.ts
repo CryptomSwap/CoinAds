@@ -176,6 +176,43 @@ async function main() {
 
   console.log(`✅ Created advertiser wallet transaction: $500 deposit`);
 
+  // Create test orders for advertiser
+  const existingOrders = await prisma.order.findMany({
+    where: { advertiserId: advertiser.id }
+  });
+
+  if (existingOrders.length === 0) {
+    await prisma.order.createMany({
+      data: [
+        { 
+          advertiserId: advertiser.id, 
+          title: "Launch Q4 banners", 
+          notes: "Need banner ads for Q4 holiday season campaign",
+          totalAmountMicros: BigInt(500_000_000), 
+          currency: "USD", 
+          status: "PENDING" 
+        },
+        { 
+          advertiserId: advertiser.id, 
+          title: "Native placements Jan", 
+          notes: "Native advertising for January product launch",
+          totalAmountMicros: BigInt(300_000_000), 
+          currency: "USD", 
+          status: "APPROVED" 
+        },
+        { 
+          advertiserId: advertiser.id, 
+          title: "Video campaign Feb", 
+          notes: "Video ads for February brand awareness",
+          totalAmountMicros: BigInt(750_000_000), 
+          currency: "USD", 
+          status: "REJECTED" 
+        },
+      ],
+    });
+    console.log(`✅ Created 3 test orders for advertiser`);
+  }
+
   // Load publishers catalog for additional test data
   const catalogPath = join(process.cwd(), 'data', 'publishers.json');
   const catalogData: PublisherCatalog[] = JSON.parse(readFileSync(catalogPath, 'utf8'));
@@ -244,6 +281,7 @@ async function main() {
   console.log(`- Test campaign: PENDING status`);
   console.log(`- Test creative: PNG sample`);
   console.log(`- Advertiser wallet: $500 balance`);
+  console.log(`- Test orders: 3 orders (PENDING, APPROVED, REJECTED)`);
   console.log(`- Catalog publishers: ${catalogData.length}`);
   console.log(`- Total sites: ${catalogData.reduce((sum, p) => sum + p.sites.length, 0) + 1}`);
   console.log(`- Total placements: ${catalogData.reduce((sum, p) => sum + p.sites.reduce((s, site) => s + site.placements.length, 0), 0) + 1}`);

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -21,6 +21,7 @@ model User {
   sites        Site[]
   transactions Transaction[]
   verificationTokens VerificationToken[]
+  orders       Order[]
 }
 
 model Campaign {
@@ -38,6 +39,7 @@ model Campaign {
   impressions  Impression[]
   placements   Placement[]
   reports      Report[]
+  orders       Order[]
 }
 
 model Creative {
@@ -192,4 +194,30 @@ model VerificationToken {
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+
+enum OrderStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELED
+}
+
+model Order {
+  id                Int         @id @default(autoincrement())
+  advertiserId      Int
+  advertiser        User        @relation(fields: [advertiserId], references: [id], onDelete: Cascade)
+  campaignId        Int?        // Optional link to an existing campaign
+  campaign          Campaign?   @relation(fields: [campaignId], references: [id])
+  title             String
+  notes             String?     // SQLite doesn't have Text type
+  totalAmountMicros BigInt      @default(0) // store as micros to avoid float
+  currency          String      @default("USD")
+  status            OrderStatus @default(PENDING)
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([advertiserId, status])
+  @@index([status, createdAt])
 }
